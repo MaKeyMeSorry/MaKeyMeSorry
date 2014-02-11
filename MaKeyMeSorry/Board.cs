@@ -46,6 +46,12 @@ namespace MaKeyMeSorry
             // TODO Write execute_slide
         }
 
+        public Square get_square_at(int index)
+        {
+            //TODO Write get_square_at
+            return null;
+        }
+
         public Board(){
             // TODO Write Board constructor
         }
