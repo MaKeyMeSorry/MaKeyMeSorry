@@ -52,8 +52,8 @@ namespace MaKeyMeSorry
                 return -1;
             }
 
-           //this should be the meat of the entire game i thinkkkk? haha 
-            public Tuple<Pawn, List<Square>> get_move_options(Color player, Card card)
+           // This should be the meat of the entire game i thinkkkk? haha 
+            public List<Tuple<Pawn, List<Square>>> get_move_options(Color player, Card card)
             {
                 // TODO Write get_move_options
                 return null;
