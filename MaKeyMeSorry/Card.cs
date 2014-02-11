@@ -13,7 +13,7 @@ namespace MaKeyMeSorry
     {
 
         private int value;
-        private int[] card_features = new int[6];
+        private bool[] card_features = new bool[6];
 
         // Constructor for a Card
         public Card(int card_value)
@@ -41,132 +41,78 @@ namespace MaKeyMeSorry
              */
 
             value = card_value;
+            for (int i = 0; i < 6; i++)
+            {
+                card_features[i] = false;
+            }
 
-            if (value == 1)
-            {
-                card_features[(int)CardType.START] = 1;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 2)
-            {
-                card_features[(int)CardType.START] = 1;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 3)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 4)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 0;
-                card_features[(int)CardType.BACKWARD] = 1;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 5)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 7)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 1;
-            }
-            else if (value == 8)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 10)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 1;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 11)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 1;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 12)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 1;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 0;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else if (value == 13)
-            {
-                card_features[(int)CardType.START] = 0;
-                card_features[(int)CardType.FORWARD] = 0;
-                card_features[(int)CardType.BACKWARD] = 0;
-                card_features[(int)CardType.SWAP] = 0;
-                card_features[(int)CardType.SORRY] = 1;
-                card_features[(int)CardType.SPLIT] = 0;
-            }
-            else
-            {
-                throw new Exception("Invalid value given to card");
-            }
+            card_features[(int)CardType.FORWARD] = true; 
+
+                if (value == 1)
+                {
+                    card_features[(int)CardType.START] = true;
+                    //card_features[(int)CardType.FORWARD] = true;
+                }
+                else if (value == 2)
+                {
+                    card_features[(int)CardType.START] = true;
+                    //card_features[(int)CardType.FORWARD] = true; 
+                }
+                else if (value == 3)
+                {
+                    //card_features[(int)CardType.FORWARD] = true; 
+                }
+                else if (value == 4)
+                {
+                    card_features[(int)CardType.FORWARD] = false; 
+                    card_features[(int)CardType.BACKWARD] = true;
+                }
+                else if (value == 5)
+                {
+                    //card_features[(int)CardType.FORWARD] = true; 
+                }
+                else if (value == 7)
+                {
+                    //card_features[(int)CardType.FORWARD] = true; 
+                    card_features[(int)CardType.SPLIT] = true;
+                }
+                else if (value == 8)
+                {
+                    //card_features[(int)CardType.FORWARD] = true; 
+                }
+                else if (value == 10)
+                {
+                    //card_features[(int)CardType.FORWARD] = true; 
+                }
+                else if (value == 11)
+                {
+                    //card_features[(int)CardType.FORWARD] = true; 
+                    card_features[(int)CardType.SWAP] = true;
+                }
+                else if (value == 12)
+                {
+                    //card_features[(int)CardType.FORWARD] = true; 
+                }
+                else if (value == 13)
+                {
+                    card_features[(int)CardType.FORWARD] = false;
+                    card_features[(int)CardType.SORRY] = true;
+                }
+                else
+                {
+                    throw new Exception("Invalid value given to card");
+                }
         }
 
         public bool get_start()
         {
-            if (card_features[(int)CardType.START] == 1)
-            {
-                return true;
-            }
-            else if (card_features[(int)CardType.START] == 0)
-            {
-                return false;
-            }
-            else
-            {
-                throw new Exception("START CardType set incorrectly");
-            }
+            return card_features[(int)CardType.START];
         }
 
         //returns value to move forward or 0 otherwise
         public int can_move_forward()
         {
-            if (card_features[(int)CardType.FORWARD] == 1)
+            if (card_features[(int)CardType.FORWARD])
             {
                 return value;
             }
@@ -177,7 +123,7 @@ namespace MaKeyMeSorry
         // special case: 10 returns 1 for backwards move
         public int can_move_backward()
         {
-            if (card_features[(int)CardType.BACKWARD] == 1)
+            if (card_features[(int)CardType.BACKWARD])
             {
                 if (value == 10)
                 {
@@ -191,32 +137,18 @@ namespace MaKeyMeSorry
 
         public bool can_split_up()
         {
-            if (card_features[(int)CardType.SPLIT] == 1)
-            {
-                return true;
-            }
+            return card_features[(int)CardType.SPLIT];
 
-            return false;
         }
 
         public bool can_swap()
         {
-            if (card_features[(int)CardType.SWAP] == 1)
-            {
-                return true;
-            }
-
-            return false;
+            return card_features[(int)CardType.SWAP];
         }
 
         public bool can_sorry()
         {
-            if (card_features[(int)CardType.SORRY] == 1)
-            {
-                return true;
-            }
-
-            return false;
+            return card_features[(int)CardType.SORRY];
         }
 
         public int get_value(){
