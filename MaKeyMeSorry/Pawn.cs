@@ -13,6 +13,8 @@ namespace MaKeyMeSorry
 
        
         private Color color;
+
+        // Current Square the pawn is on. NULL if at start
         private Square current_location;
 
         public Pawn(Color pawnColor, Square pawnSquare)
@@ -33,25 +35,32 @@ namespace MaKeyMeSorry
 
         public void move_to(Square square)
         {
-            // TODO Write move_to
+            current_location = square;
         }
 
         public bool is_home()
         {
-            // TODO Write is_home
+            if (current_location.get_Type() == SquareKind.HOMESQ)
+            {
+                return true;
+            }
             return false;
         }
 
         public bool is_start()
         {
-            // TODO Write is_start
+            if (current_location == null)
+            {
+                return true;
+            }
             return false;
         }
 
         // Sends this pawn back to start
+        // current location set to null
         public void sorry()
         {
-            // TODO Write sorry
+            current_location = null;
         }
 
     }
