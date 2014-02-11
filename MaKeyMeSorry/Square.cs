@@ -21,7 +21,7 @@ namespace MaKeyMeSorry
 
         private bool hasPawn;
         private Pawn pawnInSquare;
-        private SquareKind Type;
+        private SquareKind type;
         private Color color; // for if it is a slide square, which color slide it is
 
         public Square()
@@ -43,6 +43,11 @@ namespace MaKeyMeSorry
                     pawnInSquare.sorry();
             }
             pawnInSquare = pawn;
+        }
+
+        public SquareKind get_Type()
+        {
+            return type;
         }
 
     }
