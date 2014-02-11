@@ -49,7 +49,6 @@ namespace MaKeyMeSorry
 
         // Initializes a deck with 5 1s and 4 of everything else
         private void init_Deck(){
-            // TODO Write init_Deck
             int curIndex = 0;
 
             for (int i = 0; i < 4; i++)
@@ -93,9 +92,8 @@ namespace MaKeyMeSorry
         }
 
 
-        //shuffles deck
+        // Shuffles the deck
         private void shuffle_Deck(){
-            // TODO Write shuffle_Deck
             Card[] currentDeck = cards;
             cards = new Card[MAXCARDS];
             List<int> freeIndices = new List<int>(MAXCARDS);

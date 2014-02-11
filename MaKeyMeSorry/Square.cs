@@ -30,6 +30,7 @@ namespace MaKeyMeSorry
         }
 
         public bool can_place_pawn(Pawn pawn){
+            // TODO Finish can_place_pawn. Needs to account for slides
             if(!hasPawn)
                 return true;
             if(pawn.get_color() == pawnInSquare.get_color()){
