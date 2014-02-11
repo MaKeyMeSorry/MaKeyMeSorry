@@ -25,6 +25,8 @@ namespace MaKeyMeSorry
         public MainPage()
         {
             this.InitializeComponent();
+            Deck newDeck = new Deck(true);
+
         }
     }
 }

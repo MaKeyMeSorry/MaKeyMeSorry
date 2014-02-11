@@ -15,7 +15,7 @@ namespace MaKeyMeSorry
        private bool isHuman;
 
        // Ensures default constructor cannot be used
-       private Player();
+       private Player() { }
 
 
        // Constructs Player class with the color specified
@@ -39,7 +39,11 @@ namespace MaKeyMeSorry
        }
 
        //returns NULL if no pawns are at start
-       public Pawn get_pawn_from_start();
+       public Pawn get_pawn_from_start()
+       {
+           // TODO Write get_pawn_from_start
+           return null;
+       }
 
        //return empty vector if none active
        public List<Pawn> get_active_pawns()
