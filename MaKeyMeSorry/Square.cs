@@ -29,11 +29,6 @@ namespace MaKeyMeSorry
             // TODO Write Square Constructor
         }
 
-        public ~Square()
-        {
-            // TODO Write Square Decunstructors
-        }
-
         public bool can_place_pawn(Pawn pawn){
             if(!hasPawn)
                 return true;

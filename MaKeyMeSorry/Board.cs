@@ -50,9 +50,6 @@ namespace MaKeyMeSorry
             // TODO Write Board constructor
         }
 
-        public ~Board(){
-            // TODO Write Board decunstructor
-        }
 
     }
 }

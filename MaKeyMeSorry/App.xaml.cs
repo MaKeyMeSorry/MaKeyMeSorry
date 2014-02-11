@@ -32,6 +32,7 @@ namespace MaKeyMeSorry
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
         }
 
         /// <summary>
@@ -80,6 +81,7 @@ namespace MaKeyMeSorry
             }
             // Ensure the current window is active
             Window.Current.Activate();
+
         }
 
         /// <summary>

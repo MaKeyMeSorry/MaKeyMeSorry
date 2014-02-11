@@ -13,7 +13,7 @@ namespace MaKeyMeSorry
 
             // Make default constructor private so only 
             // the correct constructor is used.
-            private Game();
+            private Game() { }
 
             //helper function for get_move_options
             private Square get_move(Pawn pawn, Card card)
@@ -36,10 +36,6 @@ namespace MaKeyMeSorry
                 // TODO Write Game constructor
             }
 
-            public ~Game()
-            {
-                // TODO Write Game deconstructor
-            }
 
             // Returns the player who has won the game.
             // Returns NULL if there currently is no winner

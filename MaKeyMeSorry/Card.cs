@@ -40,7 +40,7 @@ namespace MaKeyMeSorry
              *          while it is in front of your HOME, your pawn is switched exactly where your enemy's pawn is, not at your HOME.
              */
 
-            card_value = value;
+            value = card_value;
 
             if (value == 1)
             {
@@ -217,6 +217,10 @@ namespace MaKeyMeSorry
             }
 
             return false;
+        }
+
+        public int get_value(){
+            return value;
         }
 
     };

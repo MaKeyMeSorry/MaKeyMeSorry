@@ -9,15 +9,16 @@ namespace MaKeyMeSorry
 
     public enum Color { RED, BLUE, GREEN, YELLOW};
 
-    unsafe class Pawn {
+    class Pawn {
 
        
         private Color color;
         private Square current_location;
 
-        public Pawn(Color color, Square square)
+        public Pawn(Color pawnColor, Square pawnSquare)
         {
-
+            color = pawnColor;
+            current_location = pawnSquare;
         }
 
         public Color get_color()
