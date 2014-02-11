@@ -112,7 +112,7 @@ namespace MaKeyMeSorry
                             }
                         }
                     }
-                    allChoices.Add(new Tuple<Pawn, List<Square>(pawn, choices));
+                    allChoices.Add(new Tuple<Pawn, List<Square>>(pawn, choices));
                 }
                 return allChoices;
             }
