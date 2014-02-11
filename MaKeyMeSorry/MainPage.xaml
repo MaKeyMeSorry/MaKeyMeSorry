@@ -6,8 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Height="768" Width="1366">
-    <ScrollViewer HorizontalAlignment="Stretch" Margin="0,0,-367,0" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-        <Grid HorizontalAlignment="Stretch" Height="1689" VerticalAlignment="Stretch" Width="2437" Margin="0,0,0,0">
+    <ScrollViewer HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+        <Grid HorizontalAlignment="Stretch" Height="1600" VerticalAlignment="Stretch" Width="1600" Margin="0,0,0,0">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Stroke="Black" VerticalAlignment="Top" Width="100"/>
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="100,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Margin="200,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="100"/>
