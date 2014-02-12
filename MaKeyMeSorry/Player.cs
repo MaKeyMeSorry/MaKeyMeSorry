@@ -20,36 +20,64 @@ namespace MaKeyMeSorry
 
        // Constructs Player class with the color specified
        // and if the player is a bot or not
-       public Player(Color color, bool isHuman)
+       public Player(Color pawnColor, bool isHuman)
        {
-           // TODO Write Player Constructor
+           this.pawnColor = pawnColor;
+           this.isHuman = isHuman;
+           setNumPawnsLeft(5);
+           pawns = new List<Pawn>();
+           for(int i=0; i < 5; i++) 
+           {
+               pawns.Add(new Pawn(pawnColor, null));
+           }
        }
 
        // Getters
        public int get_num_pawns_at_start()
        {
-           // TODO Write get_num_pawns_at_start
-           return -1;
+           int numAtStart = 0;
+           foreach(Pawn pawn in pawns)
+           {
+               if(pawn.is_start())
+               {
+                   numAtStart++;
+               }
+           }
+           return numAtStart;
        }
 
        public int get_Num_Pawns_at_home()
        {
-           // TODO Write get_num_pawns_at_home
-           return -1;
+           return 5 - numPawnsLeft;
        }
 
-       //returns NULL if no pawns are at start
+       // returns NULL if no pawns are at start
+       // NOTE: game should make call to update this pawn to is_active if
+       // this pawn was chosen to move from UI
        public Pawn get_pawn_from_start()
        {
-           // TODO Write get_pawn_from_start
+           foreach (Pawn pawn in pawns)
+           {
+               if (pawn.is_start())
+               {
+                   return pawn;
+               }
+           }
            return null;
        }
 
        //return empty vector if none active
        public List<Pawn> get_active_pawns()
        {
-           // TODO Write get_active_pawns
-           return null;
+           List<Pawn> activePawns = new List<Pawn>();
+           foreach (Pawn pawn in pawns)
+           {
+               if (!pawn.is_start() && !pawn.is_home())
+               {
+                   activePawns.Add(pawn);
+               }
+           }
+           return activePawns;
        }
 
        public Color get_pawn_color()
@@ -60,6 +88,11 @@ namespace MaKeyMeSorry
        public bool get_is_human()
        {
            return isHuman;
+       }
+
+       public void setNumPawnsLeft(int numPawnsLeft)
+       {
+           this.numPawnsLeft = numPawnsLeft;
        }
     }
 }

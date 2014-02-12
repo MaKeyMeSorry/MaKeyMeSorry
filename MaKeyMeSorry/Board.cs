@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace MaKeyMeSorry
 {
@@ -50,6 +52,24 @@ namespace MaKeyMeSorry
         {
             //TODO Write get_square_at
             return null;
+        }
+
+        public List<Square> get_my_base(Color myColor)
+        {
+            switch (myColor)
+            {
+                case Color.BLUE:
+                    return blueBase;
+                case Color.GREEN:
+                    return greenBase;
+                case Color.RED:
+                    return redBase;
+                case Color.YELLOW:
+                    return yellowBase;
+                default:
+                    Debug.WriteLine("error getting base for my color!");
+                    return null;
+            }
         }
 
         public Board(){

@@ -23,8 +23,9 @@ namespace MaKeyMeSorry
         private Pawn pawnInSquare;
         private SquareKind type;
         private Color color; // for if it is a slide square, which color slide it is
+        private int index;
 
-        public Square()
+        public Square(int index)
         {
             // TODO Write Square Constructor
         }
@@ -48,6 +49,11 @@ namespace MaKeyMeSorry
         public SquareKind get_Type()
         {
             return type;
+        }
+
+        public int get_index()
+        {
+            return index;
         }
 
     }
