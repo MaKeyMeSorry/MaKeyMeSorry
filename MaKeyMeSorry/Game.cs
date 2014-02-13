@@ -73,7 +73,7 @@ namespace MaKeyMeSorry
                 List<Square> choices = new List<Square>();
                 Player myPlayer = get_player(playerColor);
                 int moveLocation;
-                int startSquareIndex = board.get_start_square((int)playerColor);
+                int startSquareIndex = board.get_start_square(playerColor);
 
                 // TODO If a choice is slected then check if that spot is a slide and if you need 
                 // to send any pawns on the slide to start and then move your pawn to end of the slide.

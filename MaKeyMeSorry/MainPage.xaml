@@ -6,8 +6,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Height="768" Width="1364">
-    <ScrollViewer HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-        <Grid HorizontalAlignment="Stretch" Height="1600" VerticalAlignment="Stretch" Width="1600" Margin="0,0,0,0">
+    <ScrollViewer HorizontalAlignment="Stretch" Height="800" Width="1400" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+        <Grid HorizontalAlignment="Stretch" Height="1700" VerticalAlignment="Stretch" Width="1700" Margin="0,0,0,0">
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1312,350,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1052,1315,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="87,1050,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="0,0,0,0">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
@@ -28,11 +44,6 @@
             <Canvas HorizontalAlignment="Left" Height="100" Margin="300,0,0,0"  VerticalAlignment="Top" Width="100">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
-                </Canvas.Background>
-            </Canvas>
-            <Canvas HorizontalAlignment="Left" Height="100" Margin="400,0,0,0"  VerticalAlignment="Top" Width="100">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - End.png" Stretch="Fill"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="500,0,0,0"  VerticalAlignment="Top" Width="100">
@@ -439,16 +450,39 @@
             </Canvas>
 
 
-            <Ellipse Fill="Red" HorizontalAlignment="Left" Height="193" Margin="350,95,0,0"  VerticalAlignment="Top" Width="193" RenderTransformOrigin="0.062,0.456"/>
-                    <Ellipse Fill="Blue" HorizontalAlignment="Left" Height="193" Margin="818,152,0,0"  VerticalAlignment="Top" Width="193" RenderTransformOrigin="0.062,0.456" />
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="352,89,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="150,584,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
-                    <Ellipse Fill="Green" HorizontalAlignment="Left" Height="193" Margin="93,1054,0,0"  VerticalAlignment="Top" Width="193" RenderTransformOrigin="0.062,0.456"/>
-                    <Ellipse Fill="Yellow" HorizontalAlignment="Left" Height="193" Margin="1050,1307,0,0"  VerticalAlignment="Top" Width="193" RenderTransformOrigin="0.062,0.456" />
-                    <Ellipse Fill="Green" HorizontalAlignment="Left" Height="193" Margin="588,1253,0,0"  VerticalAlignment="Top" Width="193" RenderTransformOrigin="0.062,0.456" Grid.ColumnSpan="2"/>
-                    <Ellipse Fill="Yellow" HorizontalAlignment="Left" Height="193" Margin="1253,831,0,0"  VerticalAlignment="Top" Width="193" RenderTransformOrigin="0.062,0.456" />
-                    <Ellipse Fill="Blue" HorizontalAlignment="Left" Height="193" Margin="1302,354,0,0"  VerticalAlignment="Top" Width="193" RenderTransformOrigin="0.062,0.456" />
-                    <Ellipse Fill="Red" HorizontalAlignment="Left" Height="193" Margin="153,590,0,0"  VerticalAlignment="Top" Width="193" RenderTransformOrigin="0.062,0.456"/>
-                    <Canvas HorizontalAlignment="Left" Height="100" Margin="588,430,0,0" VerticalAlignment="Top" Width="100"/>
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="816,150,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1253,831,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="584,1249,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="400,0,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
 
 
@@ -463,5 +497,4 @@
 
         </Grid>
     </ScrollViewer>
-
 </Page>
