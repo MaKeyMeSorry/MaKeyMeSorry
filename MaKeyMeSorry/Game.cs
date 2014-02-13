@@ -34,6 +34,19 @@ namespace MaKeyMeSorry
             // Sets numHumanPlayers
             public Game(int numHumans)
             {
+                board = new Board();
+                Deck newDeck = new Deck(true);
+                players = new List<Player>();
+                Player redPlayer = new Player(Color.RED, true, true);
+                Player bluePlayer = new Player(Color.BLUE, true, true);
+                Player yellowPlayer = new Player(Color.YELLOW, true, true);
+                Player greenPlayer = new Player(Color.GREEN, true, true);
+
+                players.Add(redPlayer);
+                players.Add(bluePlayer);
+                players.Add(yellowPlayer);
+                players.Add(greenPlayer);
+
                 // TODO Write Game constructor
             }
 
@@ -49,8 +62,7 @@ namespace MaKeyMeSorry
             // Returns number of human players
             public int get_num_human_players()
             {
-                // TODO Write get_num_human_players
-                return -1;
+                return numHumanPlayers;
             }
 
             // Returns the player with the specified color
@@ -82,12 +94,12 @@ namespace MaKeyMeSorry
                 // is sletected, then more checks will occur and the UI will then be updated.
                 
                 // If it is a start card (1 or 2), then grab the first pawn from start as a
-                // choice. If this pawn is selected in UI, then set to not at start for that pawn.
+                // choice. If this pawn is selected in UI
                 if(card.get_start()) 
                 {
                     if (myPlayer.get_pawn_from_start() != null)
                     {
-                        moveLocation = (startSquareIndex + card.can_move_forward()) % MAXSQUARES;
+                        moveLocation = (startSquareIndex + card.can_move_forward() - 1) % MAXSQUARES;
                         if (board.get_square_at(moveLocation).can_place_pawn(myPlayer.get_pawn_from_start())) 
                         {
                             choices.Add(board.get_square_at(moveLocation));
@@ -182,7 +194,10 @@ namespace MaKeyMeSorry
                                     // TODO Check if enemy pawn is in safe zone...inside home slide.
                                     choices.Add(enemyPawn.get_current_location());
                            
-                                    // if(card.can_sorry()) and if(card.can_swap()) 
+                                    // if(card.can_sorry()) 
+                                    //     add event trigger for this choice to a sorry event
+                                    // if(card.can_swap())
+                                    //     add event trigger for this choice to a swap event
                                     // implementations for actions after the choice has
                                     // been made on UI.
                                 }

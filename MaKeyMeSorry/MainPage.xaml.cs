@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Diagnostics;
+
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,8 +27,9 @@ namespace MaKeyMeSorry
         public MainPage()
         {
             this.InitializeComponent();
-            Deck newDeck = new Deck(true);
-
+            //Deck newDeck = new Deck(true);
+            //Player player = new Player(Color.BLUE, true, true);
+            Game game = new Game(4);
         }
     }
 }

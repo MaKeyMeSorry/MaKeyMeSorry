@@ -25,9 +25,19 @@ namespace MaKeyMeSorry
         private Color color; // for if it is a slide square, which color slide it is
         private int index;
 
-        public Square(int index)
+        public Square(int index, SquareKind type)
         {
+            this.index = index;
+            this.type = type;
+            this.color = Color.BLUE;
             // TODO Write Square Constructor
+        }
+
+        public Square(int index, SquareKind type, Color color)
+        {
+            this.index = index;
+            this.type = type;
+            this.color = color;
         }
 
         public bool can_place_pawn(Pawn pawn){
@@ -54,6 +64,21 @@ namespace MaKeyMeSorry
         public int get_index()
         {
             return index;
+        }
+
+        public Color get_color()
+        {
+            return color;
+        }
+
+        public bool get_has_pawn()
+        {
+            return hasPawn;
+        }
+
+        public Pawn get_pawn_in_square()
+        {
+            return pawnInSquare;
         }
 
     }

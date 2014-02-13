@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace MaKeyMeSorry
 {
@@ -20,7 +22,7 @@ namespace MaKeyMeSorry
 
        // Constructs Player class with the color specified
        // and if the player is a bot or not
-       public Player(Color pawnColor, bool isHuman)
+       public Player(Color pawnColor, bool isHuman, bool enableTesting)
        {
            this.pawnColor = pawnColor;
            this.isHuman = isHuman;
@@ -29,6 +31,13 @@ namespace MaKeyMeSorry
            for(int i=0; i < 5; i++) 
            {
                pawns.Add(new Pawn(pawnColor, null));
+           }
+           if(enableTesting)
+           {
+               Debug.WriteLine("Number of pawns at start: " + get_num_pawns_at_start().ToString());
+               Debug.WriteLine("Player Color: " + pawnColor);
+               Debug.WriteLine("Player is human: " + isHuman.ToString());
+
            }
        }
 

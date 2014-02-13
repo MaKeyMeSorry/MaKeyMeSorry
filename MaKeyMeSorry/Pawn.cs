@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MaKeyMeSorry
 {
 
-    public enum Color { RED, BLUE, GREEN, YELLOW};
+    public enum Color { RED, BLUE, YELLOW, GREEN, WHITE };
 
     class Pawn {
 
