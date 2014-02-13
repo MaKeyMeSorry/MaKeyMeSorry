@@ -28,5 +28,10 @@ namespace MaKeyMeSorry
             Deck newDeck = new Deck(true);
 
         }
+
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
