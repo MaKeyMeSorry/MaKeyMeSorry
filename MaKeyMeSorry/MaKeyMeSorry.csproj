@@ -127,6 +127,27 @@
     <None Include="MaKeyMeSorry_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Board images\Blank Square.png" />
+    <Content Include="Assets\Board images\Blue Home.png" />
+    <Content Include="Assets\Board images\Blue Slide - Middle.png" />
+    <Content Include="Assets\Board images\Blue Slide - Tail.png" />
+    <Content Include="Assets\Board images\Blue Slide- End.png" />
+    <Content Include="Assets\Board images\Blue Square.png" />
+    <Content Include="Assets\Board images\Green Home.png" />
+    <Content Include="Assets\Board images\Green Slide - End.png" />
+    <Content Include="Assets\Board images\Green Slide - Middle.png" />
+    <Content Include="Assets\Board images\Green Slide - Tail.png" />
+    <Content Include="Assets\Board images\Green Square.png" />
+    <Content Include="Assets\Board images\Red Home.png" />
+    <Content Include="Assets\Board images\Red Slide - End.png" />
+    <Content Include="Assets\Board images\Red Slide - Middle.png" />
+    <Content Include="Assets\Board images\Red Slide - Tail.png" />
+    <Content Include="Assets\Board images\Red Square.png" />
+    <Content Include="Assets\Board images\Yellow Home.png" />
+    <Content Include="Assets\Board images\Yellow Slide - End.png" />
+    <Content Include="Assets\Board images\Yellow Slide - Middle.png" />
+    <Content Include="Assets\Board images\Yellow Slide - Tail.png" />
+    <Content Include="Assets\Board images\Yellow Square.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />

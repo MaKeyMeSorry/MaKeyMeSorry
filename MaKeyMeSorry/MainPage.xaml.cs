@@ -31,5 +31,10 @@ namespace MaKeyMeSorry
             //Player player = new Player(Color.BLUE, true, true);
             Game game = new Game(4);
         }
+
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

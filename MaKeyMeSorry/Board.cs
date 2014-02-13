@@ -27,10 +27,8 @@ namespace MaKeyMeSorry
         private int greenStart;
         private int redStart;
 
-
         private static int slideSize1;
         private static int slideSize2;
-
         private static int numSquares;
 
         // Not sure if we need
@@ -39,22 +37,22 @@ namespace MaKeyMeSorry
         }
 
         // Returns the start square number for the inputted color equivalent
-        public int get_start_square(int numColor){
+        public int get_start_square(Color color){
             // TODO Write get_start_square
-            switch(numColor)
+            switch (color)
             {
-                case 0:
-                    return -1;
-                case 1:
-                    return -1;
-                case 2:
-                    return 4;
-                case 3:
-                    return -1;
+                case Color.BLUE:
+                    return blueStart;
+                case Color.GREEN:
+                    return greenStart;
+                case Color.RED:
+                    return redStart;
+                case Color.YELLOW:
+                    return yellowStart;
                 default:
-                    return -1;
-            }
+                    Debug.WriteLine("error getting base for my color!");
             return -1;
+        }
         }
 
         public void execute_slide(int startSlide, Pawn pawn){
@@ -136,7 +134,7 @@ namespace MaKeyMeSorry
                 Debug.WriteLine("index: " + square.get_index() + " type: " + square.get_Type() + " Color: " + square.get_color());
             }
         }
-        
+
 
 
     }
