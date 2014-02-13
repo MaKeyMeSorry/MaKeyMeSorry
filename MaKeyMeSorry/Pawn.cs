@@ -10,8 +10,6 @@ namespace MaKeyMeSorry
     public enum Color { RED, BLUE, GREEN, YELLOW};
 
     class Pawn {
-
-       
         private Color color;
 
         // Current Square the pawn is on. NULL if at start
