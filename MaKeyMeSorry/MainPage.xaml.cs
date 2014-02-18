@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics;
+using System.Windows.Input;
+using Windows.UI.Input;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -34,8 +36,33 @@ namespace MaKeyMeSorry
             this.InitializeComponent();
             //Deck newDeck = new Deck(true);
             //Player player = new Player(Color.BLUE, true, true);
+
+            Window.Current.Content.AddHandler(UIElement.KeyDownEvent, new KeyEventHandler(App_KeyDown), true);
+
             game = new Game(4);
             card_color = 2;
+        }
+
+
+        private void App_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            Debug.WriteLine("Keyboard button pressed");
+
+            draw_card();
+
+            //if (e.Key.ToString() == "Return")
+            //{
+            //    Debug.WriteLine("Return button pressed");
+            //}
+
+
+            //if (e.Key == Key.Return)
+            //{
+            //    Debug.WriteLine("Return button pressed");
+            //}
+
+
+
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
@@ -43,7 +70,13 @@ namespace MaKeyMeSorry
 
         }
 
+
         private void draw_card(object sender, TappedRoutedEventArgs e)
+        {
+            draw_card();
+        }
+
+        private void draw_card()
         {
             Card card = game.deck.draw_card();
             string card_val = card.get_value().ToString();
