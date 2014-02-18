@@ -325,13 +325,13 @@
 
 
 
-            <Canvas HorizontalAlignment="Left" Height="300" Margin="500,500,0,0"  VerticalAlignment="Top" Width="200">
+            <Canvas x:Name="full_deck"  HorizontalAlignment="Left" Height="300" Margin="500,500,0,0"  VerticalAlignment="Top" Width="200" Tapped="draw_card">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Card Images/Card Back Blue Front.png" Stretch="Fill"/>
                 </Canvas.Background>
             </Canvas>
 
-            <Canvas HorizontalAlignment="Left" Height="300" Margin="800,500,0,0"  VerticalAlignment="Top" Width="200">
+            <Canvas x:Name="used_deck"  HorizontalAlignment="Left" Height="300" Margin="800,500,0,0"  VerticalAlignment="Top" Width="200">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Card Images/Used Card Holder.png" Stretch="Fill"/>
                 </Canvas.Background>

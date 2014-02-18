@@ -35,7 +35,7 @@ namespace MaKeyMeSorry
             public Game(int numHumans)
             {
                 board = new Board();
-                Deck newDeck = new Deck(true);
+                deck = new Deck(true);
                 players = new List<Player>();
                 Player redPlayer = new Player(Color.RED, true, true);
                 Player bluePlayer = new Player(Color.BLUE, true, true);
