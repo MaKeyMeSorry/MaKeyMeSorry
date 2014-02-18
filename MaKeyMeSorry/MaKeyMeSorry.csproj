@@ -199,6 +199,10 @@
     <Content Include="Assets\Card Images\Sorry Card Yellow.png" />
     <Content Include="Assets\Card Images\Used Card Holder.png" />
     <Content Include="Assets\Logo.scale-100.png" />
+    <Content Include="Assets\Pawn Images\Blue Pawn.png" />
+    <Content Include="Assets\Pawn Images\Green Pawn.png" />
+    <Content Include="Assets\Pawn Images\Red Pawn.png" />
+    <Content Include="Assets\Pawn Images\Yellow Pawn.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
