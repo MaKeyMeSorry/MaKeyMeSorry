@@ -12,54 +12,152 @@
                 <Canvas.Background >
                     <ImageBrush ImageSource="/Assets/Board Images/Blue Home.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="blue_start_pawn_0" Height="100" Width="100" Margin="0,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Blue Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="blue_start_pawn_1" Height="100" Width="100" Margin="0,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Blue Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="blue_start_pawn_2" Height="100" Width="100" Margin="100,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Blue Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="blue_start_pawn_3" Height="100" Width="100" Margin="100,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Blue Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
 
             <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1102,1365,0,0">
                 <Canvas.Background >
                     <ImageBrush ImageSource="/Assets/Board Images/Yellow Home.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="yellow_start_pawn_0" Height="100" Width="100" Margin="0,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Yellow Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="yellow_start_pawn_1" Height="100" Width="100" Margin="0,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Yellow Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="yellow_start_pawn_2" Height="100" Width="100" Margin="100,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Yellow Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="yellow_start_pawn_3" Height="100" Width="100" Margin="100,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Yellow Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="137,1100,0,0">
                 <Canvas.Background >
                     <ImageBrush ImageSource="/Assets/Board Images/Green Home.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="green_start_pawn_0" Height="100" Width="100" Margin="0,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Green Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="green_start_pawn_1" Height="100" Width="100" Margin="0,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Green Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="green_start_pawn_2" Height="100" Width="100" Margin="100,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Green Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="green_start_pawn_3" Height="100" Width="100" Margin="100,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Green Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="50,50,0,0">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="pawn_square_0" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="150,50,0,0"  VerticalAlignment="Top" Width="100">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Tail.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="pawn_square_1" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
+ 
 
             <Canvas HorizontalAlignment="Left" Height="100" Margin="250,50,0,0"  VerticalAlignment="Top" Width="100">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="pawn_square_2" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
+
 
             <Canvas HorizontalAlignment="Left" Height="100" Margin="350,50,0,0"  VerticalAlignment="Top" Width="100">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="pawn_square_3" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
+
             <Canvas HorizontalAlignment="Left" Height="100" Margin="550,50,0,0"  VerticalAlignment="Top" Width="100">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="pawn_square_4" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="650,50,0,0"  VerticalAlignment="Top" Width="100">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="pawn_square_5" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="750,50,0,0"  VerticalAlignment="Top" Width="100" >
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="pawn_square_6" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="850,50,0,0"  VerticalAlignment="Top" Width="100">
                 <Canvas.Background>
@@ -468,11 +566,51 @@
                 <Canvas.Background >
                     <ImageBrush ImageSource="/Assets/Board Images/Red Home.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="red_start_pawn_0" Height="100" Width="100" Margin="0,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Red Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="red_start_pawn_1" Height="100" Width="100" Margin="0,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Red Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="red_start_pawn_2" Height="100" Width="100" Margin="100,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Red Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="red_start_pawn_3" Height="100" Width="100" Margin="100,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="/Assets/Pawn Images/Red Pawn.png" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="200,634,0,0">
                 <Canvas.Background >
                     <ImageBrush ImageSource="/Assets/Board Images/Red Home.png" Stretch="Fill"/>
                 </Canvas.Background>
+                <Canvas x:Name="red_home_pawn_0" Height="100" Width="100" Margin="0,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="red_home_pawn_1" Height="100" Width="100" Margin="0,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="red_home_pawn_2" Height="100" Width="100" Margin="100,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="red_home_pawn_3" Height="100" Width="100" Margin="100,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
             </Canvas>
 
             <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="866,200,0,0">
