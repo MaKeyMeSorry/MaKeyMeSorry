@@ -30,6 +30,8 @@ namespace MaKeyMeSorry
     {
         private Game game;
         private int card_color;
+        private List<Canvas> pawn_square_list;
+        private Canvas background;
 
         public MainPage()
         {
@@ -40,7 +42,11 @@ namespace MaKeyMeSorry
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(App_KeyUp), true);
 
             game = new Game(4);
-            card_color = 2;
+            card_color = 0;
+            pawn_square_list = new List<Canvas>();
+            init_pawn_square_list();
+            background = new Canvas();
+
         }
 
 
@@ -53,7 +59,7 @@ namespace MaKeyMeSorry
             {
                 Debug.WriteLine("Return button pressed");
                 draw_card();
-                update_pawn_square(0, Color.RED);
+              
             }
 
         }
@@ -75,27 +81,32 @@ namespace MaKeyMeSorry
             string card_val = card.get_value().ToString();
             string flipped_extenstion;
             string back_extenstion;
-            switch (card_color)
+            int temp = card_color % 4;
+            switch (temp)
             {
                 case (1):
                     flipped_extenstion = "Red.png";
                     back_extenstion = "Blue Front.png";
+                    update_pawn_square(card_color, Color.RED);
                     card_color++;
                     break;
                 case (2):
                     flipped_extenstion = "Blue.png";
                     back_extenstion = "Yellow Front.png";
+                    update_pawn_square(card_color, Color.BLUE);
                     card_color++;
                     break;
                 case (3):
                     flipped_extenstion = "Yellow.png";
                     back_extenstion = "Green Front.png";
+                    update_pawn_square(card_color, Color.YELLOW);
                     card_color++;
                     break;
-                case (4):
+                case (0):
                     flipped_extenstion = "Green.png";
                     back_extenstion = "Red Front.png";
-                    card_color = 1;
+                    update_pawn_square(card_color, Color.GREEN);
+                    card_color++;
                     break;
                 default:
                     flipped_extenstion = "";
@@ -118,6 +129,21 @@ namespace MaKeyMeSorry
             used_deck.Background = ib;
 
             uri_string = "ms-appx:///Assets/Card Images/Card Back ";
+
+            if (card_color == 43)
+            {
+                uri_string += "3 Left ";
+            }
+            else if (card_color == 44)
+            {
+                uri_string += "2 Left ";
+            }
+            else if (card_color == 45)
+            {
+                uri_string += "1 Left ";
+                card_color = 1;
+            }
+
             uri_string += back_extenstion;
             Uri uri2 = new Uri(uri_string, UriKind.Absolute);
             ImageBrush ib2 = new ImageBrush();
@@ -126,7 +152,45 @@ namespace MaKeyMeSorry
 
         }
 
-        void update_pawn_square(int square_num, Color pawn_color) //could send exact pawn instead of color? just spitballin'
+        private void init_pawn_square_list()
+        {
+            ImageBrush ib = null;
+            //uncomment this part below to see the magic!
+            /*string uri_string = "ms-appx:///Assets/Pawn Images/RED Pawn.png";
+            ib = new ImageBrush();
+            Uri uri = new Uri(uri_string, UriKind.Absolute);
+            ib.ImageSource = new BitmapImage(uri);*/         
+            for (int i = 0; i < 60; i++)
+            {
+                Canvas cv1 = new Canvas();
+                cv1.Background = ib;
+                cv1.Height = 100;
+                cv1.Width = 100;
+                game_grid.Children.Add(cv1);
+                pawn_square_list.Add(cv1);
+            }
+
+            int x = 0;
+            for (int i = 0; i < 15; i++)
+            {
+
+                Canvas.SetLeft(pawn_square_list[i], 50 + x);
+                Canvas.SetTop(pawn_square_list[i], 45);
+
+                Canvas.SetLeft(pawn_square_list[i+15], 1550);
+                Canvas.SetTop(pawn_square_list[i+15], 45 + x);
+
+                Canvas.SetLeft(pawn_square_list[i + 30], 1550-x);
+                Canvas.SetTop(pawn_square_list[i + 30], 1545);
+
+                Canvas.SetLeft(pawn_square_list[i + 45], 50);
+                Canvas.SetTop(pawn_square_list[i + 45], 1545-x);
+
+                x += 100;
+            } 
+        }
+
+        public void update_pawn_square(int square_num, Color pawn_color) //could send exact pawn instead of color? just spitballin'
         {
 
             string uri_string = "ms-appx:///Assets/Pawn Images/";
@@ -137,192 +201,15 @@ namespace MaKeyMeSorry
             Uri uri = new Uri(uri_string, UriKind.Absolute);
             ib.ImageSource = new BitmapImage(uri);
 
-            switch (square_num)
+            if (pawn_square_list[square_num].Background == null)
             {
-                case(0):
-                    pawn_square_0.Background = ib;
-                    break;
-                case(1):
-                    pawn_square_1.Background = ib;
-                    break;
-                case (2):
-                    pawn_square_2.Background = ib;
-                    break;
-                case (3):
-                    pawn_square_3.Background = ib;
-                    break;
-                case (4):
-                    pawn_square_4.Background = ib;
-                    break;
-                case (5):
-                    pawn_square_5.Background = ib;
-                    break;
-                case (6):
-                    pawn_square_6.Background = ib;
-                    break;
-                /*case (7):
-                    pawn_square_7.Background = ib;
-                    break;
-                case (8):
-                    pawn_square_8.Background = ib;
-                    break;
-                case (9):
-                    pawn_square_9.Background = ib;
-                    break;
-                case (10):
-                    pawn_square_10.Background = ib;
-                    break;
-                case (11):
-                    pawn_square_11.Background = ib;
-                    break;
-                case (12):
-                    pawn_square_12.Background = ib;
-                    break;
-                case (13):
-                    pawn_square_13.Background = ib;
-                    break;
-                case (14):
-                    pawn_square_14.Background = ib;
-                    break;
-                case (15):
-                    pawn_square_15.Background = ib;
-                    break;
-                case (16):
-                    pawn_square_16.Background = ib;
-                    break;
-                case (17):
-                    pawn_square_17.Background = ib;
-                    break;
-                case (18):
-                    pawn_square_18.Background = ib;
-                    break;
-                case (19):
-                    pawn_square_19.Background = ib;
-                    break;
-                case (20):
-                    pawn_square_20.Background = ib;
-                    break;
-                case (21):
-                    pawn_square_21.Background = ib;
-                    break;
-                case (22):
-                    pawn_square_22.Background = ib;
-                    break;
-                case (23):
-                    pawn_square_23.Background = ib;
-                    break;
-                case (24):
-                    pawn_square_24.Background = ib;
-                    break;
-                case (25):
-                    pawn_square_25.Background = ib;
-                    break;
-                case (26):
-                    pawn_square_26.Background = ib;
-                    break;
-                case (27):
-                    pawn_square_27.Background = ib;
-                    break;
-                case (28):
-                    pawn_square_28.Background = ib;
-                    break;
-                case (29):
-                    pawn_square_29.Background = ib;
-                    break;
-                case (30):
-                    pawn_square_30.Background = ib;
-                    break;
-                case (31):
-                    pawn_square_31.Background = ib;
-                    break;
-                case (32):
-                    pawn_square_32.Background = ib;
-                    break;
-                case (33):
-                    pawn_square_33.Background = ib;
-                    break;
-                case (34):
-                    pawn_square_34.Background = ib;
-                    break;
-                case (35):
-                    pawn_square_35.Background = ib;
-                    break;
-                case (36):
-                    pawn_square_36.Background = ib;
-                    break;
-                case (37):
-                    pawn_square_37.Background = ib;
-                    break;
-                case (38):
-                    pawn_square_38.Background = ib;
-                    break;
-                case (39):
-                    pawn_square_39.Background = ib;
-                    break;
-                case (40):
-                    pawn_square_40.Background = ib;
-                    break;
-                case (41):
-                    pawn_square_41.Background = ib;
-                    break;
-                case (42):
-                    pawn_square_42.Background = ib;
-                    break;
-                case (43):
-                    pawn_square_43.Background = ib;
-                    break;
-                case (44):
-                    pawn_square_44.Background = ib;
-                    break;
-                case (45):
-                    pawn_square_45.Background = ib;
-                    break;
-                case (46):
-                    pawn_square_46.Background = ib;
-                    break;
-                case (47):
-                    pawn_square_47.Background = ib;
-                    break;
-                case (48):
-                    pawn_square_48.Background = ib;
-                    break;
-                case (49):
-                    pawn_square_49.Background = ib;
-                    break;
-                case (50):
-                    pawn_square_50.Background = ib;
-                    break;
-                case (51):
-                    pawn_square_51.Background = ib;
-                    break;
-                case (52):
-                    pawn_square_52.Background = ib;
-                    break;
-                case (53):
-                    pawn_square_53.Background = ib;
-                    break;
-                case (54):
-                    pawn_square_54.Background = ib;
-                    break;
-                case (55):
-                    pawn_square_55.Background = ib;
-                    break;
-                case (56):
-                    pawn_square_56.Background = ib;
-                    break;
-                case (57):
-                    pawn_square_57.Background = ib;
-                    break;
-                case (58):
-                    pawn_square_58.Background = ib;
-                    break;
-                case (59):
-                    pawn_square_59.Background = ib;
-                    break;*/
-                default:
-                    break;
+                pawn_square_list[square_num].Background = ib;
             }
-
+            else
+            {
+                pawn_square_list[square_num].Background = null;
+            }
+            
 
         }
     }
