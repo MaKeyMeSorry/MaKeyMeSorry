@@ -129,6 +129,7 @@
   <ItemGroup>
     <Content Include="Assets\Board images\Blank Square.png" />
     <Content Include="Assets\Board images\Blue Home.png" />
+    <Content Include="Assets\Board images\Blue Slide - End.png" />
     <Content Include="Assets\Board images\Blue Slide - Middle.png" />
     <Content Include="Assets\Board images\Blue Slide - Tail.png" />
     <Content Include="Assets\Board images\Blue Slide- End.png" />

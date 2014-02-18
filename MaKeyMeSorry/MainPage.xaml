@@ -118,7 +118,7 @@
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="1500,400,0,0"  VerticalAlignment="Top" Width="100" >
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide- End.png" Stretch="Fill"/>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - End.png" Stretch="Fill"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="1500,500,0,0"  VerticalAlignment="Top" Width="100" >
@@ -163,7 +163,7 @@
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="1500,1300,0,0"  VerticalAlignment="Top" Width="100" >
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide- End.png" Stretch="Fill"/>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - End.png" Stretch="Fill"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas HorizontalAlignment="Left" Height="100" Margin="1500,1400,0,0"  VerticalAlignment="Top" Width="100" >
