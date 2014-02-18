@@ -48,18 +48,12 @@ namespace MaKeyMeSorry
         {
             Debug.WriteLine("Keyboard button pressed");
 
-            draw_card();
 
-            //if (e.Key.ToString() == "Return")
-            //{
-            //    Debug.WriteLine("Return button pressed");
-            //}
-
-
-            //if (e.Key == Key.Return)
-            //{
-            //    Debug.WriteLine("Return button pressed");
-            //}
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                Debug.WriteLine("Return button pressed");
+                draw_card();
+            }
 
 
 
