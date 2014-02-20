@@ -152,7 +152,7 @@ namespace MaKeyMeSorry
 
             /*************************** NICK'S SECITION *******************************/
             
-           /* Debug.WriteLine("card value: " + card.get_value());
+            Debug.WriteLine("card value: " + card.get_value());
             if(card.get_value() != 13)
             {
                 List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
@@ -211,7 +211,7 @@ namespace MaKeyMeSorry
                     
                     //options.ElementAt(0).Item2.ElementAt(0).place_pawn(options.ElementAt(0).Item1);
                 }
-            } */
+            } 
             
 
             /*********************** NICK'S SECITION ***********************************/
