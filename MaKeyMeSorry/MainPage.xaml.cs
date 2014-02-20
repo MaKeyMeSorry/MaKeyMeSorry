@@ -106,25 +106,25 @@ namespace MaKeyMeSorry
                 case (1):
                     flipped_extenstion = "Red.png";
                     back_extenstion = "Blue Front.png";
-                    update_pawn_square(card_color, Color.RED);
+                    //update_pawn_square(card_color, Color.RED);
                     card_color++;
                     break;
                 case (2):
                     flipped_extenstion = "Blue.png";
                     back_extenstion = "Yellow Front.png";
-                    update_pawn_square(card_color, Color.BLUE);
+                    //update_pawn_square(card_color, Color.BLUE);
                     card_color++;
                     break;
                 case (3):
                     flipped_extenstion = "Yellow.png";
                     back_extenstion = "Green Front.png";
-                    update_pawn_square(card_color, Color.YELLOW);
+                    //update_pawn_square(card_color, Color.YELLOW);
                     card_color++;
                     break;
                 case (0):
                     flipped_extenstion = "Green.png";
                     back_extenstion = "Red Front.png";
-                    update_pawn_square(card_color, Color.GREEN);
+                    //update_pawn_square(card_color, Color.GREEN);
                     card_color++;
                     break;
                 default:
@@ -168,6 +168,72 @@ namespace MaKeyMeSorry
             ImageBrush ib2 = new ImageBrush();
             ib2.ImageSource = new BitmapImage(uri2);
             full_deck.Background = ib2;
+
+            /*************************** NICK'S SECITION *******************************/
+            
+            Debug.WriteLine("card value: " + card.get_value());
+            if(card.get_value() != 13)
+            {
+                List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
+                options = game.get_move_options(Color.BLUE, card);
+                int pawnIndex = 0;
+
+                foreach (Tuple<Pawn, List<Square>> pawnChoice in options)
+                {
+                    Debug.WriteLine("Pawn " + pawnIndex + "'s choices");
+                    foreach (Square mySquare in pawnChoice.Item2)
+                    {
+                        Debug.WriteLine("Choice: Move to square: " + mySquare.get_index());
+
+                    }
+                    pawnIndex++;
+                    Debug.WriteLine("first choice of first pawn made");
+                }
+                if (options.Count != 0)
+                {
+                    if (!options.ElementAt(0).Item1.is_start())
+                    {
+                        Debug.WriteLine("PAWN NOT AT START!");
+                        update_pawn_square(options.ElementAt(0).Item1.get_current_location().get_index(), Color.BLUE);
+                    }
+                    Debug.WriteLine("PAWN 0's location: " + options.ElementAt(0).Item1.get_current_location());
+                    if (options.ElementAt(0).Item2.Count != 0)
+                    {
+                        if (options.ElementAt(0).Item1.is_start())
+                        {
+                            for(int i = 0; i < 4; i++)
+                            {
+                                switch(i)
+                                {
+                                    case 0:
+                                        //blue_start_pawn_0.
+                                        break;
+                                    case 1:
+                                        break;
+                                    case 2:
+                                        break;
+                                    case 3:
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                        Debug.WriteLine("PAWN 0's move to location: " + options.ElementAt(0).Item2.ElementAt(0).get_index());
+                        update_pawn_square(options.ElementAt(0).Item2.ElementAt(0).get_index(), Color.BLUE);
+                        options.ElementAt(0).Item1.move_to(options.ElementAt(0).Item2.ElementAt(0));
+                    }
+                    else
+                    {
+                        options.ElementAt(0).Item1.sorry();
+                    }
+                    
+                    //options.ElementAt(0).Item2.ElementAt(0).place_pawn(options.ElementAt(0).Item1);
+                }
+            } 
+            
+
+            /*********************** NICK'S SECITION ***********************************/
 
         }
 

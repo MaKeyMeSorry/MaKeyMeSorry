@@ -106,6 +106,10 @@ namespace MaKeyMeSorry
             // TODO Write Board constructor
             int index = 0;
             theBoard = new List<Square>();
+            redStart = 4;
+            blueStart = 19;
+            yellowStart = 34;
+            greenStart = 49;
             for (int i = 0; i < 4; i++)
             {
                 theBoard.Add(new Square(index++, SquareKind.REGULAR, Color.WHITE));
