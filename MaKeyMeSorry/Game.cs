@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace MaKeyMeSorry
 {
@@ -95,6 +97,7 @@ namespace MaKeyMeSorry
                 
                 // If it is a start card (1 or 2), then grab the first pawn from start as a
                 // choice. If this pawn is selected in UI
+                choices.Clear();
                 if(card.get_start()) 
                 {
                     if (myPlayer.get_pawn_from_start() != null)
@@ -103,7 +106,25 @@ namespace MaKeyMeSorry
                         if (board.get_square_at(moveLocation).can_place_pawn(myPlayer.get_pawn_from_start())) 
                         {
                             choices.Add(board.get_square_at(moveLocation));
-                            allChoices.Add(new Tuple<Pawn, List<Square>>(myPlayer.get_pawn_from_start(), choices));
+                            allChoices.Add(new Tuple<Pawn, List<Square>>(myPlayer.get_pawn_from_start(), new List<Square>(choices)));
+                            Debug.WriteLine("START CHOICE GO TO: " + choices.ElementAt(0).get_index());
+                            foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)
+                            {
+                                if (pawnChoice.Item1.is_start())
+                                {
+                                    Debug.WriteLine("Pawn ...location START");
+
+                                }
+                                else
+                                {
+                                    Debug.WriteLine("Pawn ...location" + pawnChoice.Item1.get_current_location().get_index());
+
+                                }
+                                foreach (Square testSquare in pawnChoice.Item2)
+                                {
+                                    Debug.WriteLine("square location" + testSquare.get_index());
+                                }
+                            }
                         }
                     }
                 }
@@ -140,7 +161,9 @@ namespace MaKeyMeSorry
                                 // pawn passed homeConnect
                                 if ((moveLocation - homeConnect) <= 6)
                                 {
-                                    choices.Add(board.get_my_base(playerColor)[moveLocation - homeConnect]);
+                                    //choices.Add(board.get_my_base(playerColor)[moveLocation - homeConnect]);
+                                    //used bottom for testing...top is correct once we implement the home connector squares
+                                    //choices.Add(board.get_square_at(board.get_start_square(playerColor)));
                                 }
                             }
                             else
@@ -155,7 +178,9 @@ namespace MaKeyMeSorry
                             //pawn passed homeConnect
                             if ((moveLocation - homeConnect) <= 6)
                             {
-                                choices.Add(board.get_my_base(playerColor)[moveLocation - homeConnect]);
+                                //choices.Add(board.get_my_base(playerColor)[moveLocation - homeConnect]);
+                                //used bottom for testing...top is correct once we implement the home connector squares
+                                //choices.Add(board.get_square_at(board.get_start_square(playerColor)));
                             }
                         } else {
                             // normal move from space > homeConnect to space < homeConnect 
@@ -204,7 +229,25 @@ namespace MaKeyMeSorry
                             }
                         }
                     }
-                    allChoices.Add(new Tuple<Pawn, List<Square>>(pawn, choices));
+                    allChoices.Add(new Tuple<Pawn, List<Square>>(pawn, new List<Square>(choices)));
+                    
+                }
+                foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)
+                {
+                    if (pawnChoice.Item1.is_start())
+                    {
+                        Debug.WriteLine("Pawn ...location START");
+
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Pawn ...location" + pawnChoice.Item1.get_current_location().get_index());
+
+                    }
+                    foreach (Square testSquare in pawnChoice.Item2)
+                    {
+                        Debug.WriteLine("square location" + testSquare.get_index());
+                    }
                 }
                 return allChoices;
             }

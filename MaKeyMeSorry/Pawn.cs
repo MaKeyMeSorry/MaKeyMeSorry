@@ -33,7 +33,12 @@ namespace MaKeyMeSorry
 
         public void move_to(Square square)
         {
+            if(current_location != null)
+            {
+                current_location.set_has_pawn(false);
+            }
             current_location = square;
+            square.place_pawn(this);
         }
 
         public bool is_home()

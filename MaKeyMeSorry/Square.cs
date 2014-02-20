@@ -38,6 +38,7 @@ namespace MaKeyMeSorry
             this.index = index;
             this.type = type;
             this.color = color;
+            this.hasPawn = false;
         }
 
         public bool can_place_pawn(Pawn pawn){
@@ -54,6 +55,7 @@ namespace MaKeyMeSorry
                     pawnInSquare.sorry();
             }
             pawnInSquare = pawn;
+            set_has_pawn(true);
         }
 
         public SquareKind get_Type()
@@ -79,6 +81,11 @@ namespace MaKeyMeSorry
         public Pawn get_pawn_in_square()
         {
             return pawnInSquare;
+        }
+
+        public void set_has_pawn(bool hasPawn)
+        {
+            this.hasPawn = hasPawn;
         }
 
     }
