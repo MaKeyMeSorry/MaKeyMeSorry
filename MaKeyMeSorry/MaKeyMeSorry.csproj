@@ -219,7 +219,14 @@
     <Content Include="Assets\Pawn Images\RED Pawn.png" />
     <Content Include="Assets\Pawn Images\YELLOW Pawn.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
+    <Content Include="Assets\Splash Image\MaKeyMeSorry!-01.scale-100.png" />
+    <Content Include="Assets\Splash Image\MaKeyMeSorry!-01.scale-140.png" />
+    <Content Include="Assets\Splash Image\MaKeyMeSorry!-01.scale-180.png" />
+    <Content Include="Assets\Splash Image\MaKeyMeSorry!-1.4.png" />
+    <Content Include="Assets\Splash Image\MaKeyMeSorry!1.8-01.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-140.png" />
+    <Content Include="Assets\SplashScreen.scale-180.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\board_image_example.png" />
     <Page Include="StartPage.xaml">
