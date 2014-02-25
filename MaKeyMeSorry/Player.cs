@@ -8,100 +8,101 @@ using System.Diagnostics;
 
 namespace MaKeyMeSorry
 {
-    class Player {
+    class Player
+    {
 
-       private Color pawnColor;
-       private int numPawnsLeft;
-       private List<Pawn> pawns; 
-       // Used for distinction between normal player and AI
-       private bool isHuman;
+        private Color pawnColor;
+        private int numPawnsLeft;
+        private List<Pawn> pawns;
+        // Used for distinction between normal player and AI
+        private bool isHuman;
 
-       // Ensures default constructor cannot be used
-       private Player() { }
+        // Ensures default constructor cannot be used
+        private Player() { }
 
 
-       // Constructs Player class with the color specified
-       // and if the player is a bot or not
-       public Player(Color pawnColor, bool isHuman, bool enableTesting)
-       {
-           this.pawnColor = pawnColor;
-           this.isHuman = isHuman;
-           setNumPawnsLeft(5);
-           pawns = new List<Pawn>();
-           for(int i=0; i < 5; i++) 
-           {
-               pawns.Add(new Pawn(pawnColor, null));
-           }
-           if(enableTesting)
-           {
-               Debug.WriteLine("Number of pawns at start: " + get_num_pawns_at_start().ToString());
-               Debug.WriteLine("Player Color: " + pawnColor);
-               Debug.WriteLine("Player is human: " + isHuman.ToString());
+        // Constructs Player class with the color specified
+        // and if the player is a bot or not
+        public Player(Color pawnColor, bool isHuman, bool enableTesting)
+        {
+            this.pawnColor = pawnColor;
+            this.isHuman = isHuman;
+            setNumPawnsLeft(5);
+            pawns = new List<Pawn>();
+            for (int i = 0; i < 4; i++)
+            {
+                pawns.Add(new Pawn(pawnColor, null, i));
+            }
+            if (enableTesting)
+            {
+                Debug.WriteLine("Number of pawns at start: " + get_num_pawns_at_start().ToString());
+                Debug.WriteLine("Player Color: " + pawnColor);
+                Debug.WriteLine("Player is human: " + isHuman.ToString());
 
-           }
-       }
+            }
+        }
 
-       // Getters
-       public int get_num_pawns_at_start()
-       {
-           int numAtStart = 0;
-           foreach(Pawn pawn in pawns)
-           {
-               if(pawn.is_start())
-               {
-                   numAtStart++;
-               }
-           }
-           return numAtStart;
-       }
+        // Getters
+        public int get_num_pawns_at_start()
+        {
+            int numAtStart = 0;
+            foreach (Pawn pawn in pawns)
+            {
+                if (pawn.is_start())
+                {
+                    numAtStart++;
+                }
+            }
+            return numAtStart;
+        }
 
-       public int get_Num_Pawns_at_home()
-       {
-           return 5 - numPawnsLeft;
-       }
+        public int get_Num_Pawns_at_home()
+        {
+            return 5 - numPawnsLeft;
+        }
 
-       // returns NULL if no pawns are at start
-       // NOTE: game should make call to update this pawn to is_active if
-       // this pawn was chosen to move from UI
-       public Pawn get_pawn_from_start()
-       {
-           foreach (Pawn pawn in pawns)
-           {
-               if (pawn.is_start())
-               {
-                   return pawn;
-               }
-           }
-           return null;
-       }
+        // returns NULL if no pawns are at start
+        // NOTE: game should make call to update this pawn to is_active if
+        // this pawn was chosen to move from UI
+        public Pawn get_pawn_from_start()
+        {
+            foreach (Pawn pawn in pawns)
+            {
+                if (pawn.is_start())
+                {
+                    return pawn;
+                }
+            }
+            return null;
+        }
 
-       //return empty vector if none active
-       public List<Pawn> get_active_pawns()
-       {
-           List<Pawn> activePawns = new List<Pawn>();
-           foreach (Pawn pawn in pawns)
-           {
-               if (!pawn.is_start() && !pawn.is_home())
-               {
-                   activePawns.Add(pawn);
-               }
-           }
-           return activePawns;
-       }
+        //return empty vector if none active
+        public List<Pawn> get_active_pawns()
+        {
+            List<Pawn> activePawns = new List<Pawn>();
+            foreach (Pawn pawn in pawns)
+            {
+                if (!pawn.is_start() && !pawn.is_home())
+                {
+                    activePawns.Add(pawn);
+                }
+            }
+            return activePawns;
+        }
 
-       public Color get_pawn_color()
-       {
-           return pawnColor;
-       }
+        public Color get_pawn_color()
+        {
+            return pawnColor;
+        }
 
-       public bool get_is_human()
-       {
-           return isHuman;
-       }
+        public bool get_is_human()
+        {
+            return isHuman;
+        }
 
-       public void setNumPawnsLeft(int numPawnsLeft)
-       {
-           this.numPawnsLeft = numPawnsLeft;
-       }
+        public void setNumPawnsLeft(int numPawnsLeft)
+        {
+            this.numPawnsLeft = numPawnsLeft;
+        }
     }
 }

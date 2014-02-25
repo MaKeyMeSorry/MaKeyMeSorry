@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 namespace MaKeyMeSorry
 {
 
-    public enum SquareKind {
+    public enum SquareKind
+    {
         REGULAR,
         SLIDE_START,
         SLIDE_END,
         STARTSQ, // Start square for a player
         HOMESQ,  // Home square for a player
         STARTC,  // Square that connects to start square.
-        HOMEC    // Square that connects to home slide.
+        HOMEC,    // Square that connects to home slide.
+        SAFE
     };
 
-    class Square{
+    class Square
+    {
 
         private bool hasPawn;
         private Pawn pawnInSquare;
@@ -41,18 +44,22 @@ namespace MaKeyMeSorry
             this.hasPawn = false;
         }
 
-        public bool can_place_pawn(Pawn pawn){
-            if(!hasPawn)
+        public bool can_place_pawn(Pawn pawn)
+        {
+            if (!hasPawn)
                 return true;
-            if(pawn.get_color() == pawnInSquare.get_color()){
+            if (pawn.get_color() == pawnInSquare.get_color() && this.type != SquareKind.HOMESQ)
+            {
                 return false;
             }
             return true;
         }
 
-        public void place_pawn(Pawn pawn){
-            if(hasPawn){
-                    pawnInSquare.sorry();
+        public void place_pawn(Pawn pawn)
+        {
+            if (hasPawn && this.type != SquareKind.HOMESQ)
+            {
+                pawnInSquare.sorry();
             }
             pawnInSquare = pawn;
             set_has_pawn(true);

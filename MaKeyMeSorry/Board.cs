@@ -8,7 +8,8 @@ using System.Diagnostics;
 
 namespace MaKeyMeSorry
 {
-    class Board{
+    class Board
+    {
 
 
         private List<Square> theBoard;
@@ -18,7 +19,7 @@ namespace MaKeyMeSorry
         private List<Square> blueBase;
         private List<Square> yellowBase;
         private List<Square> greenBase;
-        private List<Square> redBase; 
+        private List<Square> redBase;
 
 
         //Again this could be a vector of int's if it seems to work better.
@@ -32,12 +33,14 @@ namespace MaKeyMeSorry
         private static int numSquares;
 
         // Not sure if we need
-        public void update_board(){
+        public void update_board()
+        {
             // TODO Write update_board
         }
 
         // Returns the start square number for the inputted color equivalent
-        public int get_start_square(Color color){
+        public int get_start_square(Color color)
+        {
             // TODO Write get_start_square
             switch (color)
             {
@@ -51,26 +54,27 @@ namespace MaKeyMeSorry
                     return yellowStart;
                 default:
                     Debug.WriteLine("error getting base for my color!");
-            return -1;
-        }
+                    return -1;
+            }
         }
 
-        public void execute_slide(int startSlide, Pawn pawn){
+        public void execute_slide(int startSlide, Pawn pawn)
+        {
             int index = startSlide;
             // note: this assumes that there may be other pawns on the 
             // start slide location and they will be moved to sorry. If
             // for some reason your pawn is on the start location it will
             // be sent to start then sent to the end of slide but user will
             // never see
-            while(theBoard[index].get_Type() != SquareKind.SLIDE_END)
+            while (theBoard[index].get_Type() != SquareKind.SLIDE_END)
             {
-                if(theBoard[index].get_has_pawn())
+                if (theBoard[index].get_has_pawn())
                 {
                     theBoard[index].get_pawn_in_square().sorry();
                 }
                 index++;
             }
-            if(theBoard[index].get_Type() == SquareKind.SLIDE_END)
+            if (theBoard[index].get_Type() == SquareKind.SLIDE_END)
             {
                 if (theBoard[index].get_has_pawn())
                 {
@@ -102,7 +106,8 @@ namespace MaKeyMeSorry
             }
         }
 
-        public Board(){
+        public Board()
+        {
             // TODO Write Board constructor
             int index = 0;
             theBoard = new List<Square>();
@@ -127,6 +132,15 @@ namespace MaKeyMeSorry
                 theBoard.Add(new Square(index++, SquareKind.REGULAR, (Color)i));
                 theBoard.Add(new Square(index++, SquareKind.SLIDE_END, (Color)i));
                 theBoard.Add(new Square(index++, SquareKind.REGULAR, Color.WHITE));
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
+                theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
+                theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
+                theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
+                theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
+                theBoard.Add(new Square(index++, SquareKind.HOMESQ, (Color)i));
             }
             print_Board();
         }

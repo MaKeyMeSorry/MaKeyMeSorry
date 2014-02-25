@@ -42,9 +42,9 @@ namespace MaKeyMeSorry
             Debug.WriteLine("Keyboard button pressed");
 
 
-            if (e.Key == Windows.System.VirtualKey.Space)
+            if (e.Key == Windows.System.VirtualKey.Down)
             { 
-                Debug.WriteLine("Space button pressed");
+                Debug.WriteLine("Down button pressed");
 
                 this.Frame.Navigate(typeof(MainPage));
 

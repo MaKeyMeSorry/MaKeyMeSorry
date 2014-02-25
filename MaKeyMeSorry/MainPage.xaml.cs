@@ -31,7 +31,7 @@ namespace MaKeyMeSorry
         private Game game;
         private int card_color;
         private List<Canvas> pawn_square_list;
-        
+
         private List<Canvas> blue_start_list;
         private List<Canvas> yellow_start_list;
         private List<Canvas> green_start_list;
@@ -65,6 +65,29 @@ namespace MaKeyMeSorry
             red_safe_zone_list = new List<Canvas>();
 
             init_pawn_square_list();
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            update_pawn_square(j, (Color)i, red_start_list);
+                            break;
+                        case 1:
+                            update_pawn_square(j, (Color)i, blue_start_list);
+                            break;
+                        case 2:
+                            update_pawn_square(j, (Color)i, yellow_start_list);
+                            break;
+                        case 3:
+                            update_pawn_square(j, (Color)i, green_start_list);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
 
         }
 
@@ -74,11 +97,11 @@ namespace MaKeyMeSorry
             Debug.WriteLine("Keyboard button pressed");
 
 
-            if (e.Key == Windows.System.VirtualKey.Space)
+            if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                Debug.WriteLine("Space button pressed");
+                Debug.WriteLine("Return button pressed");
                 draw_card();
-              
+
             }
 
         }
@@ -169,10 +192,16 @@ namespace MaKeyMeSorry
             ib2.ImageSource = new BitmapImage(uri2);
             full_deck.Background = ib2;
 
+            //game.players.ElementAt(1).get_pawn_from_start()
+
+            //update_pawn_square(game.players.ElementAt(1).get_pawn_from_start().get_id()+5, Color.BLUE, blue_safe_zone_list);
+            //game.players.ElementAt(1).get_pawn_from_start().move_to(game.board.get_square_at(game.players.ElementAt(1).get_pawn_from_start().get_id()));
             /*************************** NICK'S SECITION *******************************/
-            
+            Square currentSquare;
+            Square moveToSquare;
+
             Debug.WriteLine("card value: " + card.get_value());
-            if(card.get_value() != 13)
+            if (card.get_value() != 13)
             {
                 List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
                 options = game.get_move_options(Color.BLUE, card);
@@ -191,47 +220,78 @@ namespace MaKeyMeSorry
                 }
                 if (options.Count != 0)
                 {
-                    if (!options.ElementAt(0).Item1.is_start())
+                    int pawnChoice = 0;
+
+                    //for(int i = 0; i < options.Count; i++)
+                    //{
+                    //    if(options.ElementAt(i).Item2.Count > 0)
+                    //    {
+                    //        pawnChoice = i;
+                    //        break;
+                    //    }
+                    //}
+
+                    if (options.ElementAt(pawnChoice).Item2.Count != 0)
                     {
-                        Debug.WriteLine("PAWN NOT AT START!");
-                        update_pawn_square(options.ElementAt(0).Item1.get_current_location().get_index(), Color.BLUE);
-                    }
-                    Debug.WriteLine("PAWN 0's location: " + options.ElementAt(0).Item1.get_current_location());
-                    if (options.ElementAt(0).Item2.Count != 0)
-                    {
-                        if (options.ElementAt(0).Item1.is_start())
+
+                        currentSquare = options.ElementAt(pawnChoice).Item1.get_current_location();
+                        moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
+
+                        if (!options.ElementAt(pawnChoice).Item1.is_start())
                         {
-                            for(int i = 0; i < 4; i++)
+                            Debug.WriteLine("PAWN NOT AT START!");
+                            if (currentSquare.get_Type() == SquareKind.SAFE)
                             {
-                                switch(i)
-                                {
-                                    case 0:
-                                        //blue_start_pawn_0.
-                                        break;
-                                    case 1:
-                                        break;
-                                    case 2:
-                                        break;
-                                    case 3:
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                update_pawn_square(currentSquare.get_index() - 66, Color.BLUE, blue_safe_zone_list);
                             }
+                            else
+                            {
+                                update_pawn_square(currentSquare.get_index(), Color.BLUE, pawn_square_list);
+                            }
+
                         }
-                        Debug.WriteLine("PAWN 0's move to location: " + options.ElementAt(0).Item2.ElementAt(0).get_index());
-                        update_pawn_square(options.ElementAt(0).Item2.ElementAt(0).get_index(), Color.BLUE);
-                        options.ElementAt(0).Item1.move_to(options.ElementAt(0).Item2.ElementAt(0));
+                        else
+                        {
+                            update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), Color.BLUE, blue_start_list);
+                        }
+                        Debug.WriteLine("PAWN 0's location: " + options.ElementAt(pawnChoice).Item1.get_current_location());
+                        //if (options.ElementAt(0).Item2.Count != 0)
+                        //{
+                        //moved up into else
+                        //    if (options.ElementAt(0).Item1.is_start())
+                        //    {
+                        //    }
+                        Debug.WriteLine("PAWN 0's move to location: " + options.ElementAt(pawnChoice).Item2.ElementAt(0).get_index());
+
+                        if (moveToSquare.get_Type() == SquareKind.SAFE)//|| moveToSquare.get_Type() == SquareKind.HOMESQ)
+                        {
+                            update_pawn_square(moveToSquare.get_index() - 66, Color.BLUE, blue_safe_zone_list);
+                            options.ElementAt(pawnChoice).Item1.set_in_safe_zone(true);
+
+                        }
+                        else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
+                        {
+                            update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - 66, Color.BLUE, blue_safe_zone_list);
+                        }
+                        else
+                        {
+                            update_pawn_square(moveToSquare.get_index(), Color.BLUE, pawn_square_list);
+                        }
+                        //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
+                        options.ElementAt(pawnChoice).Item1.move_to(options.ElementAt(pawnChoice).Item2.ElementAt(0));
                     }
-                    else
-                    {
-                        options.ElementAt(0).Item1.sorry();
-                    }
-                    
+
+
+                    //}
+                    //else
+                    //{
+                    //    options.ElementAt(0).Item1.sorry();
+                    //}
+
                     //options.ElementAt(0).Item2.ElementAt(0).place_pawn(options.ElementAt(0).Item1);
                 }
-            } 
-            
+            }
+
 
             /*********************** NICK'S SECITION ***********************************/
 
@@ -244,7 +304,7 @@ namespace MaKeyMeSorry
             /*string uri_string = "ms-appx:///Assets/Pawn Images/RED Pawn.png";
             ib = new ImageBrush();
             Uri uri = new Uri(uri_string, UriKind.Absolute);
-            ib.ImageSource = new BitmapImage(uri);  */      
+            ib.ImageSource = new BitmapImage(uri);  */
             for (int i = 0; i < 60; i++)
             {
                 Canvas cv1 = new Canvas();
@@ -262,14 +322,14 @@ namespace MaKeyMeSorry
                 Canvas.SetLeft(pawn_square_list[i], 50 + x);
                 Canvas.SetTop(pawn_square_list[i], 45);
 
-                Canvas.SetLeft(pawn_square_list[i+15], 1550);
-                Canvas.SetTop(pawn_square_list[i+15], 45 + x);
+                Canvas.SetLeft(pawn_square_list[i + 15], 1550);
+                Canvas.SetTop(pawn_square_list[i + 15], 45 + x);
 
-                Canvas.SetLeft(pawn_square_list[i + 30], 1550-x);
+                Canvas.SetLeft(pawn_square_list[i + 30], 1550 - x);
                 Canvas.SetTop(pawn_square_list[i + 30], 1545);
 
                 Canvas.SetLeft(pawn_square_list[i + 45], 50);
-                Canvas.SetTop(pawn_square_list[i + 45], 1545-x);
+                Canvas.SetTop(pawn_square_list[i + 45], 1545 - x);
 
                 x += 100;
             }
@@ -285,16 +345,16 @@ namespace MaKeyMeSorry
                     game_grid.Children.Add(cv1);
                     switch (i)
                     {
-                        case(0):
+                        case (0):
                             blue_safe_zone_list.Add(cv1);
                             break;
-                        case(1):
+                        case (1):
                             yellow_safe_zone_list.Add(cv1);
                             break;
-                        case(2):
+                        case (2):
                             red_safe_zone_list.Add(cv1);
                             break;
-                        case(3):
+                        case (3):
                             green_safe_zone_list.Add(cv1);
                             break;
                     }
@@ -327,74 +387,74 @@ namespace MaKeyMeSorry
                     }
                 }
             }
-            
+
             for (int i = 0; i < 5; i++)
             {
                 x = i * 100;
-               Canvas.SetLeft(blue_safe_zone_list[i], 1450-x);
-               Canvas.SetTop(blue_safe_zone_list[i], 245);
+                Canvas.SetLeft(blue_safe_zone_list[i], 1450 - x);
+                Canvas.SetTop(blue_safe_zone_list[i], 245);
 
 
-               Canvas.SetLeft(green_safe_zone_list[i], 150+x);
-               Canvas.SetTop(green_safe_zone_list[i], 1345);
+                Canvas.SetLeft(green_safe_zone_list[i], 150 + x);
+                Canvas.SetTop(green_safe_zone_list[i], 1345);
 
-               Canvas.SetLeft(red_safe_zone_list[i], 250);
-               Canvas.SetTop(red_safe_zone_list[i], 145+x);
+                Canvas.SetLeft(red_safe_zone_list[i], 250);
+                Canvas.SetTop(red_safe_zone_list[i], 145 + x);
 
-               Canvas.SetLeft(yellow_safe_zone_list[i], 1350);
-               Canvas.SetTop(yellow_safe_zone_list[i], 1450-x);
+                Canvas.SetLeft(yellow_safe_zone_list[i], 1350);
+                Canvas.SetTop(yellow_safe_zone_list[i], 1450 - x);
 
-               if (i < 2)
-               {
-                   Canvas.SetLeft(red_start_list[i], 400 + x);
-                   Canvas.SetTop(red_start_list[i], 140);
-                   Canvas.SetLeft(red_start_list[i + 2], 400 + x);
-                   Canvas.SetTop(red_start_list[i + 2], 240);
+                if (i < 2)
+                {
+                    Canvas.SetLeft(red_start_list[i], 400 + x);
+                    Canvas.SetTop(red_start_list[i], 140);
+                    Canvas.SetLeft(red_start_list[i + 2], 400 + x);
+                    Canvas.SetTop(red_start_list[i + 2], 240);
 
-                   Canvas.SetLeft(red_safe_zone_list[i + 5], 200 + x);
-                   Canvas.SetTop(red_safe_zone_list[i + 5], 625);
-                   Canvas.SetLeft(red_safe_zone_list[i + 7], 200 + x);
-                   Canvas.SetTop(red_safe_zone_list[i + 7], 725);
+                    Canvas.SetLeft(red_safe_zone_list[i + 5], 200 + x);
+                    Canvas.SetTop(red_safe_zone_list[i + 5], 625);
+                    Canvas.SetLeft(red_safe_zone_list[i + 7], 200 + x);
+                    Canvas.SetTop(red_safe_zone_list[i + 7], 725);
 
-                   Canvas.SetLeft(blue_start_list[i], 1360 + x);
-                   Canvas.SetTop(blue_start_list[i], 370);
-                   Canvas.SetLeft(blue_start_list[i + 2], 1360 + x);
-                   Canvas.SetTop(blue_start_list[i + 2], 470);
+                    Canvas.SetLeft(blue_start_list[i], 1360 + x);
+                    Canvas.SetTop(blue_start_list[i], 370);
+                    Canvas.SetLeft(blue_start_list[i + 2], 1360 + x);
+                    Canvas.SetTop(blue_start_list[i + 2], 470);
 
-                   Canvas.SetLeft(blue_safe_zone_list[i + 5], 860 + x);
-                   Canvas.SetTop(blue_safe_zone_list[i + 5], 180);
-                   Canvas.SetLeft(blue_safe_zone_list[i + 7], 865 + x);
-                   Canvas.SetTop(blue_safe_zone_list[i + 7], 280);
+                    Canvas.SetLeft(blue_safe_zone_list[i + 5], 860 + x);
+                    Canvas.SetTop(blue_safe_zone_list[i + 5], 180);
+                    Canvas.SetLeft(blue_safe_zone_list[i + 7], 865 + x);
+                    Canvas.SetTop(blue_safe_zone_list[i + 7], 280);
 
-                   Canvas.SetLeft(yellow_start_list[i], 1100 + x);
-                   Canvas.SetTop(yellow_start_list[i], 1340);
-                   Canvas.SetLeft(yellow_start_list[i + 2], 1100 + x);
-                   Canvas.SetTop(yellow_start_list[i + 2], 1440);
+                    Canvas.SetLeft(yellow_start_list[i], 1100 + x);
+                    Canvas.SetTop(yellow_start_list[i], 1340);
+                    Canvas.SetLeft(yellow_start_list[i + 2], 1100 + x);
+                    Canvas.SetTop(yellow_start_list[i + 2], 1440);
 
-                   Canvas.SetLeft(yellow_safe_zone_list[i + 5], 1300 + x);
-                   Canvas.SetTop(yellow_safe_zone_list[i + 5], 940);
-                   Canvas.SetLeft(yellow_safe_zone_list[i + 7], 1300 + x);
-                   Canvas.SetTop(yellow_safe_zone_list[i + 7], 840);
+                    Canvas.SetLeft(yellow_safe_zone_list[i + 5], 1300 + x);
+                    Canvas.SetTop(yellow_safe_zone_list[i + 5], 940);
+                    Canvas.SetLeft(yellow_safe_zone_list[i + 7], 1300 + x);
+                    Canvas.SetTop(yellow_safe_zone_list[i + 7], 840);
 
-                   Canvas.SetLeft(green_start_list[i], 140 + x);
-                   Canvas.SetTop(green_start_list[i], 1075);
-                   Canvas.SetLeft(green_start_list[i + 2], 140 + x);
-                   Canvas.SetTop(green_start_list[i + 2], 1175);
+                    Canvas.SetLeft(green_start_list[i], 140 + x);
+                    Canvas.SetTop(green_start_list[i], 1075);
+                    Canvas.SetLeft(green_start_list[i + 2], 140 + x);
+                    Canvas.SetTop(green_start_list[i + 2], 1175);
 
-                   Canvas.SetLeft(green_safe_zone_list[i + 5], 635 + x);
-                   Canvas.SetTop(green_safe_zone_list[i + 5], 1280);
-                   Canvas.SetLeft(green_safe_zone_list[i + 7], 635 + x);
-                   Canvas.SetTop(green_safe_zone_list[i + 7], 1380);
-               }
-           
+                    Canvas.SetLeft(green_safe_zone_list[i + 5], 635 + x);
+                    Canvas.SetTop(green_safe_zone_list[i + 5], 1280);
+                    Canvas.SetLeft(green_safe_zone_list[i + 7], 635 + x);
+                    Canvas.SetTop(green_safe_zone_list[i + 7], 1380);
+                }
+
             }
-            
+
 
 
 
         }
 
-        public void update_pawn_square(int square_num, Color pawn_color) //could send exact pawn instead of color? just spitballin'
+        public void update_pawn_square(int square_num, Color pawn_color, List<Canvas> list) //could send exact pawn instead of color? just spitballin'
         {
 
             string uri_string = "ms-appx:///Assets/Pawn Images/";
@@ -405,15 +465,15 @@ namespace MaKeyMeSorry
             Uri uri = new Uri(uri_string, UriKind.Absolute);
             ib.ImageSource = new BitmapImage(uri);
 
-            if (pawn_square_list[square_num].Background == null)
+            if (list[square_num].Background == null)
             {
-                pawn_square_list[square_num].Background = ib;
+                list[square_num].Background = ib;
             }
             else
             {
-                pawn_square_list[square_num].Background = null;
+                list[square_num].Background = null;
             }
-            
+
 
         }
     }
