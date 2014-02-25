@@ -74,9 +74,9 @@ namespace MaKeyMeSorry
             Debug.WriteLine("Keyboard button pressed");
 
 
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Space)
             {
-                Debug.WriteLine("Return button pressed");
+                Debug.WriteLine("Space button pressed");
                 draw_card();
               
             }
