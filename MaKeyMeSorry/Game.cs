@@ -288,12 +288,12 @@ namespace MaKeyMeSorry
                 }
                 else
                 {
-                    Debug.WriteLine("Pawn ...location" + pawnChoice.Item1.get_current_location().get_index());
+                    Debug.WriteLine("Pawn ...location " + pawnChoice.Item1.get_current_location().get_index());
 
                 }
                 foreach (Square testSquare in pawnChoice.Item2)
                 {
-                    Debug.WriteLine("square location" + testSquare.get_index());
+                    Debug.WriteLine("square location " + testSquare.get_index());
                 }
             }
             return allChoices;

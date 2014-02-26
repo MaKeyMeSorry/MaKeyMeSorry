@@ -19,6 +19,7 @@ using System.Windows.Input;
 using Windows.UI.Input;
 
 
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MaKeyMeSorry
@@ -30,7 +31,15 @@ namespace MaKeyMeSorry
     {
         private Game game;
         private int card_color;
+
+        //variables for keeping state of a turn
+        private Color color_of_current_turn;
+        private bool card_drawn;
+
         private List<Canvas> pawn_square_list;
+
+        private List< List<Canvas>> start_lists;
+        private List<List<Canvas>> safe_zone_lists;
 
         private List<Canvas> blue_start_list;
         private List<Canvas> yellow_start_list;
@@ -45,14 +54,18 @@ namespace MaKeyMeSorry
         public MainPage()
         {
             this.InitializeComponent();
-            //Deck newDeck = new Deck(true);
-            //Player player = new Player(Color.BLUE, true, true);
+            color_of_current_turn = Color.RED;
+            card_drawn = false;
+            change_turn();
 
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(App_KeyUp), true);
 
             game = new Game(4);
             card_color = 0;
             pawn_square_list = new List<Canvas>();
+           
+            safe_zone_lists = new List<List<Canvas>>();
+            start_lists = new List<List<Canvas>>();
 
             blue_start_list = new List<Canvas>();
             yellow_start_list = new List<Canvas>();
@@ -65,6 +78,18 @@ namespace MaKeyMeSorry
             red_safe_zone_list = new List<Canvas>();
 
             init_pawn_square_list();
+            //public enum Color { RED, BLUE, YELLOW, GREEN, WHITE }
+            //order here important, can use current turn color as index!
+            safe_zone_lists.Add(red_safe_zone_list);
+            safe_zone_lists.Add(blue_safe_zone_list);
+            safe_zone_lists.Add(yellow_safe_zone_list);
+            safe_zone_lists.Add(green_safe_zone_list);
+
+            start_lists.Add(red_start_list);
+            start_lists.Add(blue_start_list);
+            start_lists.Add(yellow_start_list);
+            start_lists.Add(green_start_list);
+
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -97,11 +122,16 @@ namespace MaKeyMeSorry
             Debug.WriteLine("Keyboard button pressed");
 
 
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Enter && !card_drawn)
             {
                 Debug.WriteLine("Return button pressed");
+                card_drawn = true;
                 draw_card();
-
+                cover.Opacity = 0;
+            }
+            else if (e.Key == Windows.System.VirtualKey.Enter && card_drawn)
+            {
+                change_turn();
             }
 
         }
@@ -111,10 +141,37 @@ namespace MaKeyMeSorry
 
         }
 
+        private string color_to_string(Color color)
+        {
+            switch (color)
+            {
+                case(Color.BLUE):
+                    return ("Blue");           
+                case(Color.YELLOW):
+                    return ("Yellow");              
+                case (Color.RED):
+                    return ("Red");                   
+                case (Color.GREEN):
+                    return ("Green");                    
+                case (Color.WHITE):
+                    return ("White");                   
+                default:
+                    return ("");
+            }
+        }
 
         private void draw_card(object sender, TappedRoutedEventArgs e)
         {
-            draw_card();
+            if (!card_drawn) 
+            { 
+                card_drawn = true;
+                draw_card();
+                cover.Opacity = 0;
+            }
+            else
+            {
+                change_turn();
+            }
         }
 
         private void draw_card()
@@ -192,6 +249,11 @@ namespace MaKeyMeSorry
             ib2.ImageSource = new BitmapImage(uri2);
             full_deck.Background = ib2;
 
+            apply_card(card);
+        }
+
+        void apply_card(Card card){
+            
             //game.players.ElementAt(1).get_pawn_from_start()
 
             //update_pawn_square(game.players.ElementAt(1).get_pawn_from_start().get_id()+5, Color.BLUE, blue_safe_zone_list);
@@ -204,8 +266,9 @@ namespace MaKeyMeSorry
             if (card.get_value() != 13)
             {
                 List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
-                options = game.get_move_options(Color.BLUE, card);
+                options = game.get_move_options(color_of_current_turn, card);
                 int pawnIndex = 0;
+                int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
                 foreach (Tuple<Pawn, List<Square>> pawnChoice in options)
                 {
@@ -233,6 +296,7 @@ namespace MaKeyMeSorry
 
                     if (options.ElementAt(pawnChoice).Item2.Count != 0)
                     {
+                    
 
                         currentSquare = options.ElementAt(pawnChoice).Item1.get_current_location();
                         moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
@@ -242,17 +306,20 @@ namespace MaKeyMeSorry
                             Debug.WriteLine("PAWN NOT AT START!");
                             if (currentSquare.get_Type() == SquareKind.SAFE)
                             {
-                                update_pawn_square(currentSquare.get_index() - 66, Color.BLUE, blue_safe_zone_list);
+                                //update_pawn_square(currentSquare.get_index() - 66,color_of_current_turn, blue_safe_zone_list);
+                                update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn]);
                             }
                             else
                             {
-                                update_pawn_square(currentSquare.get_index(), Color.BLUE, pawn_square_list);
+                                update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list);
                             }
 
                         }
                         else
                         {
-                            update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), Color.BLUE, blue_start_list);
+                            //update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, blue_start_list);
+                            update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn]);
+
                         }
                         Debug.WriteLine("PAWN 0's location: " + options.ElementAt(pawnChoice).Item1.get_current_location());
                         //if (options.ElementAt(0).Item2.Count != 0)
@@ -265,36 +332,99 @@ namespace MaKeyMeSorry
 
                         if (moveToSquare.get_Type() == SquareKind.SAFE)//|| moveToSquare.get_Type() == SquareKind.HOMESQ)
                         {
-                            update_pawn_square(moveToSquare.get_index() - 66, Color.BLUE, blue_safe_zone_list);
+                            update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, blue_safe_zone_list);
                             options.ElementAt(pawnChoice).Item1.set_in_safe_zone(true);
 
                         }
                         else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
                         {
-                            update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - 66, Color.BLUE, blue_safe_zone_list);
+                            //update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - 66, color_of_current_turn, blue_safe_zone_list);
+                            update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - color_adjustment, color_of_current_turn,
+                                safe_zone_lists[(int)color_of_current_turn]);
                         }
                         else
                         {
-                            update_pawn_square(moveToSquare.get_index(), Color.BLUE, pawn_square_list);
+                            //send someone home here if they are in the square you want!
+                            if (moveToSquare.get_has_pawn())
+                            {
+                                //send the visual pawn to start square
+                                update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()]);
+                                //send the data pawn to start state
+                                moveToSquare.get_pawn_in_square().sorry();
+
+                                //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
+                                //first call sets square image brush to nill;
+                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list);
+                            }
+                            //second call sets square image brush to pawn we want
+                            //or first if no one was there in the first place
+                            update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list);
                         }
                         //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
                         options.ElementAt(pawnChoice).Item1.move_to(options.ElementAt(pawnChoice).Item2.ElementAt(0));
                     }
 
 
-                    //}
-                    //else
-                    //{
-                    //    options.ElementAt(0).Item1.sorry();
-                    //}
-
-                    //options.ElementAt(0).Item2.ElementAt(0).place_pawn(options.ElementAt(0).Item1);
+                    
                 }
-            }
 
+
+            }
+            else if (card.get_value() == 13)
+            {
+                //sorry someone, get pawn options to sorry someone here 
+
+
+            }
+            //change_turn();
 
             /*********************** NICK'S SECITION ***********************************/
 
+        }
+
+ 
+        private void change_turn()
+        {
+            if (color_of_current_turn == Color.BLUE)
+            {
+                color_of_current_turn = Color.YELLOW;
+            }
+            else if (color_of_current_turn == Color.YELLOW)
+            {
+                color_of_current_turn = Color.GREEN;
+            }
+            else if (color_of_current_turn == Color.GREEN)
+            {
+                color_of_current_turn = Color.RED;
+            }
+            else if (color_of_current_turn == Color.RED)
+            {
+                color_of_current_turn = Color.BLUE;
+            }
+            cover.Opacity = .60;
+            card_drawn = false;
+            player_turn.Text = color_to_string(color_of_current_turn) + " Player's Turn";
+        }
+
+        public void update_pawn_square(int square_num, Color pawn_color, List<Canvas> list) //could send exact pawn instead of color? just spitballin'
+        {
+
+            string uri_string = "ms-appx:///Assets/Pawn Images/";
+            uri_string += pawn_color.ToString();
+            uri_string += " Pawn.png";
+
+            ImageBrush ib = new ImageBrush();
+            Uri uri = new Uri(uri_string, UriKind.Absolute);
+            ib.ImageSource = new BitmapImage(uri);
+
+            if (list[square_num].Background == null)
+            {
+                list[square_num].Background = ib;
+            }
+            else
+            {
+                list[square_num].Background = null;
+            }
         }
 
         private void init_pawn_square_list()
@@ -448,32 +578,6 @@ namespace MaKeyMeSorry
                 }
 
             }
-
-
-
-
-        }
-
-        public void update_pawn_square(int square_num, Color pawn_color, List<Canvas> list) //could send exact pawn instead of color? just spitballin'
-        {
-
-            string uri_string = "ms-appx:///Assets/Pawn Images/";
-            uri_string += pawn_color.ToString();
-            uri_string += " Pawn.png";
-
-            ImageBrush ib = new ImageBrush();
-            Uri uri = new Uri(uri_string, UriKind.Absolute);
-            ib.ImageSource = new BitmapImage(uri);
-
-            if (list[square_num].Background == null)
-            {
-                list[square_num].Background = ib;
-            }
-            else
-            {
-                list[square_num].Background = null;
-            }
-
 
         }
     }

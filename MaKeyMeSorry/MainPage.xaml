@@ -44,7 +44,7 @@
                     </Canvas.Background>
                 </Canvas>
             </Canvas>
- 
+
 
             <Canvas HorizontalAlignment="Left" Height="100" Margin="250,50,0,0"  VerticalAlignment="Top" Width="100">
                 <Canvas.Background>
@@ -555,6 +555,8 @@
                     <ImageBrush ImageSource="/Assets/Board Images/Red Slide - End.png" Stretch="Fill"/>
                 </Canvas.Background>
             </Canvas>
+            <TextBlock x:Name="player_turn" Canvas.Left="455" TextWrapping="Wrap" Text=" " Canvas.Top="431" Height="86" Width="706" FontSize="72" FontFamily="Times New Roman" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
+            <Canvas x:Name="cover" Height="339" Canvas.Left="839" Canvas.Top="534" Width="236" Background="#FFF7F1F1" Opacity="0"/>
 
 
 
