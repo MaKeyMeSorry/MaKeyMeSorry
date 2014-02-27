@@ -126,17 +126,40 @@ namespace MaKeyMeSorry
             {
                 Debug.WriteLine("Return button pressed");
                 card_drawn = true;
-                draw_card();
+                Card card = draw_card();
+                apply_card(card);
                 cover.Opacity = 0;
             }
             else if (e.Key == Windows.System.VirtualKey.Enter && card_drawn)
             {
                 change_turn();
+                pawn_1.Text = "";
+                pawn_2.Text = "";
+                pawn_3.Text = "";
+                pawn_4.Text = "";
+                options_1.Visibility = Visibility.Collapsed;
+                options_1.Items.Clear();
+                options_2.Visibility = Visibility.Collapsed;
+                options_2.Items.Clear();
+                options_3.Visibility = Visibility.Collapsed;
+                options_3.Items.Clear();
+                options_4.Visibility = Visibility.Collapsed;
+                options_4.Items.Clear();
+                // options_1.Opacity = 0;
+                // options_2.Opacity = 0;
+                // options_3.Opacity = 0;
+                // options_4.Opacity = 0;
             }
 
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        
+        private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
 
         }
@@ -174,7 +197,7 @@ namespace MaKeyMeSorry
             }
         }
 
-        private void draw_card()
+        private Card draw_card()
         {
             Card card = game.deck.draw_card();
             string card_val = card.get_value().ToString();
@@ -249,7 +272,56 @@ namespace MaKeyMeSorry
             ib2.ImageSource = new BitmapImage(uri2);
             full_deck.Background = ib2;
 
-            apply_card(card);
+            return card;
+        }
+
+        void display_options(List<Tuple<Pawn, List<Square>>> options)
+        {
+            // Display options
+            if (options.Count >= 1)
+            {
+                pawn_1.Text = "Pawn 1 Options:";
+                Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(0);
+                options_1.Visibility = Visibility.Visible;
+                foreach (Square mySquare in pawnOptions.Item2)
+                {
+                    String option = "Move to square: " + mySquare.get_index();
+                    options_1.Items.Add(option);
+                }
+            }
+            if (options.Count >= 2)
+            {
+                pawn_2.Text = "Pawn 2 Options:";
+                Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(1);
+                options_2.Visibility = Visibility.Visible;
+                foreach (Square mySquare in pawnOptions.Item2)
+                {
+                    String option = "Move to square: " + mySquare.get_index();
+                    options_2.Items.Add(option);
+                }
+            }
+            if (options.Count >= 3)
+            {
+                pawn_3.Text = "Pawn 3 Options:";
+                Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(2);
+                options_3.Visibility = Visibility.Visible;
+                foreach (Square mySquare in pawnOptions.Item2)
+                {
+                    String option = "Move to square: " + mySquare.get_index();
+                    options_3.Items.Add(option);
+                }
+            }
+            if (options.Count >= 5)
+            {
+                pawn_4.Text = "Pawn 4 Options:";
+                Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(3);
+                options_4.Visibility = Visibility.Visible;
+                foreach (Square mySquare in pawnOptions.Item2)
+                {
+                    String option = "Move to square: " + mySquare.get_index();
+                    options_4.Items.Add(option);
+                }
+            }
         }
 
         void apply_card(Card card){
@@ -263,10 +335,15 @@ namespace MaKeyMeSorry
             Square moveToSquare;
 
             Debug.WriteLine("card value: " + card.get_value());
+            List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
+            options = game.get_move_options(color_of_current_turn, card);
+
+            display_options(options);
+
+
             if (card.get_value() != 13)
             {
-                List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
-                options = game.get_move_options(color_of_current_turn, card);
+
                 int pawnIndex = 0;
                 int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
