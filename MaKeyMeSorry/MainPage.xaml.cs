@@ -449,8 +449,6 @@ namespace MaKeyMeSorry
             }
             else if (card.get_value() == 13)
             {
-                List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
-                options = game.get_move_options(color_of_current_turn, card);
                 int pawnIndex = 0;
                 int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
