@@ -58,7 +58,15 @@ namespace MaKeyMeSorry
 
         public int get_Num_Pawns_at_home()
         {
-            return 5 - numPawnsLeft;
+            int numAtHome = 0;
+            foreach (Pawn pawn in pawns)
+            {
+                if (pawn.is_home())
+                {
+                    numAtHome++;
+                }
+            }
+            return numAtHome;
         }
 
         // returns NULL if no pawns are at start

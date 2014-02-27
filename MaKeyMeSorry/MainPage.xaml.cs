@@ -285,14 +285,14 @@ namespace MaKeyMeSorry
                 {
                     int pawnChoice = 0;
 
-                    //for(int i = 0; i < options.Count; i++)
-                    //{
-                    //    if(options.ElementAt(i).Item2.Count > 0)
-                    //    {
-                    //        pawnChoice = i;
-                    //        break;
-                    //    }
-                    //}
+                    for(int i = 0; i < options.Count; i++)
+                    {
+                        if(options.ElementAt(i).Item2.Count > 0)
+                        {
+                            pawnChoice = i;
+                            break;
+                        }
+                    }
 
                     if (options.ElementAt(pawnChoice).Item2.Count != 0)
                     {
@@ -332,7 +332,7 @@ namespace MaKeyMeSorry
 
                         if (moveToSquare.get_Type() == SquareKind.SAFE)//|| moveToSquare.get_Type() == SquareKind.HOMESQ)
                         {
-                            update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, blue_safe_zone_list);
+                            update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn]);
                             options.ElementAt(pawnChoice).Item1.set_in_safe_zone(true);
 
                         }
@@ -372,8 +372,59 @@ namespace MaKeyMeSorry
             }
             else if (card.get_value() == 13)
             {
-                //sorry someone, get pawn options to sorry someone here 
+                List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
+                options = game.get_move_options(color_of_current_turn, card);
+                int pawnIndex = 0;
+                int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
+
+                if (options.Count != 0)
+                {
+                    int pawnChoice = -1;
+
+                    for (int i = 0; i < options.Count; i++)
+                    {
+                        if (options.ElementAt(i).Item2.Count > 0)
+                        {
+                            if (!options.ElementAt(i).Item1.is_in_safe_zone())
+                            {
+                                pawnChoice = i;
+                                break;
+                            }
+                        }
+                    }
+
+
+
+                    if(pawnChoice != -1)
+                    {
+                        currentSquare = options.ElementAt(pawnChoice).Item1.get_current_location();
+                        moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
+
+                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list);
+
+                        //send the visual pawn to start square
+                        update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()]);
+                        //send the data pawn to start state
+                        moveToSquare.get_pawn_in_square().sorry();
+
+                        //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
+                        //first call sets square image brush to nill;
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list);
+
+                        //second call sets square image brush to pawn we want
+                        //or first if no one was there in the first place
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list);
+
+                        //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
+                        options.ElementAt(pawnChoice).Item1.move_to(options.ElementAt(pawnChoice).Item2.ElementAt(0));
+
+                        //sorry someone, get pawn options to sorry someone here 
+                    }
+
+
+                    
+                }
 
             }
             //change_turn();

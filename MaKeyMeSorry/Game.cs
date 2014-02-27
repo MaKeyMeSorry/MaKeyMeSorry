@@ -167,7 +167,7 @@ namespace MaKeyMeSorry
                         bool pawnJumpedBoard = false;  //bool if the pawn jumped map like from 59 to 3
                         int homeConnect;
 
-                        moveLocation = (pawn.get_current_location().get_index() + card.can_move_forward()) % MAXSQUARES;
+                        moveLocation = (pawn.get_current_location().get_index() + card.can_move_forward());
                         homeConnect = startSquareIndex - 2;
 
                         // Check to make sure that home connect isn't on the other side of board -- will not need if
@@ -178,7 +178,7 @@ namespace MaKeyMeSorry
                         }
 
                         // If the forward move goes past your color home connect 
-                        if (moveLocation > MAXSQUARES)
+                        if (moveLocation >= MAXSQUARES)
                         {
                             pawnJumpedBoard = true;
                             moveLocation = moveLocation % MAXSQUARES;
@@ -187,11 +187,15 @@ namespace MaKeyMeSorry
                         // Check if the forward move jumped the array from 61 to 0. This will allow us 
                         if (pawn.get_current_location().get_index() > homeConnect && moveLocation > homeConnect)
                         {
+                            Debug.WriteLine("before pawn jump check ");
                             if (pawnJumpedBoard)
                             {
+
                                 // pawn passed homeConnect
                                 if ((moveLocation - homeConnect) <= 6)
                                 {
+                                    Debug.WriteLine("passed home connect 1 ");
+
                                     if (board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)).can_place_pawn(pawn))
                                     {
                                         choices.Add(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)));
@@ -204,6 +208,8 @@ namespace MaKeyMeSorry
                             else
                             {
                                 //pawn didn't pass homeConnect
+                                Debug.WriteLine("didn't passed home connect 1 ");
+
                                 if (board.get_square_at(moveLocation).can_place_pawn(pawn))
                                 {
                                     choices.Add(board.get_square_at(moveLocation));
@@ -213,8 +219,12 @@ namespace MaKeyMeSorry
                         else if (pawn.get_current_location().get_index() <= homeConnect && moveLocation > homeConnect)
                         {
                             //pawn passed homeConnect
+                            Debug.WriteLine("passed home connect 2 ");
+
                             if ((moveLocation - homeConnect) <= 6)
                             {
+                                Debug.WriteLine("passed home connect 2 ");
+
                                 if (board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)).can_place_pawn(pawn))
                                 {
                                     choices.Add(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)));
@@ -228,6 +238,8 @@ namespace MaKeyMeSorry
                         {
                             // normal move from space > homeConnect to space < homeConnect 
                             // or space < homeConnect to space < homeConnect
+                            Debug.WriteLine("normal move ");
+
                             if (board.get_square_at(moveLocation).can_place_pawn(pawn))
                             {
                                 choices.Add(board.get_square_at(moveLocation));
@@ -252,7 +264,7 @@ namespace MaKeyMeSorry
 
                     // swap and sorry combined because they used same code to grab all enemy pawns.
                     // differences only occur after the choice has been chosen on UI.
-                    if (card.can_swap() || card.can_sorry())
+                    if (card.can_sorry()) //add swap here
                     {
                         foreach (Player player in players)
                         {
@@ -260,8 +272,11 @@ namespace MaKeyMeSorry
                             {
                                 foreach (Pawn enemyPawn in player.get_active_pawns())
                                 {
+                                    if(!enemyPawn.is_in_safe_zone())
+                                    {
+                                        choices.Add(enemyPawn.get_current_location());
+                                    }
                                     // TODO Check if enemy pawn is in safe zone...inside home slide.
-                                    choices.Add(enemyPawn.get_current_location());
 
                                     // if(card.can_sorry()) 
                                     //     add event trigger for this choice to a sorry event
