@@ -33,7 +33,7 @@ namespace MaKeyMeSorry
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(MainPage));
+            this.Frame.Navigate(typeof(SetupPage));
         }
 
 
@@ -46,7 +46,7 @@ namespace MaKeyMeSorry
             { 
                 Debug.WriteLine("Down button pressed");
 
-                this.Frame.Navigate(typeof(MainPage));
+                this.Frame.Navigate(typeof(SetupPage));
 
             }
             else if (e.Key == Windows.System.VirtualKey.Up)

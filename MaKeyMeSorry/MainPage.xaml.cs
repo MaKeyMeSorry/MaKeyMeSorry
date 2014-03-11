@@ -117,12 +117,9 @@ namespace MaKeyMeSorry
         }
 
 
-        private void App_KeyUp(object sender, KeyRoutedEventArgs e)
+        void play_game()
         {
-            Debug.WriteLine("Keyboard button pressed");
-
-
-            if (e.Key == Windows.System.VirtualKey.Enter && !card_drawn)
+            if (!card_drawn)
             {
                 Debug.WriteLine("Return button pressed");
                 card_drawn = true;
@@ -130,7 +127,7 @@ namespace MaKeyMeSorry
                 apply_card(card);
                 cover.Opacity = 0;
             }
-            else if (e.Key == Windows.System.VirtualKey.Enter && card_drawn)
+            else if (card_drawn)
             {
                 change_turn();
                 pawn_1.Text = "";
@@ -145,10 +142,20 @@ namespace MaKeyMeSorry
                 options_3.Items.Clear();
                 options_4.Visibility = Visibility.Collapsed;
                 options_4.Items.Clear();
-                // options_1.Opacity = 0;
-                // options_2.Opacity = 0;
-                // options_3.Opacity = 0;
-                // options_4.Opacity = 0;
+            }
+        }
+
+
+        private void App_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+
+            Debug.WriteLine("Keyboard button pressed");
+
+
+            if (e.Key == Windows.System.VirtualKey.Space)
+            {
+                Debug.WriteLine("Return button pressed");
+                play_game();
             }
 
         }
@@ -185,16 +192,7 @@ namespace MaKeyMeSorry
 
         private void draw_card(object sender, TappedRoutedEventArgs e)
         {
-            if (!card_drawn) 
-            { 
-                card_drawn = true;
-                draw_card();
-                cover.Opacity = 0;
-            }
-            else
-            {
-                change_turn();
-            }
+            play_game();
         }
 
         private Card draw_card()
