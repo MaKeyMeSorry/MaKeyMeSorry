@@ -161,6 +161,10 @@
     <Content Include="Assets\Board images\Yellow Slide - Middle.png" />
     <Content Include="Assets\Board images\Yellow Slide - Tail.png" />
     <Content Include="Assets\Board images\Yellow Square.png" />
+    <Content Include="Assets\Card Back\Card Back 1 Left.png" />
+    <Content Include="Assets\Card Back\Card Back 2 Left.png" />
+    <Content Include="Assets\Card Back\Card Back 3 Left.png" />
+    <Content Include="Assets\Card Back\Card Back 4 Left.png" />
     <Content Include="Assets\Card Images\1 Card Blue.png" />
     <Content Include="Assets\Card Images\1 Card Green.png" />
     <Content Include="Assets\Card Images\1 Card Red.png" />
@@ -230,6 +234,10 @@
     <Content Include="Assets\Pawn Images\GREEN Pawn.png" />
     <Content Include="Assets\Pawn Images\RED Pawn.png" />
     <Content Include="Assets\Pawn Images\YELLOW Pawn.png" />
+    <Content Include="Assets\Red Pawns\Red Pawn - 1.png" />
+    <Content Include="Assets\Red Pawns\Red Pawn - 2.png" />
+    <Content Include="Assets\Red Pawns\Red Pawn - 3.png" />
+    <Content Include="Assets\Red Pawns\Red Pawn - 4.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-140.png" />
     <Content Include="Assets\SmallLogo.scale-180.png" />
