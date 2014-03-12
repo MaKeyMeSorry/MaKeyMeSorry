@@ -46,13 +46,13 @@ namespace MaKeyMeSorry
             { 
                 Debug.WriteLine("Down button pressed");
 
-                this.Frame.Navigate(typeof(MainPage));
+                //this.Frame.Navigate(typeof(MainPage));
 
             }
             else if (e.Key == Windows.System.VirtualKey.Up)
             {
                 Debug.WriteLine("Up button pressed");
-                howToPlayMessage();
+                //howToPlayMessage();
             }
             else
             {

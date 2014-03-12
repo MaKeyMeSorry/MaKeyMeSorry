@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 using Windows.UI.Input;
 
@@ -31,10 +32,16 @@ namespace MaKeyMeSorry
     {
         private Game game;
         private int card_color;
+        private Brush cur_selected_img;
+        private int cur_selected_square;
+        private int cur_pawn_selection;
+        private List<bool> pawns_available;
+        private int color_adjustment;
 
         //variables for keeping state of a turn
         private Color color_of_current_turn;
         private bool card_drawn;
+        private Card my_card;
 
         private List<Canvas> pawn_square_list;
 
@@ -57,6 +64,16 @@ namespace MaKeyMeSorry
             color_of_current_turn = Color.RED;
             card_drawn = false;
             change_turn();
+            cur_selected_square = -1;
+            cur_selected_img = null;
+            cur_pawn_selection = -1;
+            pawns_available = new List<bool>();
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            color_adjustment = 60 + 6 * ((int)color_of_current_turn);
+
 
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(App_KeyUp), true);
 
@@ -113,6 +130,8 @@ namespace MaKeyMeSorry
                     }
                 }
             }
+            //pawn_square_list[2].Background = #FF9E1414;
+            red_safe_zone_list[0].Opacity = 0.3;
 
         }
 
@@ -126,12 +145,19 @@ namespace MaKeyMeSorry
             {
                 Debug.WriteLine("Return button pressed");
                 card_drawn = true;
-                Card card = draw_card();
-                apply_card(card);
+                my_card = draw_card();
+                //apply_card(card);
+                Debug.WriteLine("card value: " + my_card.get_value());
+                List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
+                options = game.get_move_options(color_of_current_turn, my_card);
+                display_options(options);
+                //
                 cover.Opacity = 0;
             }
             else if (e.Key == Windows.System.VirtualKey.Enter && card_drawn)
             {
+                hide_selected_move(cur_selected_square, pawn_square_list);
+                apply_card(my_card);
                 change_turn();
                 pawn_1.Text = "";
                 pawn_2.Text = "";
@@ -151,6 +177,59 @@ namespace MaKeyMeSorry
                 // options_4.Opacity = 0;
             }
 
+            if (e.Key == Windows.System.VirtualKey.Right && card_drawn)
+            {
+                change_selected_pawn_box();
+            }
+
+        }
+
+        private void change_selected_pawn_box()
+        {
+            int box_selected = -1;
+            if(options_1.SelectedIndex != -1)
+            {
+                box_selected = 0;
+                options_1.SelectedIndex = -1;
+
+            } else if(options_2.SelectedIndex != -1)
+            {
+                box_selected = 1;
+                options_2.SelectedIndex = -1;
+            } else if(options_3.SelectedIndex != -1)
+            {
+                box_selected = 2;
+                options_3.SelectedIndex = -1;
+            } else if(options_4.SelectedIndex != -1)
+            {
+                box_selected = 3;
+                options_4.SelectedIndex = -1;
+            }
+
+            if (pawns_available[1] && box_selected == 0)
+            {
+                options_2.SelectedIndex = 0;
+                options_2.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 1;
+            }
+            else if (pawns_available[2] && (box_selected == 0 || box_selected == 1) )
+            {
+                options_3.SelectedIndex = 0;
+                options_3.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 2;
+            }
+            else if (pawns_available[3] && (box_selected == 0 || box_selected == 1 || box_selected == 2))
+            {
+                options_4.SelectedIndex = 0;
+                options_4.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 3;
+            }
+            else
+            {
+                options_1.SelectedIndex = 0;
+                options_1.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 0;
+            }   
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
@@ -158,9 +237,34 @@ namespace MaKeyMeSorry
 
         }
 
-        
+
         private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
+            color_adjustment = 60 + 6 * ((int)color_of_current_turn);
+            ComboBox comboBox = (ComboBox)sender;
+            if(comboBox.SelectedIndex != -1)
+            {
+                if(cur_selected_square >= 60)
+                {
+                    hide_selected_move(cur_selected_square - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
+                }
+                else
+                {
+                    hide_selected_move(cur_selected_square, pawn_square_list);
+                }
+
+                if (Convert.ToInt32(comboBox.SelectedValue) >= 60)
+                {
+                    Debug.WriteLine(Convert.ToInt32(comboBox.SelectedValue) - color_adjustment);
+                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue) - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
+                }
+                else
+                {
+                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawn_square_list);
+                }
+                Debug.WriteLine("Current Sel val: " + Convert.ToInt32(comboBox.SelectedValue));
+            }
+            Debug.WriteLine("Current index: " + comboBox.SelectedIndex);
 
         }
 
@@ -278,16 +382,115 @@ namespace MaKeyMeSorry
         void display_options(List<Tuple<Pawn, List<Square>>> options)
         {
             // Display options
-            if (options.Count >= 1)
+            /***********NICK*****************/
+            pawn_1.Text = "Pawn 1 Options:";
+            pawn_2.Text = "Pawn 2 Options:";
+            pawn_3.Text = "Pawn 3 Options:";
+            pawn_4.Text = "Pawn 4 Options:";
+            pawns_available.Clear();
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+
+
+            foreach(Tuple<Pawn, List<Square>> option in options)
+            {
+                switch(option.Item1.get_id())
+                {
+                    case 0:
+                        options_1.Visibility = Visibility.Visible;
+                        foreach (Square mySquare in option.Item2)
+                        {
+                            options_1.Items.Add(mySquare.get_index());
+                        }
+                        pawns_available[0] = true;
+                        break;
+                    case 1:
+                        options_2.Visibility = Visibility.Visible;
+                        foreach (Square mySquare in option.Item2)
+                        {
+                            options_2.Items.Add(mySquare.get_index());
+                        }
+                        pawns_available[1] = true;
+                        break;
+                    case 2:
+                        options_3.Visibility = Visibility.Visible;
+                        foreach (Square mySquare in option.Item2)
+                        {
+                            options_3.Items.Add(mySquare.get_index());
+                        }
+                        pawns_available[2] = true;
+                        break;
+                    case 3:
+                        options_4.Visibility = Visibility.Visible;
+                        foreach (Square mySquare in option.Item2)
+                        {
+                            options_4.Items.Add(mySquare.get_index());
+                        }
+                        pawns_available[3] = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            for(int i = 0; i < 4; i++)
+            {
+                if(pawns_available[i])
+                {
+                    switch(i)
+                    {
+                        case 0:
+                            options_1.Focus(FocusState.Keyboard);
+                            options_1.SelectedIndex = 0;
+                            cur_pawn_selection = 0;
+                            break;
+                        case 1:
+                            options_2.Focus(FocusState.Keyboard);
+                            options_2.SelectedIndex = 0;
+                            cur_pawn_selection = 1;
+                            break;
+                        case 2:
+                            options_3.Focus(FocusState.Keyboard);
+                            options_3.SelectedIndex = 0;
+                            cur_pawn_selection = 2;
+                            break;
+                        case 3:
+                            options_4.Focus(FocusState.Keyboard);
+                            options_4.SelectedIndex = 0;
+                            cur_pawn_selection = 3;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                }
+            }
+        }
+
+            /********************************/
+         /*   if (options.Count >= 1)
             {
                 pawn_1.Text = "Pawn 1 Options:";
                 Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(0);
                 options_1.Visibility = Visibility.Visible;
                 foreach (Square mySquare in pawnOptions.Item2)
                 {
-                    String option = "Move to square: " + mySquare.get_index();
-                    options_1.Items.Add(option);
+                    String option = "" + mySquare.get_index();//"Move to square: " + mySquare.get_index();
+                    
+                    options_1.Items.Add(new Tuple<String, Pawn>(mySquare.get_index().ToString(), options.ElementAt(0).Item1));
+                    //options_1.Items.
                 }
+                options_1.Focus(FocusState.Keyboard);
+                options_1.SelectedIndex = 0;
+                
+                Debug.WriteLine("SELECTED SQUARE " + Convert.ToInt32(options_1.SelectedValue));
+                //show_selected_move(Convert.ToInt32(options_1.SelectedValue),pawn_square_list);
+                //cur_selected_square = (int)options_1.SelectedItem;
+                Debug.WriteLine("CURRENT SELECTED SQUARE" + cur_selected_square);
+                //options_1.SelectedIndexChanged += new System.EventHandler(ComboBox_SelectionChanged);
+
             }
             if (options.Count >= 2)
             {
@@ -322,7 +525,7 @@ namespace MaKeyMeSorry
                     options_4.Items.Add(option);
                 }
             }
-        }
+        }*/
 
         void apply_card(Card card){
             
@@ -338,7 +541,7 @@ namespace MaKeyMeSorry
             List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
             options = game.get_move_options(color_of_current_turn, card);
 
-            display_options(options);
+            //display_options(options);
 
 
             if (card.get_value() != 13)
@@ -450,7 +653,7 @@ namespace MaKeyMeSorry
             else if (card.get_value() == 13)
             {
                 int pawnIndex = 0;
-                int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
+                color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
 
                 if (options.Count != 0)
@@ -550,6 +753,29 @@ namespace MaKeyMeSorry
             else
             {
                 list[square_num].Background = null;
+            }
+        }
+
+        public void show_selected_move(int square_num, List<Canvas> list)
+        {
+            string uri_string = "ms-appx:///Assets/Pawn Images/Red Pawn.png";
+            //change to a gray pawn later
+
+            ImageBrush ib = new ImageBrush();
+            Uri uri = new Uri(uri_string, UriKind.Absolute);
+            ib.ImageSource = new BitmapImage(uri);
+
+            cur_selected_square = square_num;
+            cur_selected_img = list[square_num].Background;
+            list[square_num].Background = ib;
+        }
+
+        public void hide_selected_move(int square_num, List<Canvas> list)
+        {
+            if(square_num != -1)
+            {
+                cur_selected_square = -1;
+                list[square_num].Background = cur_selected_img;
             }
         }
 
