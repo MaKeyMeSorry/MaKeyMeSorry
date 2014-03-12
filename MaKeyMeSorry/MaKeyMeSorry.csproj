@@ -139,6 +139,10 @@
     <None Include="MaKeyMeSorry_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Blue Pawns\Blue Pawn - 1.png" />
+    <Content Include="Assets\Blue Pawns\Blue Pawn - 2.png" />
+    <Content Include="Assets\Blue Pawns\Blue Pawn - 3.png" />
+    <Content Include="Assets\Blue Pawns\Blue Pawn - 4.png" />
     <Content Include="Assets\Board images\Blank Square.png" />
     <Content Include="Assets\Board images\Blue Home.png" />
     <Content Include="Assets\Board images\Blue Slide - End.png" />
@@ -226,6 +230,14 @@
     <Content Include="Assets\Card Images\Sorry Card Red.png" />
     <Content Include="Assets\Card Images\Sorry Card Yellow.png" />
     <Content Include="Assets\Card Images\Used Card Holder.png" />
+    <Content Include="Assets\Green Pawns\Green Pawn - 1.png" />
+    <Content Include="Assets\Green Pawns\Green Pawn - 2.png" />
+    <Content Include="Assets\Green Pawns\Green Pawn - 3.png" />
+    <Content Include="Assets\Green Pawns\Green Pawn - 4.png" />
+    <Content Include="Assets\Grey Pawns\Grey Pawn - 1.png" />
+    <Content Include="Assets\Grey Pawns\Grey Pawn - 2.png" />
+    <Content Include="Assets\Grey Pawns\Grey Pawn - 3.png" />
+    <Content Include="Assets\Grey Pawns\Grey Pawn - 4.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\Logo.scale-140.png" />
     <Content Include="Assets\Logo.scale-180.png" />
@@ -234,6 +246,10 @@
     <Content Include="Assets\Pawn Images\GREEN Pawn.png" />
     <Content Include="Assets\Pawn Images\RED Pawn.png" />
     <Content Include="Assets\Pawn Images\YELLOW Pawn.png" />
+    <Content Include="Assets\Pink Pawns\Pink Pawn - 1.png" />
+    <Content Include="Assets\Pink Pawns\Pink Pawn - 2.png" />
+    <Content Include="Assets\Pink Pawns\Pink Pawn - 3.png" />
+    <Content Include="Assets\Pink Pawns\Pink Pawn - 4.png" />
     <Content Include="Assets\Red Pawns\Red Pawn - 1.png" />
     <Content Include="Assets\Red Pawns\Red Pawn - 2.png" />
     <Content Include="Assets\Red Pawns\Red Pawn - 3.png" />
@@ -266,6 +282,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-140.png" />
     <Content Include="Assets\Wide310x150Logo.scale-180.png" />
     <Content Include="Assets\Wide310x150Logo.scale-80.png" />
+    <Content Include="Assets\Yellow Pawns\Yellow Pawn - 1.png" />
+    <Content Include="Assets\Yellow Pawns\Yellow Pawn - 2.png" />
+    <Content Include="Assets\Yellow Pawns\Yellow Pawn - 3.png" />
+    <Content Include="Assets\Yellow Pawns\Yellow Pawn - 4.png" />
     <Content Include="Common\ReadMe.txt" />
     <Page Include="SetupPage.xaml">
       <SubType>Designer</SubType>
