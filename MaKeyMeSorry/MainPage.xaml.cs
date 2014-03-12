@@ -34,9 +34,11 @@ namespace MaKeyMeSorry
         private int card_color;
         private Brush cur_selected_img;
         private int cur_selected_square;
+        private List<Canvas> cur_selected_list;
         private int cur_pawn_selection;
         private List<bool> pawns_available;
         private int color_adjustment;
+        private bool how_to_highlighted;
 
         //variables for keeping state of a turn
         private Color color_of_current_turn;
@@ -73,6 +75,7 @@ namespace MaKeyMeSorry
             pawns_available.Add(false);
             pawns_available.Add(false);
             color_adjustment = 60 + 6 * ((int)color_of_current_turn);
+            how_to_highlighted = false;
 
 
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(App_KeyUp), true);
@@ -130,19 +133,22 @@ namespace MaKeyMeSorry
                     }
                 }
             }
-            //pawn_square_list[2].Background = #FF9E1414;
-            red_safe_zone_list[0].Opacity = 0.3;
+            //CHEATING / WINNING
+            Pawn testPawn = game.players[1].get_pawn_from_start();
+            update_pawn_square(testPawn.get_id(), Color.BLUE, start_lists[1]);
+            update_pawn_square(14, Color.BLUE, pawn_square_list);
+            testPawn.move_to(game.board.get_square_at(14));
+
+            button1.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
 
         }
+        
 
-
-        private void App_KeyUp(object sender, KeyRoutedEventArgs e)
+        void play_game()
         {
-            Debug.WriteLine("Keyboard button pressed");
-
-
-            if (e.Key == Windows.System.VirtualKey.Enter && !card_drawn)
+            if (!card_drawn)
             {
+                color_adjustment = 60 + 6 * ((int)color_of_current_turn);
                 Debug.WriteLine("Return button pressed");
                 card_drawn = true;
                 my_card = draw_card();
@@ -154,9 +160,10 @@ namespace MaKeyMeSorry
                 //
                 cover.Opacity = 0;
             }
-            else if (e.Key == Windows.System.VirtualKey.Enter && card_drawn)
+            else if (card_drawn)
             {
-                hide_selected_move(cur_selected_square, pawn_square_list);
+                
+                hide_selected_move(cur_selected_square);//, pawn_square_list);
                 apply_card(my_card);
                 change_turn();
                 pawn_1.Text = "";
@@ -171,10 +178,20 @@ namespace MaKeyMeSorry
                 options_3.Items.Clear();
                 options_4.Visibility = Visibility.Collapsed;
                 options_4.Items.Clear();
-                // options_1.Opacity = 0;
-                // options_2.Opacity = 0;
-                // options_3.Opacity = 0;
-                // options_4.Opacity = 0;
+            }
+        }
+
+
+        private void App_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+
+            Debug.WriteLine("Keyboard button pressed");
+
+
+            if (e.Key == Windows.System.VirtualKey.Space)
+            {
+                Debug.WriteLine("Return button pressed");
+                play_game();
             }
 
             if (e.Key == Windows.System.VirtualKey.Right && card_drawn)
@@ -186,6 +203,8 @@ namespace MaKeyMeSorry
 
         private void change_selected_pawn_box()
         {
+            button1.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+
             int box_selected = -1;
             if(options_1.SelectedIndex != -1)
             {
@@ -204,32 +223,40 @@ namespace MaKeyMeSorry
             {
                 box_selected = 3;
                 options_4.SelectedIndex = -1;
+            } else
+            {
+                box_selected = 5; //button
             }
 
-            if (pawns_available[1] && box_selected == 0)
+            if(pawns_available[0] && box_selected == 5)
+            {
+                options_1.SelectedIndex = 0;
+                options_1.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 0;
+            }
+            else if (pawns_available[1] && (box_selected == 0 || box_selected == 5))
             {
                 options_2.SelectedIndex = 0;
                 options_2.Focus(FocusState.Keyboard);
                 cur_pawn_selection = 1;
             }
-            else if (pawns_available[2] && (box_selected == 0 || box_selected == 1) )
+            else if (pawns_available[2] && (box_selected == 0 || box_selected == 1 || box_selected == 5))
             {
                 options_3.SelectedIndex = 0;
                 options_3.Focus(FocusState.Keyboard);
                 cur_pawn_selection = 2;
             }
-            else if (pawns_available[3] && (box_selected == 0 || box_selected == 1 || box_selected == 2))
+            else if (pawns_available[3] && (box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 5))
             {
                 options_4.SelectedIndex = 0;
                 options_4.Focus(FocusState.Keyboard);
                 cur_pawn_selection = 3;
             }
-            else
+            else if ((box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 3))
             {
-                options_1.SelectedIndex = 0;
-                options_1.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 0;
-            }   
+                button1.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+                button1.Focus(FocusState.Keyboard);
+            }
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
@@ -246,21 +273,21 @@ namespace MaKeyMeSorry
             {
                 if(cur_selected_square >= 60)
                 {
-                    hide_selected_move(cur_selected_square - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
+                    hide_selected_move(cur_selected_square);// - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
                 }
                 else
                 {
-                    hide_selected_move(cur_selected_square, pawn_square_list);
+                    hide_selected_move(cur_selected_square);//, pawn_square_list);
                 }
 
                 if (Convert.ToInt32(comboBox.SelectedValue) >= 60)
                 {
                     Debug.WriteLine(Convert.ToInt32(comboBox.SelectedValue) - color_adjustment);
-                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue) - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
+                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue));// - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
                 }
                 else
                 {
-                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawn_square_list);
+                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue));//, pawn_square_list);
                 }
                 Debug.WriteLine("Current Sel val: " + Convert.ToInt32(comboBox.SelectedValue));
             }
@@ -289,16 +316,7 @@ namespace MaKeyMeSorry
 
         private void draw_card(object sender, TappedRoutedEventArgs e)
         {
-            if (!card_drawn) 
-            { 
-                card_drawn = true;
-                draw_card();
-                cover.Opacity = 0;
-            }
-            else
-            {
-                change_turn();
-            }
+            play_game();
         }
 
         private Card draw_card()
@@ -756,7 +774,7 @@ namespace MaKeyMeSorry
             }
         }
 
-        public void show_selected_move(int square_num, List<Canvas> list)
+        public void show_selected_move(int square_num)//, List<Canvas> list)
         {
             string uri_string = "ms-appx:///Assets/Pawn Images/Red Pawn.png";
             //change to a gray pawn later
@@ -766,16 +784,37 @@ namespace MaKeyMeSorry
             ib.ImageSource = new BitmapImage(uri);
 
             cur_selected_square = square_num;
-            cur_selected_img = list[square_num].Background;
-            list[square_num].Background = ib;
+            
+            //
+
+            if(square_num >= 60)
+            {
+                cur_selected_img = safe_zone_lists[(int)color_of_current_turn][square_num - color_adjustment].Background;
+                safe_zone_lists[(int)color_of_current_turn][square_num - color_adjustment].Background = ib;
+            } else
+            {
+                cur_selected_img = pawn_square_list[square_num].Background;
+                pawn_square_list[square_num].Background = ib;
+            }
+
+            //
+            //cur_selected_img = list[square_num].Background;
+            //list[square_num].Background = ib;
+            //
         }
 
-        public void hide_selected_move(int square_num, List<Canvas> list)
+        public void hide_selected_move(int square_num)//, List<Canvas> list)
         {
             if(square_num != -1)
             {
                 cur_selected_square = -1;
-                list[square_num].Background = cur_selected_img;
+                if(square_num >= 60)
+                {
+                    safe_zone_lists[(int)color_of_current_turn][square_num - color_adjustment].Background = cur_selected_img;
+                } else
+                {
+                    pawn_square_list[square_num].Background = cur_selected_img;
+                }
             }
         }
 

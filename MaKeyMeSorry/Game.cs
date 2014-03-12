@@ -134,6 +134,7 @@ namespace MaKeyMeSorry
             foreach (Pawn pawn in myPlayer.get_active_pawns())
             {
                 choices.Clear();
+                Debug.WriteLine("PAWNNNNNNNNNNNNAGE");
 
                 if (pawn.is_in_safe_zone())
                 {
@@ -290,8 +291,10 @@ namespace MaKeyMeSorry
                     }
                 }
 
-
-                allChoices.Add(new Tuple<Pawn, List<Square>>(pawn, new List<Square>(choices)));
+                if(choices.Count != 0)
+                {
+                    allChoices.Add(new Tuple<Pawn, List<Square>>(pawn, new List<Square>(choices)));
+                }
 
             }
             foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)

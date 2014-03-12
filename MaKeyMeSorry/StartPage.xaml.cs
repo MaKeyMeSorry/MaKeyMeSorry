@@ -24,16 +24,20 @@ namespace MaKeyMeSorry
     /// </summary>
     public sealed partial class StartPage : Page
     {
+        KeyEventHandler key_up_handler;
+
         public StartPage()
         {
-            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(App_KeyUp), true);
+            key_up_handler = new KeyEventHandler(App_KeyUp);
+            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
             this.InitializeComponent();
         }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(MainPage));
+            Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+            this.Frame.Navigate(typeof(SetupPage));
         }
 
 
@@ -45,8 +49,8 @@ namespace MaKeyMeSorry
             if (e.Key == Windows.System.VirtualKey.Down)
             { 
                 Debug.WriteLine("Down button pressed");
-
-                //this.Frame.Navigate(typeof(MainPage));
+                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                this.Frame.Navigate(typeof(SetupPage));
 
             }
             else if (e.Key == Windows.System.VirtualKey.Up)

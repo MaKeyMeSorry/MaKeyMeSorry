@@ -566,8 +566,8 @@
             <ComboBox x:Name="options_2" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="600" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 2 Move"/>
             <ComboBox x:Name="options_3" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="850" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 3 Move"/>
             <ComboBox x:Name="options_4" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="1100" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 4 Move"/>
-            
 
+            <Button x:Name="button1" Content="How To" Width="150" Height= "75" Canvas.Left ="1100" Canvas.Top ="550" />
 
 
 
