@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Windows.Input;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -23,6 +24,20 @@ namespace MaKeyMeSorry
     /// </summary>
     public sealed partial class SetupPage : Page
     {
+
+        private int currentComboBoxIndex;
+        bool red_selected;
+        bool blue_selected;
+        bool green_selected;
+        bool yellow_selected;
+        static int red_index = 0;
+        static int blue_index = 1;
+        static int green_index = 3;
+        static int yellow_index = 2;
+        int player1_color_selected;
+        int player2_color_selected;
+        int player3_color_selected;
+        int player4_color_selected;
 
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
@@ -47,6 +62,16 @@ namespace MaKeyMeSorry
 
         public SetupPage()
         {
+            currentComboBoxIndex = -1;
+            red_selected = false;
+            blue_selected = false;
+            yellow_selected = false;
+            green_selected = false;
+            player1_color_selected = -1;
+            player2_color_selected = -1;
+            player3_color_selected = -1;
+            player4_color_selected = -1;
+
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += navigationHelper_LoadState;
@@ -107,5 +132,313 @@ namespace MaKeyMeSorry
         {
             this.Frame.Navigate(typeof(MainPage));
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (currentComboBoxIndex > NumPlayersComboBox.SelectedIndex)
+            {
+                PlayerOptions1.Visibility = Visibility.Collapsed;
+                PlayerOptions2.Visibility = Visibility.Collapsed;
+                PlayerOptions3.Visibility = Visibility.Collapsed;
+                PlayerOptions4.Visibility = Visibility.Collapsed;
+                ComputerPlayerMessage.Text = "Four computer players will be added to this game";
+            }
+
+            if (NumPlayersComboBox.SelectedIndex >= 1)
+            {
+                PlayerOptions1.Visibility = Visibility.Visible;
+                ComputerPlayerMessage.Text = "Three computer players will be added to this game";
+            }
+
+            if (NumPlayersComboBox.SelectedIndex >= 2)
+            {
+                PlayerOptions2.Visibility = Visibility.Visible;
+                ComputerPlayerMessage.Text = "Two computer players will be added to this game";
+            }
+
+            if (NumPlayersComboBox.SelectedIndex >= 3)
+            {
+                PlayerOptions3.Visibility = Visibility.Visible;
+                ComputerPlayerMessage.Text = "One computer player will be added to this game";
+            }
+
+            if (NumPlayersComboBox.SelectedIndex >= 4)
+            {
+                PlayerOptions4.Visibility = Visibility.Visible;
+                ComputerPlayerMessage.Text = "No computer players will be added to this game";
+            }
+
+            currentComboBoxIndex = NumPlayersComboBox.SelectedIndex;
+        }
+
+        private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            // Check if already selected color and changing colors
+            if (player1_color_selected != -1)
+            {
+                if (player1_color_selected == red_index)
+                {
+                    red2.Visibility = Visibility.Visible;
+                    red3.Visibility = Visibility.Visible;
+                    red4.Visibility = Visibility.Visible;
+                    red_selected = false;
+                }
+                if (player1_color_selected == blue_index)
+                {
+                    blue2.Visibility = Visibility.Visible;
+                    blue3.Visibility = Visibility.Visible;
+                    blue4.Visibility = Visibility.Visible;
+                    blue_selected = false;
+                }
+                if (player1_color_selected == green_index)
+                {
+                    green2.Visibility = Visibility.Visible;
+                    green3.Visibility = Visibility.Visible;
+                    green4.Visibility = Visibility.Visible;
+                    green_selected = false;
+                }
+                if (player1_color_selected == yellow_index)
+                {
+                    yellow2.Visibility = Visibility.Visible;
+                    yellow3.Visibility = Visibility.Visible;
+                    yellow4.Visibility = Visibility.Visible;
+                    yellow_selected = false;
+                }
+            }
+
+            if (color_combo_1.SelectedIndex == red_index)
+            {
+                red2.Visibility = Visibility.Collapsed;
+                red3.Visibility = Visibility.Collapsed;
+                red4.Visibility = Visibility.Collapsed;
+                red_selected = true;
+            }
+            if (color_combo_1.SelectedIndex == blue_index)
+            {
+                blue2.Visibility = Visibility.Collapsed;
+                blue3.Visibility = Visibility.Collapsed;
+                blue4.Visibility = Visibility.Collapsed;
+                blue_selected = true;
+            }
+            if (color_combo_1.SelectedIndex == green_index)
+            {
+                green2.Visibility = Visibility.Collapsed;
+                green3.Visibility = Visibility.Collapsed;
+                green4.Visibility = Visibility.Collapsed;
+                green_selected = true;
+            }
+            if (color_combo_1.SelectedIndex == yellow_index)
+            {
+                yellow2.Visibility = Visibility.Collapsed;
+                yellow3.Visibility = Visibility.Collapsed;
+                yellow4.Visibility = Visibility.Collapsed;
+                blue_selected = true;
+            }
+
+            player1_color_selected = color_combo_1.SelectedIndex;
+        }
+
+        private void ComboBox_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
+        {
+            // Check if already selected color and changing colors
+            if (player2_color_selected != -1)
+            {
+                if (player2_color_selected == red_index)
+                {
+                    red1.Visibility = Visibility.Visible;
+                    red3.Visibility = Visibility.Visible;
+                    red4.Visibility = Visibility.Visible;
+                    red_selected = false;
+                }
+                if (player2_color_selected == blue_index)
+                {
+                    blue1.Visibility = Visibility.Visible;
+                    blue3.Visibility = Visibility.Visible;
+                    blue4.Visibility = Visibility.Visible;
+                    blue_selected = false;
+                }
+                if (player2_color_selected == green_index)
+                {
+                    green1.Visibility = Visibility.Visible;
+                    green3.Visibility = Visibility.Visible;
+                    green4.Visibility = Visibility.Visible;
+                    green_selected = false;
+                }
+                if (player2_color_selected == yellow_index)
+                {
+                    yellow1.Visibility = Visibility.Visible;
+                    yellow3.Visibility = Visibility.Visible;
+                    yellow4.Visibility = Visibility.Visible;
+                    yellow_selected = false;
+                }
+            }
+
+            if (color_combo_2.SelectedIndex == red_index)
+            {
+                red1.Visibility = Visibility.Collapsed;
+                red3.Visibility = Visibility.Collapsed;
+                red4.Visibility = Visibility.Collapsed;
+                red_selected = true;
+            }
+            if (color_combo_2.SelectedIndex == blue_index)
+            {
+                blue1.Visibility = Visibility.Collapsed;
+                blue3.Visibility = Visibility.Collapsed;
+                blue4.Visibility = Visibility.Collapsed;
+                blue_selected = true;
+            }
+            if (color_combo_2.SelectedIndex == green_index)
+            {
+                green1.Visibility = Visibility.Collapsed;
+                green3.Visibility = Visibility.Collapsed;
+                green4.Visibility = Visibility.Collapsed;
+                green_selected = true;
+            }
+            if (color_combo_2.SelectedIndex == yellow_index)
+            {
+                yellow1.Visibility = Visibility.Collapsed;
+                yellow3.Visibility = Visibility.Collapsed;
+                yellow4.Visibility = Visibility.Collapsed;
+                blue_selected = true;
+            }
+
+            player2_color_selected = color_combo_2.SelectedIndex;
+        }
+
+        private void ComboBox_SelectionChanged_3(object sender, SelectionChangedEventArgs e)
+        {
+            // Check if already selected color and changing colors
+            if (player3_color_selected != -1)
+            {
+                if (player3_color_selected == red_index)
+                {
+                    red2.Visibility = Visibility.Visible;
+                    red1.Visibility = Visibility.Visible;
+                    red4.Visibility = Visibility.Visible;
+                    red_selected = false;
+                }
+                if (player3_color_selected == blue_index)
+                {
+                    blue2.Visibility = Visibility.Visible;
+                    blue1.Visibility = Visibility.Visible;
+                    blue4.Visibility = Visibility.Visible;
+                    blue_selected = false;
+                }
+                if (player3_color_selected == green_index)
+                {
+                    green2.Visibility = Visibility.Visible;
+                    green1.Visibility = Visibility.Visible;
+                    green4.Visibility = Visibility.Visible;
+                    green_selected = false;
+                }
+                if (player3_color_selected == yellow_index)
+                {
+                    yellow2.Visibility = Visibility.Visible;
+                    yellow1.Visibility = Visibility.Visible;
+                    yellow4.Visibility = Visibility.Visible;
+                    yellow_selected = false;
+                }
+            }
+
+            if (color_combo_3.SelectedIndex == red_index)
+            {
+                red2.Visibility = Visibility.Collapsed;
+                red1.Visibility = Visibility.Collapsed;
+                red4.Visibility = Visibility.Collapsed;
+                red_selected = true;
+            }
+            if (color_combo_3.SelectedIndex == blue_index)
+            {
+                blue2.Visibility = Visibility.Collapsed;
+                blue1.Visibility = Visibility.Collapsed;
+                blue4.Visibility = Visibility.Collapsed;
+                blue_selected = true;
+            }
+            if (color_combo_3.SelectedIndex == green_index)
+            {
+                green2.Visibility = Visibility.Collapsed;
+                green1.Visibility = Visibility.Collapsed;
+                green4.Visibility = Visibility.Collapsed;
+                green_selected = true;
+            }
+            if (color_combo_3.SelectedIndex == yellow_index)
+            {
+                yellow2.Visibility = Visibility.Collapsed;
+                yellow1.Visibility = Visibility.Collapsed;
+                yellow4.Visibility = Visibility.Collapsed;
+                blue_selected = true;
+            }
+
+            player3_color_selected = color_combo_3.SelectedIndex;
+        }
+
+        private void ComboBox_SelectionChanged_4(object sender, SelectionChangedEventArgs e)
+        {
+            // Check if already selected color and changing colors
+            if (player4_color_selected != -1)
+            {
+                if (player4_color_selected == red_index)
+                {
+                    red2.Visibility = Visibility.Visible;
+                    red1.Visibility = Visibility.Visible;
+                    red3.Visibility = Visibility.Visible;
+                    red_selected = false;
+                }
+                if (player4_color_selected == blue_index)
+                {
+                    blue2.Visibility = Visibility.Visible;
+                    blue1.Visibility = Visibility.Visible;
+                    blue3.Visibility = Visibility.Visible;
+                    blue_selected = false;
+                }
+                if (player4_color_selected == green_index)
+                {
+                    green2.Visibility = Visibility.Visible;
+                    green1.Visibility = Visibility.Visible;
+                    green3.Visibility = Visibility.Visible;
+                    green_selected = false;
+                }
+                if (player4_color_selected == yellow_index)
+                {
+                    yellow2.Visibility = Visibility.Visible;
+                    yellow1.Visibility = Visibility.Visible;
+                    yellow3.Visibility = Visibility.Visible;
+                    yellow_selected = false;
+                }
+            }
+
+            if (color_combo_4.SelectedIndex == red_index)
+            {
+                red2.Visibility = Visibility.Collapsed;
+                red1.Visibility = Visibility.Collapsed;
+                red3.Visibility = Visibility.Collapsed;
+                red_selected = true;
+            }
+            if (color_combo_4.SelectedIndex == blue_index)
+            {
+                blue2.Visibility = Visibility.Collapsed;
+                blue1.Visibility = Visibility.Collapsed;
+                blue3.Visibility = Visibility.Collapsed;
+                blue_selected = true;
+            }
+            if (color_combo_4.SelectedIndex == green_index)
+            {
+                green2.Visibility = Visibility.Collapsed;
+                green1.Visibility = Visibility.Collapsed;
+                green3.Visibility = Visibility.Collapsed;
+                green_selected = true;
+            }
+            if (color_combo_4.SelectedIndex == yellow_index)
+            {
+                yellow2.Visibility = Visibility.Collapsed;
+                yellow1.Visibility = Visibility.Collapsed;
+                yellow3.Visibility = Visibility.Collapsed;
+                blue_selected = true;
+            }
+
+            player4_color_selected = color_combo_4.SelectedIndex;
+        }
+
     }
 }
