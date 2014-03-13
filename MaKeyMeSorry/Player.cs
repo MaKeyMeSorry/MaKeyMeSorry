@@ -13,7 +13,7 @@ namespace MaKeyMeSorry
 
         private Color pawnColor;
         private int numPawnsLeft;
-        private List<Pawn> pawns;
+        public List<Pawn> pawns;
         // Used for distinction between normal player and AI
         private bool isHuman;
 
