@@ -9,7 +9,7 @@ namespace MaKeyMeSorry
 
     public enum Color { RED, BLUE, YELLOW, GREEN, WHITE };
 
-    class Pawn
+    public class Pawn
     {
         private Color color;
 

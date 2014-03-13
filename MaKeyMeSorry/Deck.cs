@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace MaKeyMeSorry
 {
-    class Deck {
+    public class Deck {
         
         private static int MAXCARDS = 45; 
         //Array of cards (45 is the count) deck holds

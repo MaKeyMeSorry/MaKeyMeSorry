@@ -1,4 +1,4 @@
-﻿using MaKeyMeSorry;
+﻿using MaKeyMeSorry.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,11 +29,16 @@ namespace MaKeyMeSorry
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+        private NavigationHelper navigationHelper;
+
         private Game game;
         private int card_color;
 
         //variables for keeping state of a turn
         private Color color_of_current_turn;
+        private int index_of_current_player;
+
         private bool card_drawn;
 
         private List<Canvas> pawn_square_list;
@@ -51,16 +56,49 @@ namespace MaKeyMeSorry
         private List<Canvas> green_safe_zone_list;
         private List<Canvas> red_safe_zone_list;
 
+        /// <summary>
+        /// NavigationHelper is used on each page to aid in navigation and 
+        /// process lifetime management
+        /// </summary>
+        public NavigationHelper NavigationHelper
+        {
+            get { return this.navigationHelper; }
+        }
+
         public MainPage()
         {
+
+            this.navigationHelper = new NavigationHelper(this);
+            this.navigationHelper.LoadState += navigationHelper_LoadState;
+            this.navigationHelper.SaveState += navigationHelper_SaveState;
             this.InitializeComponent();
-            color_of_current_turn = Color.RED;
+            index_of_current_player = -1;
+            //color_of_current_turn = Color.RED;
             card_drawn = false;
-            change_turn();
+
 
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(App_KeyUp), true);
 
-            game = new Game(4);
+
+            // TODO: Delete once we can pass the game from the setup screen
+            /*
+            List<Player> players = new List<Player>();
+            Player redPlayer = new Player("Nick", Color.RED, true, true);
+            Player bluePlayer = new Player("Nicole" , Color.BLUE, true, true);
+            Player yellowPlayer = new Player("Max", Color.YELLOW, true, true);
+            Player greenPlayer = new Player("Stephen" , Color.GREEN, true, true);
+
+            players.Add(redPlayer);
+            players.Add(bluePlayer);
+            players.Add(yellowPlayer);
+            players.Add(greenPlayer);
+
+            game = new Game(4, players);
+            */
+            
+
+
+            //game = new Game(4);
             card_color = 0;
             pawn_square_list = new List<Canvas>();
            
@@ -117,6 +155,61 @@ namespace MaKeyMeSorry
         }
 
 
+                /// <summary>
+        /// Populates the page with content passed during navigation. Any saved state is also
+        /// provided when recreating a page from a prior session.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event; typically <see cref="NavigationHelper"/>
+        /// </param>
+        /// <param name="e">Event data that provides both the navigation parameter passed to
+        /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested and
+        /// a dictionary of state preserved by this page during an earlier
+        /// session. The state will be null the first time a page is visited.</param>
+        private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
+        {
+            game = MaKeyMeSorry.App.currentGame;
+            //color_of_current_turn = game.players[index_of_current_player].get_pawn_color();
+            change_turn();
+        }
+
+        /// <summary>
+        /// Preserves state associated with this page in case the application is suspended or the
+        /// page is discarded from the navigation cache.  Values must conform to the serialization
+        /// requirements of <see cref="SuspensionManager.SessionState"/>.
+        /// </summary>
+        /// <param name="sender">The source of the event; typically <see cref="NavigationHelper"/></param>
+        /// <param name="e">Event data that provides an empty dictionary to be populated with
+        /// serializable state.</param>
+        private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
+        {
+            MaKeyMeSorry.App.currentGame = game;
+        }
+
+        #region NavigationHelper registration
+
+        /// The methods provided in this section are simply used to allow
+        /// NavigationHelper to respond to the page's navigation methods.
+        /// 
+        /// Page specific logic should be placed in event handlers for the  
+        /// <see cref="GridCS.Common.NavigationHelper.LoadState"/>
+        /// and <see cref="GridCS.Common.NavigationHelper.SaveState"/>.
+        /// The navigation parameter is available in the LoadState method 
+        /// in addition to page state preserved during an earlier session.
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            navigationHelper.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            navigationHelper.OnNavigatedFrom(e);
+        }
+
+        #endregion
+
+
         void play_game()
         {
             if (!card_drawn)
@@ -126,6 +219,7 @@ namespace MaKeyMeSorry
                 Card card = draw_card();
                 apply_card(card);
                 cover.Opacity = 0;
+                player_turn.Text = game.players[index_of_current_player].get_player_name() + "'s Turn, Choose a Move!";
             }
             else if (card_drawn)
             {
@@ -142,6 +236,7 @@ namespace MaKeyMeSorry
                 options_3.Items.Clear();
                 options_4.Visibility = Visibility.Collapsed;
                 options_4.Items.Clear();
+                no_options.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -152,12 +247,11 @@ namespace MaKeyMeSorry
             Debug.WriteLine("Keyboard button pressed");
 
 
-            if (e.Key == Windows.System.VirtualKey.Space)
+            if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                Debug.WriteLine("Return button pressed");
+                Debug.WriteLine("Enter button pressed");
                 play_game();
             }
-
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
@@ -276,6 +370,10 @@ namespace MaKeyMeSorry
         void display_options(List<Tuple<Pawn, List<Square>>> options)
         {
             // Display options
+            if (options.Count == 0)
+            {
+                no_options.Visibility = Visibility.Visible;
+            }
             if (options.Count >= 1)
             {
                 pawn_1.Text = "Pawn 1 Options:";
@@ -509,6 +607,7 @@ namespace MaKeyMeSorry
  
         private void change_turn()
         {
+            /*
             if (color_of_current_turn == Color.BLUE)
             {
                 color_of_current_turn = Color.YELLOW;
@@ -525,9 +624,22 @@ namespace MaKeyMeSorry
             {
                 color_of_current_turn = Color.BLUE;
             }
+            */
+
+            if (index_of_current_player == 3)
+            {
+                index_of_current_player = 0;
+            }
+            else
+            {
+                index_of_current_player = index_of_current_player + 1;
+            }
+
+            color_of_current_turn = game.players[index_of_current_player].get_pawn_color();
+
             cover.Opacity = .60;
             card_drawn = false;
-            player_turn.Text = color_to_string(color_of_current_turn) + " Player's Turn";
+            player_turn.Text = game.players[index_of_current_player].get_player_name() + "'s Turn, Draw a Card!";
         }
 
         public void update_pawn_square(int square_num, Color pawn_color, List<Canvas> list) //could send exact pawn instead of color? just spitballin'

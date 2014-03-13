@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace MaKeyMeSorry
 {
-    class Game
+    public class Game
     {
 
         // Holds the number of human players in game
@@ -35,10 +35,14 @@ namespace MaKeyMeSorry
         // Constructs the Game class with numHumans 
         // representing the number of human players.
         // Sets numHumanPlayers
-        public Game(int numHumans)
+        public Game(int numHumans, List<Player> playerList)
         {
             board = new Board();
             deck = new Deck(true);
+            
+            players = playerList;
+
+            /*
             players = new List<Player>();
             Player redPlayer = new Player(Color.RED, true, true);
             Player bluePlayer = new Player(Color.BLUE, true, true);
@@ -49,8 +53,7 @@ namespace MaKeyMeSorry
             players.Add(bluePlayer);
             players.Add(yellowPlayer);
             players.Add(greenPlayer);
-
-            // TODO Write Game constructor
+            */
         }
 
 

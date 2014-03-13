@@ -555,7 +555,7 @@
                     <ImageBrush ImageSource="/Assets/Board Images/Red Slide - End.png" Stretch="Fill"/>
                 </Canvas.Background>
             </Canvas>
-            <TextBlock x:Name="player_turn" Canvas.Left="540" TextWrapping="Wrap" Text=" " Canvas.Top="431" Height="86" Width="706" FontSize="72" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
+            <TextBlock x:Name="player_turn" Canvas.Left="400" TextWrapping="Wrap" Text=" " Canvas.Top="431" Height="86" Width="1000" FontSize="72" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
             <Canvas x:Name="cover" Height="339" Canvas.Left="839" Canvas.Top="534" Width="236" Background="#FFF7F1F1" Opacity="0"/>
             <TextBlock x:Name="pawn_1" Canvas.Left="350" TextWrapping="Wrap" Text="" Canvas.Top="933" Height="86" Width="200" FontSize="24" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
             <TextBlock x:Name="pawn_2" Canvas.Left="600" TextWrapping="Wrap" Text="" Canvas.Top="933" Height="86" Width="200" FontSize="24" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
@@ -566,8 +566,8 @@
             <ComboBox x:Name="options_2" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="600" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 2 Move"/>
             <ComboBox x:Name="options_3" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="850" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 3 Move"/>
             <ComboBox x:Name="options_4" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="1100" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 4 Move"/>
-            
 
+            <TextBlock x:Name="no_options" Canvas.Left="350" Canvas.Top="933" Visibility="Collapsed" Text="No moves available, press Enter to continue" FontFamily="Helvetica" FontSize="48" Foreground="Black"/>
 
 
 

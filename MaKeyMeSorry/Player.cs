@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace MaKeyMeSorry
 {
-    class Player
+    public class Player
     {
 
         private Color pawnColor;
@@ -17,16 +17,20 @@ namespace MaKeyMeSorry
         // Used for distinction between normal player and AI
         private bool isHuman;
 
+        // Holds players name
+        string name;
+
         // Ensures default constructor cannot be used
         private Player() { }
 
 
         // Constructs Player class with the color specified
         // and if the player is a bot or not
-        public Player(Color pawnColor, bool isHuman, bool enableTesting)
+        public Player(string name, Color pawnColor, bool isHuman, bool enableTesting)
         {
             this.pawnColor = pawnColor;
             this.isHuman = isHuman;
+            this.name = name;
             setNumPawnsLeft(5);
             pawns = new List<Pawn>();
             for (int i = 0; i < 4; i++)
@@ -37,12 +41,19 @@ namespace MaKeyMeSorry
             {
                 Debug.WriteLine("Number of pawns at start: " + get_num_pawns_at_start().ToString());
                 Debug.WriteLine("Player Color: " + pawnColor);
+                Debug.WriteLine("Player Name: " + name);
                 Debug.WriteLine("Player is human: " + isHuman.ToString());
 
             }
         }
 
         // Getters
+        public string get_player_name()
+        {
+            return name;
+        }
+
+
         public int get_num_pawns_at_start()
         {
             int numAtStart = 0;
