@@ -33,6 +33,8 @@ namespace MaKeyMeSorry
 
         private NavigationHelper navigationHelper;
 
+        private bool AI_on = false;
+
         private Game game;
         private int card_color;
         private Brush cur_selected_img;
@@ -945,7 +947,7 @@ namespace MaKeyMeSorry
             //Need to make sure
             //Does the 7 give multiple options even if there is only one pawn in the board?
 
-            if ((!game.get_player(color_of_current_turn).get_is_human()) && (false))
+            if ((!game.get_player(color_of_current_turn).get_is_human()) && AI_on)
             {
 
                 var moveLevel = new Tuple<int, int>(0, 0);
@@ -1534,7 +1536,7 @@ namespace MaKeyMeSorry
                     //private void execute_update(fromChoice, toChoice, bestMove.Item1);
                 }
             }
-            else if (game.get_player(color_of_current_turn).get_is_human())
+            else //if (game.get_player(color_of_current_turn).get_is_human())
             {
                 if (card.get_value() != 13)
                 {

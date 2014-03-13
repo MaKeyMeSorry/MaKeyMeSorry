@@ -160,28 +160,28 @@ namespace MaKeyMeSorry
 
             if (!red_selected && numComputers > 0)
             {
-                string computerName = "Computer " + numComputers;
+                string computerName = "Red Computer";
                 Player redComputer = new Player(computerName, Color.RED, false, true);
                 players.Add(redComputer);
                 numComputers--;
             }
             if (!blue_selected && numComputers > 0)
             {
-                string computerName = "Computer " + numComputers;
+                string computerName = "Blue Computer" + numComputers;
                 Player blueComputer = new Player(computerName, Color.BLUE, false, true);
                 players.Add(blueComputer);
                 numComputers--;
             }
             if (!yellow_selected && numComputers > 0)
             {
-                string computerName = "Computer " + numComputers;
+                string computerName = "Yellow Computer" + numComputers;
                 Player yellowComputer = new Player(computerName, Color.YELLOW, false, true);
                 players.Add(yellowComputer);
                 numComputers--;
             }
             if (!green_selected && numComputers > 0)
             {
-                string computerName = "Computer " + numComputers;
+                string computerName = "Green Computer" + numComputers;
                 Player greenComputer = new Player(computerName, Color.GREEN, false, true);
                 players.Add(greenComputer);
                 numComputers--;
