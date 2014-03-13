@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace MaKeyMeSorry
 {
-    class Board
+    public class Board
     {
 
 

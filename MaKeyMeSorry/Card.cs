@@ -9,7 +9,7 @@ namespace MaKeyMeSorry
 {
     public enum CardType { START = 0, FORWARD = 1, BACKWARD = 2, SWAP = 3, SORRY = 4, SPLIT = 5 };
 
-    class Card
+    public class Card
     {
 
         private int value;

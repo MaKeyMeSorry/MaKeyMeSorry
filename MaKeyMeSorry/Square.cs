@@ -19,7 +19,7 @@ namespace MaKeyMeSorry
         SAFE
     };
 
-    class Square
+    public class Square
     {
 
         private bool hasPawn;
