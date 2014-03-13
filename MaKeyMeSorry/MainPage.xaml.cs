@@ -39,6 +39,8 @@ namespace MaKeyMeSorry
         private List<bool> pawns_available;
         private int color_adjustment;
         private bool how_to_highlighted;
+        private bool new_game_higlighted;
+        private bool pass_highlighted;
 
         //variables for keeping state of a turn
         private Color color_of_current_turn;
@@ -139,7 +141,12 @@ namespace MaKeyMeSorry
             update_pawn_square(14, Color.BLUE, pawn_square_list);
             testPawn.move_to(game.board.get_square_at(14));
 
-            button1.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+            how_to_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
+            how_to_button.BorderThickness = new Thickness(3, 3, 3, 3);
+            new_game_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
+            new_game_button.BorderThickness = new Thickness(3, 3, 3, 3);
+            pass_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
+            pass_button.BorderThickness = new Thickness(3, 3, 3, 3);
 
         }
         
@@ -152,6 +159,12 @@ namespace MaKeyMeSorry
                 Debug.WriteLine("Return button pressed");
                 card_drawn = true;
                 my_card = draw_card();
+                pass_highlighted = true;
+                how_to_highlighted = false;
+                new_game_higlighted = false;
+                pass_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+                pass_button.BorderThickness = new Thickness(10, 10, 10, 10);
+                pass_button.Focus(FocusState.Keyboard);
                 //apply_card(card);
                 Debug.WriteLine("card value: " + my_card.get_value());
                 List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
@@ -203,7 +216,12 @@ namespace MaKeyMeSorry
 
         private void change_selected_pawn_box()
         {
-            button1.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+            how_to_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
+            how_to_button.BorderThickness = new Thickness(3, 3, 3, 3);
+            new_game_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
+            new_game_button.BorderThickness = new Thickness(3, 3, 3, 3);
+            pass_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
+            pass_button.BorderThickness = new Thickness(3, 3, 3, 3);
 
             int box_selected = -1;
             if(options_1.SelectedIndex != -1)
@@ -223,30 +241,37 @@ namespace MaKeyMeSorry
             {
                 box_selected = 3;
                 options_4.SelectedIndex = -1;
-            } else
+            } else if(how_to_highlighted)
             {
-                box_selected = 5; //button
+                box_selected = 4; //button
+            } else if(new_game_higlighted)
+            {
+                box_selected = 5;
+            }
+            else
+            {
+                box_selected = 6;
             }
 
-            if(pawns_available[0] && box_selected == 5)
+            if(pawns_available[0] && box_selected == 6)
             {
                 options_1.SelectedIndex = 0;
                 options_1.Focus(FocusState.Keyboard);
                 cur_pawn_selection = 0;
             }
-            else if (pawns_available[1] && (box_selected == 0 || box_selected == 5))
+            else if (pawns_available[1] && (box_selected == 0 || box_selected == 6))
             {
                 options_2.SelectedIndex = 0;
                 options_2.Focus(FocusState.Keyboard);
                 cur_pawn_selection = 1;
             }
-            else if (pawns_available[2] && (box_selected == 0 || box_selected == 1 || box_selected == 5))
+            else if (pawns_available[2] && (box_selected == 0 || box_selected == 1 || box_selected == 6))
             {
                 options_3.SelectedIndex = 0;
                 options_3.Focus(FocusState.Keyboard);
                 cur_pawn_selection = 2;
             }
-            else if (pawns_available[3] && (box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 5))
+            else if (pawns_available[3] && (box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 6))
             {
                 options_4.SelectedIndex = 0;
                 options_4.Focus(FocusState.Keyboard);
@@ -254,8 +279,25 @@ namespace MaKeyMeSorry
             }
             else if ((box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 3))
             {
-                button1.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
-                button1.Focus(FocusState.Keyboard);
+                how_to_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+                how_to_button.BorderThickness = new Thickness(10, 10, 10, 10);
+                how_to_button.Focus(FocusState.Keyboard);
+                how_to_highlighted = true;
+                hide_selected_move(cur_selected_square);
+            } else if(box_selected == 4)
+            {
+                new_game_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+                new_game_button.BorderThickness = new Thickness(10, 10, 10, 10);
+                new_game_button.Focus(FocusState.Keyboard);
+                how_to_highlighted = false;
+                new_game_higlighted = true;
+            } else if(box_selected == 5)
+            {
+                pass_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+                pass_button.BorderThickness = new Thickness(10, 10, 10, 10);
+                pass_button.Focus(FocusState.Keyboard);
+                new_game_higlighted = false;
+                pass_highlighted = true;
             }
         }
 
@@ -482,6 +524,9 @@ namespace MaKeyMeSorry
                         default:
                             break;
                     }
+                    pass_highlighted = false;
+                    pass_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
+                    pass_button.BorderThickness = new Thickness(3, 3, 3, 3);
                     break;
                 }
             }
@@ -776,7 +821,7 @@ namespace MaKeyMeSorry
 
         public void show_selected_move(int square_num)//, List<Canvas> list)
         {
-            string uri_string = "ms-appx:///Assets/Pawn Images/Red Pawn.png";
+            string uri_string = "ms-appx:///Assets/Grey Pawns/Grey Pawn - 1.png";
             //change to a gray pawn later
 
             ImageBrush ib = new ImageBrush();
@@ -969,6 +1014,11 @@ namespace MaKeyMeSorry
                 }
 
             }
+
+        }
+
+        private void how_to_button_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }
