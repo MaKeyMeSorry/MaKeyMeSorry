@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.UI.Popups;
+using System.Diagnostics;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -69,6 +70,9 @@ namespace MaKeyMeSorry
             get { return this.navigationHelper; }
         }
 
+        KeyEventHandler key_up_handler;
+        KeyEventHandler key_down_handler;
+        int focus_index = -1;
 
         public SetupPage()
         {
@@ -84,10 +88,23 @@ namespace MaKeyMeSorry
 
             numHumanPlayers = 0;
 
+            key_up_handler = new KeyEventHandler(Page_KeyUp);
+            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+
+            key_down_handler = new KeyEventHandler(Page_KeyDown);
+            Window.Current.Content.AddHandler(UIElement.KeyDownEvent, key_down_handler, true);
+
             this.InitializeComponent();
+
+            Loaded += delegate { NumPlayersComboBox.Focus(FocusState.Keyboard); };
+            focus_index = 0;
+
+            // NumPlayersComboBox.Focus(FocusState.Keyboard);
+
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
+
         }
 
         /// <summary>
@@ -249,9 +266,11 @@ namespace MaKeyMeSorry
                     return;
                 }
             }
-            
+
+            Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+            Window.Current.Content.RemoveHandler(UIElement.KeyDownEvent, key_down_handler);
             this.Frame.Navigate(typeof(MainPage));
-            
+
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -633,6 +652,457 @@ namespace MaKeyMeSorry
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 name_textbox_1.Text = "Grace";
+            }
+        }
+
+        int comboIndex = -1;
+        int player1colorIndex = -1;
+        int player2colorIndex = -1;
+        int player3colorIndex = -1;
+        int player4colorIndex = -1;
+
+        //private void NumPlayersComboBox_KeyUp(object sender, KeyRoutedEventArgs e)
+        //{
+        //    Debug.WriteLine("Key Up Pressed");
+
+        //    if (comboIndex != NumPlayersComboBox.SelectedIndex)
+        //    {
+        //        if ((e.Key == Windows.System.VirtualKey.Right))
+        //        {
+        //            NumPlayersComboBox.SelectedIndex = comboIndex;
+        //            return;
+        //        }
+        //    }
+        //    comboIndex = NumPlayersComboBox.SelectedIndex;
+        //    e.Handled = true;
+        //}
+
+        //private void NumPlayersComboBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        //{
+        //    //if (e.Key == Windows.System.VirtualKey.Right)
+        //    //{
+        //    //    e.Handled = true;
+        //    //    return;
+        //    //}
+        //    //if (e.Key == Windows.System.VirtualKey.Left)
+        //    //{
+        //    //    e.Handled = true;
+        //    //    return;
+        //    //}
+
+        //    Debug.WriteLine("Key Down Pressed");
+
+        //    if (comboIndex != NumPlayersComboBox.SelectedIndex)
+        //    {
+        //        if ((e.Key == Windows.System.VirtualKey.Right))
+        //        {
+        //            NumPlayersComboBox.SelectedIndex = comboIndex;
+        //            return;
+        //        }
+        //    }
+        //    comboIndex = NumPlayersComboBox.SelectedIndex;
+        //    e.Handled = true;
+        //}
+
+
+        private void Page_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            Debug.WriteLine("Page Key Up Pressed");
+
+            if ((e.Key == Windows.System.VirtualKey.Right))
+            {
+                Debug.WriteLine("Right pressed, Current Focus: " + focus_index);
+                e.Handled = true;
+                switch (focus_index)
+                {
+                    case(-1):
+                        // focus currently on back button
+                        focus_index++;
+                        // go to num players combo box
+                        NumPlayersComboBox.Focus(FocusState.Keyboard);
+                        break;
+                    case (0):
+                        // focus currently on num players combo box
+                        if (numHumanPlayers >= 1)
+                        {
+                            // go to player 1 name
+                            focus_index++;
+                            name_textbox_1.Focus(FocusState.Keyboard);
+                        }
+                        else
+                        {
+                            // go to start game
+                            focus_index = 9;
+                            start_button.Focus(FocusState.Keyboard);
+                        }
+                        break;
+                    case (1):
+                        // focus currently on player 1 name
+                        focus_index++;
+                        // go to player 1 color
+                        color_combo_1.Focus(FocusState.Keyboard);
+                        break;
+                    case (2):
+                        // focus currently on player 1 color
+                        if (numHumanPlayers >= 2)
+                        {
+                            // go to player 2 name
+                            focus_index++;
+                            name_textbox_2.Focus(FocusState.Keyboard);
+                        }
+                        else
+                        {
+                            // go to start game
+                            focus_index = 9;
+                            start_button.Focus(FocusState.Keyboard);
+                        }
+                        break;
+                    case (3):
+                        // focus currently on player 2 name
+                        focus_index++;
+                        // go to player 2 color
+                        color_combo_2.Focus(FocusState.Keyboard);
+                        break;
+                    case (4):
+                        // focus currently on player 2 color
+                        if (numHumanPlayers >= 3)
+                        {
+                            // go to player 3 name
+                            focus_index++;
+                           name_textbox_3.Focus(FocusState.Keyboard);
+                        }
+                        else
+                        {
+                            // go to start game
+                            focus_index = 9;
+                            start_button.Focus(FocusState.Keyboard);
+                        }
+                        break;
+                    case (5):
+                        // focus currently on player 3 name
+                        focus_index++;
+                        // go to player 3 color
+                        color_combo_3.Focus(FocusState.Keyboard);
+                        break;
+                    case (6):
+                        // focus currently on player 3 color
+                        if (numHumanPlayers >= 4)
+                        {
+                            // go to player 4 name
+                            focus_index++;
+                            name_textbox_4.Focus(FocusState.Keyboard);
+                        }
+                        else
+                        {
+                            // go to start game
+                            focus_index = 9;
+                            start_button.Focus(FocusState.Keyboard);
+                        }
+                        break;
+                    case (7):
+                        // focus currently on player 4 name
+                        focus_index++;
+                        // go to player 4 color
+                        color_combo_4.Focus(FocusState.Keyboard);
+                        break;
+                    case (8):
+                        // focus currently on player 4 color
+                        focus_index++;
+                        // go to start game
+                        start_button.Focus(FocusState.Keyboard);
+                        break;
+                    case (9):
+                        // focus currently on start game
+                        // go to back button
+                        focus_index = -1;
+                        backButton.Focus(FocusState.Keyboard);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            if ((e.Key == Windows.System.VirtualKey.Left))
+            {
+                Debug.WriteLine("Left pressed, Current Focus: " + focus_index);
+                e.Handled = true;
+                switch (focus_index)
+                {
+                    case (-1):
+                        // focus currently on back button
+                        focus_index = 9;
+                        // go to start game
+                        start_button.Focus(FocusState.Keyboard);
+                        break;
+                    case (0):
+                        // focus currently on num players combo box
+                        // go to back button
+                        focus_index--;
+                        backButton.Focus(FocusState.Keyboard);
+                        break;
+                    case (1):
+                        // focus currently on player 1 name
+                        focus_index--;
+                        // go to num players combo box
+                        NumPlayersComboBox.Focus(FocusState.Keyboard);
+                        break;
+                    case (2):
+                        // focus currently on player 1 color
+                        // go to player 1 name
+                        focus_index--;
+                        name_textbox_1.Focus(FocusState.Keyboard);
+                        break;
+                    case (3):
+                        // focus currently on player 2 name
+                        focus_index--;
+                        // go to player 1 color
+                        color_combo_1.Focus(FocusState.Keyboard);
+                        break;
+                    case (4):
+                        // focus currently on player 2 color
+                        // go to player 2 name
+                        focus_index--;
+                        name_textbox_2.Focus(FocusState.Keyboard);
+                        break;
+                    case (5):
+                        // focus currently on player 3 name
+                        focus_index--;
+                        // go to player 2 color
+                        color_combo_2.Focus(FocusState.Keyboard);
+                        break;
+                    case (6):
+                        // focus currently on player 3 color
+                        // go to player 3 name
+                        focus_index--;
+                        name_textbox_3.Focus(FocusState.Keyboard);
+                        break;
+                    case (7):
+                        // focus currently on player 4 name
+                        focus_index--;
+                        // go to player 3 color
+                        color_combo_3.Focus(FocusState.Keyboard);
+                        break;
+                    case (8):
+                        // focus currently on player 4 color
+                        focus_index--;
+                        // go to player 4 name
+                        name_textbox_4.Focus(FocusState.Keyboard);
+                        break;
+                    case (9):
+                        // focus currently on start game
+                        if (numHumanPlayers == 4)
+                        {
+                            // go to player 4's combo box
+                            focus_index = 8;
+                            color_combo_4.Focus(FocusState.Keyboard);
+                        }
+                        else if (numHumanPlayers == 3)
+                        {
+                            // go to player 3's combo box
+                            focus_index = 6;
+                            color_combo_3.Focus(FocusState.Keyboard);
+                        }
+                        else if (numHumanPlayers == 2)
+                        {
+                            // go to player 2's combo box
+                            focus_index = 4;
+                            color_combo_2.Focus(FocusState.Keyboard);
+                        }
+                        else if (numHumanPlayers == 1)
+                        {
+                            // go to player 1's combo box
+                            focus_index = 2;
+                            color_combo_1.Focus(FocusState.Keyboard);
+                        }
+                        else
+                        {
+                            // go to num players combo box
+                            focus_index = 0;
+                            NumPlayersComboBox.Focus(FocusState.Keyboard);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+        }
+
+        private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+
+            Debug.WriteLine("Page Key Down Pressed");
+
+            if ((e.Key == Windows.System.VirtualKey.Right))
+            {
+                if (focus_index == 0)
+                {
+                    // number of players combo box
+                    if (comboIndex != NumPlayersComboBox.SelectedIndex)
+                    {
+                        NumPlayersComboBox.SelectedIndex = comboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    comboIndex = NumPlayersComboBox.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (focus_index == 2)
+                {
+                    // player 1 color combo box player1colorIndex color_combo_1
+                    if (player1colorIndex != color_combo_1.SelectedIndex)
+                    {
+                        color_combo_1.SelectedIndex = player1colorIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    player1colorIndex = color_combo_1.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (focus_index == 4)
+                {
+                    // player 2 color combo box player2colorIndex color_combo_2
+                    if (player2colorIndex != color_combo_2.SelectedIndex)
+                    {
+                        color_combo_2.SelectedIndex = player2colorIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    player2colorIndex = color_combo_2.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (focus_index == 6)
+                {
+                    // player 3 color combo box player3colorIndex color_combo_3
+                    if (player3colorIndex != color_combo_3.SelectedIndex)
+                    {
+                        color_combo_3.SelectedIndex = player3colorIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    player3colorIndex = color_combo_3.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (focus_index == 8)
+                {
+                    // player 4 color combo box player4colorIndex color_combo_4
+                    if (player4colorIndex != color_combo_4.SelectedIndex)
+                    {
+                        color_combo_4.SelectedIndex = player4colorIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    player4colorIndex = color_combo_4.SelectedIndex;
+                    e.Handled = true;
+                }
+            }
+            else if ((e.Key == Windows.System.VirtualKey.Left))
+            {
+                if (focus_index == 0)
+                {
+                    // number of players combo box
+                    if (comboIndex != NumPlayersComboBox.SelectedIndex)
+                    {
+                        NumPlayersComboBox.SelectedIndex = comboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    comboIndex = NumPlayersComboBox.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (focus_index == 2)
+                {
+                    // player 1 color combo box player1colorIndex color_combo_1
+                    if (player1colorIndex != color_combo_1.SelectedIndex)
+                    {
+                        color_combo_1.SelectedIndex = player1colorIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    player1colorIndex = color_combo_1.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (focus_index == 4)
+                {
+                    // player 2 color combo box player2colorIndex color_combo_2
+                    if (player2colorIndex != color_combo_2.SelectedIndex)
+                    {
+                        color_combo_2.SelectedIndex = player2colorIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    player2colorIndex = color_combo_2.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (focus_index == 6)
+                {
+                    // player 3 color combo box player3colorIndex color_combo_3
+                    if (player3colorIndex != color_combo_3.SelectedIndex)
+                    {
+                        color_combo_3.SelectedIndex = player3colorIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    player3colorIndex = color_combo_3.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (focus_index == 8)
+                {
+                    // player 4 color combo box player4colorIndex color_combo_4
+                    if (player4colorIndex != color_combo_4.SelectedIndex)
+                    {
+                        color_combo_4.SelectedIndex = player4colorIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    player4colorIndex = color_combo_4.SelectedIndex;
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                if (focus_index == 0)
+                {
+                    // number of players combo box
+                    if (comboIndex != NumPlayersComboBox.SelectedIndex)
+                    {
+                        comboIndex = NumPlayersComboBox.SelectedIndex;
+                    }
+                }
+                else if (focus_index == 2)
+                {
+                    // player 1 color combo box player1colorIndex color_combo_1
+                    if (player1colorIndex != color_combo_1.SelectedIndex)
+                    {
+                        player1colorIndex = color_combo_1.SelectedIndex;
+                    }
+                }
+                else if (focus_index == 4)
+                {
+                    // player 2 color combo box player2colorIndex color_combo_2
+                    if (player2colorIndex != color_combo_2.SelectedIndex)
+                    {
+                        player2colorIndex = color_combo_2.SelectedIndex;
+                    }
+                }
+                else if (focus_index == 6)
+                {
+                    // player 3 color combo box player3colorIndex color_combo_3
+                    if (player3colorIndex != color_combo_3.SelectedIndex)
+                    {
+                        player3colorIndex = color_combo_3.SelectedIndex;
+                    }
+                }
+                else if (focus_index == 8)
+                {
+                    // player 4 color combo box player4colorIndex color_combo_4
+                    if (player4colorIndex != color_combo_4.SelectedIndex)
+                    {
+                        player4colorIndex = color_combo_4.SelectedIndex;
+                    }
+                }
             }
         }
     }

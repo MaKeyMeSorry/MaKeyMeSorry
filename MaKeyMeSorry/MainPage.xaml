@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Height="768" Width="1364">
     <ScrollViewer HorizontalAlignment="Stretch" Height="800" Width="1400" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-        <Canvas x:Name="game_grid" HorizontalAlignment="Stretch" Height="1700" VerticalAlignment="Stretch" Width="1700" Margin="0,0,0,0" Background="#FF19E6F0">
+        <Canvas x:Name="game_grid" HorizontalAlignment="Stretch" Height="1700" VerticalAlignment="Stretch" Width="1700" Margin="0,0,0,0" Background="#FFF8C8D6">
             <Canvas x:Name="blue_home" HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1362,400,0,0">
                 <Canvas.Background >
                     <ImageBrush ImageSource="/Assets/Board Images/Blue Home.png" Stretch="Fill"/>
