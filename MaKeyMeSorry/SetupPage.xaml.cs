@@ -618,5 +618,22 @@ namespace MaKeyMeSorry
             player4name = name_textbox_4.Text;
         }
 
+        private void name_textbox_1_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Grace_Message_1.Visibility = Visibility.Visible;
+        }
+
+        private void name_textbox_1_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Grace_Message_1.Visibility = Visibility.Collapsed;
+        }
+
+        private void name_textbox_1_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                name_textbox_1.Text = "Grace";
+            }
+        }
     }
 }
