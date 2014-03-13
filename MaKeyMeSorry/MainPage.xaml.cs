@@ -156,16 +156,16 @@ namespace MaKeyMeSorry
                     switch (i)
                     {
                         case 0:
-                            update_pawn_square(j, (Color)i, red_start_list);
+                            update_pawn_square(j, (Color)i, red_start_list, j+1);
                             break;
                         case 1:
-                            update_pawn_square(j, (Color)i, blue_start_list);
+                            update_pawn_square(j, (Color)i, blue_start_list, j+1);
                             break;
                         case 2:
-                            update_pawn_square(j, (Color)i, yellow_start_list);
+                            update_pawn_square(j, (Color)i, yellow_start_list, j+1);
                             break;
                         case 3:
-                            update_pawn_square(j, (Color)i, green_start_list);
+                            update_pawn_square(j, (Color)i, green_start_list, j+1);
                             break;
                         default:
                             break;
@@ -401,6 +401,24 @@ namespace MaKeyMeSorry
         {
             color_adjustment = 60 + 6 * ((int)color_of_current_turn);
             ComboBox comboBox = (ComboBox)sender;
+            int pawnSelected = -1;
+            if (options_1.SelectedIndex != -1)
+            {
+                pawnSelected = 1;
+            }
+            else if (options_2.SelectedIndex != -1)
+            {
+                pawnSelected = 2;
+            }
+            else if (options_3.SelectedIndex != -1)
+            {
+                pawnSelected = 3;
+            }
+            else if (options_4.SelectedIndex != -1)
+            {
+                pawnSelected = 4;
+            }
+
             if(comboBox.SelectedIndex != -1)
             {
                 if(cur_selected_square >= 60)
@@ -415,11 +433,11 @@ namespace MaKeyMeSorry
                 if (Convert.ToInt32(comboBox.SelectedValue) >= 60)
                 {
                     Debug.WriteLine(Convert.ToInt32(comboBox.SelectedValue) - color_adjustment);
-                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue));// - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
+                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);// - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
                 }
                 else
                 {
-                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue));//, pawn_square_list);
+                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);//, pawn_square_list);
                 }
                 Debug.WriteLine("Current Sel val: " + Convert.ToInt32(comboBox.SelectedValue));
         }
@@ -745,18 +763,21 @@ namespace MaKeyMeSorry
                             if (currentSquare.get_Type() == SquareKind.SAFE)
                             {
                                 //update_pawn_square(currentSquare.get_index() - 66,color_of_current_turn, blue_safe_zone_list);
-                                update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn]);
+                                //pawn num doesn't matter
+                                update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn],0);
                             }
                             else
                             {
-                                update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list);
+                                //pawn num doesn't matter
+                                update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list,0);
                             }
 
                         }
                         else
                         {
                             //update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, blue_start_list);
-                            update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn]);
+                            //pawn num doesn't matter
+                            update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn],0);
 
                         }
                         Debug.WriteLine("PAWN 0's location: " + options.ElementAt(pawnChoice).Item1.get_current_location());
@@ -770,7 +791,7 @@ namespace MaKeyMeSorry
 
                         if (moveToSquare.get_Type() == SquareKind.SAFE)//|| moveToSquare.get_Type() == SquareKind.HOMESQ)
                         {
-                            update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn]);
+                            update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], options.ElementAt(pawnChoice).Item1.get_id()+1);
                             options.ElementAt(pawnChoice).Item1.set_in_safe_zone(true);
 
                         }
@@ -778,7 +799,7 @@ namespace MaKeyMeSorry
                         {
                             //update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - 66, color_of_current_turn, blue_safe_zone_list);
                             update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - color_adjustment, color_of_current_turn,
-                                safe_zone_lists[(int)color_of_current_turn]);
+                                safe_zone_lists[(int)color_of_current_turn], options.ElementAt(pawnChoice).Item1.get_id()+1);
                         }
                         else
                         {
@@ -786,17 +807,18 @@ namespace MaKeyMeSorry
                             if (moveToSquare.get_has_pawn())
                             {
                                 //send the visual pawn to start square
-                                update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()]);
+                                update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
                                 //send the data pawn to start state
                                 moveToSquare.get_pawn_in_square().sorry();
 
                                 //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
                                 //first call sets square image brush to nill;
-                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list);
+                                //pawn num doesn't matter here
+                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
                             }
                             //second call sets square image brush to pawn we want
                             //or first if no one was there in the first place
-                            update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list);
+                            update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, options.ElementAt(pawnChoice).Item1.get_id()+1);
                         }
                         //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
                         options.ElementAt(pawnChoice).Item1.move_to(options.ElementAt(pawnChoice).Item2.ElementAt(0));
@@ -837,20 +859,22 @@ namespace MaKeyMeSorry
                         currentSquare = options.ElementAt(pawnChoice).Item1.get_current_location();
                         moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
 
-                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list);
+                        //pawn num doesn't matter here
+                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list,0);
 
                         //send the visual pawn to start square
-                        update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()]);
+                        update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id()+1);
                         //send the data pawn to start state
                         moveToSquare.get_pawn_in_square().sorry();
 
                         //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
                         //first call sets square image brush to nill;
-                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list);
+                        //pawn num doesn't matter here
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,0);
 
                         //second call sets square image brush to pawn we want
                         //or first if no one was there in the first place
-                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list);
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, options.ElementAt(pawnChoice).Item1.get_id()+1);
 
                         //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
                         options.ElementAt(pawnChoice).Item1.move_to(options.ElementAt(pawnChoice).Item2.ElementAt(0));
@@ -917,12 +941,17 @@ namespace MaKeyMeSorry
 
         }
 
-        public void update_pawn_square(int square_num, Color pawn_color, List<Canvas> list) //could send exact pawn instead of color? just spitballin'
+        public void update_pawn_square(int square_num, Color pawn_color, List<Canvas> list, int pawn_num) //could send exact pawn instead of color? just spitballin'
         {
 
-            string uri_string = "ms-appx:///Assets/Pawn Images/";
+            string uri_string = "ms-appx:///Assets/";
+            //Pawn Images/";
             uri_string += pawn_color.ToString();
-            uri_string += " Pawn.png";
+            uri_string += " Pawns/";
+            uri_string += pawn_color.ToString();
+            uri_string += " Pawn - ";
+            uri_string += pawn_num.ToString();
+            uri_string += ".png";
 
             ImageBrush ib = new ImageBrush();
             Uri uri = new Uri(uri_string, UriKind.Absolute);
@@ -938,9 +967,11 @@ namespace MaKeyMeSorry
             }
         }
 
-        public void show_selected_move(int square_num)//, List<Canvas> list)
+        public void show_selected_move(int square_num, int pawn_num)//, List<Canvas> list)
         {
-            string uri_string = "ms-appx:///Assets/Grey Pawns/Grey Pawn - 1.png";
+            string uri_string = "ms-appx:///Assets/Grey Pawns/Grey Pawn - ";
+            uri_string += pawn_num.ToString();
+            uri_string += ".png";
             //change to a gray pawn later
 
             ImageBrush ib = new ImageBrush();
