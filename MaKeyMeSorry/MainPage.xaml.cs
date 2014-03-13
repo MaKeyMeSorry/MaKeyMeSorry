@@ -18,7 +18,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using Windows.UI.Input;
-
+using Windows.UI.Popups;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -216,7 +216,7 @@ namespace MaKeyMeSorry
         private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
             MaKeyMeSorry.App.currentGame = game;
-                }
+        }
 
         #region NavigationHelper registration
 
@@ -1957,6 +1957,31 @@ namespace MaKeyMeSorry
         private void how_to_button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void new_game_button_Click(object sender, RoutedEventArgs e)
+        {
+            // Ask if user is sure
+            MessageDialog message = new MessageDialog("Are you sure you want to start a new game?");
+
+            //message.Commands.Add(new Button());
+            message.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(RespondToCommand)));
+            message.Commands.Add(new UICommand("No", new UICommandInvokedHandler(RespondToCommand)));
+            message.ShowAsync();
+            return;
+
+
+        }
+ 
+        private void RespondToCommand(IUICommand command)
+        {
+            if (command.Label == "Yes")
+            {
+                // Remove current game
+                MaKeyMeSorry.App.currentGame = null;
+                game = null;
+                this.Frame.Navigate(typeof(SetupPage));
+            }
         }
     }
 }
