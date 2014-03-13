@@ -167,21 +167,21 @@ namespace MaKeyMeSorry
             }
             if (!blue_selected && numComputers > 0)
             {
-                string computerName = "Blue Computer" + numComputers;
+                string computerName = "Blue Computer";
                 Player blueComputer = new Player(computerName, Color.BLUE, false, true);
                 players.Add(blueComputer);
                 numComputers--;
             }
             if (!yellow_selected && numComputers > 0)
             {
-                string computerName = "Yellow Computer" + numComputers;
+                string computerName = "Yellow Computer";
                 Player yellowComputer = new Player(computerName, Color.YELLOW, false, true);
                 players.Add(yellowComputer);
                 numComputers--;
             }
             if (!green_selected && numComputers > 0)
             {
-                string computerName = "Green Computer" + numComputers;
+                string computerName = "Green Computer";
                 Player greenComputer = new Player(computerName, Color.GREEN, false, true);
                 players.Add(greenComputer);
                 numComputers--;
