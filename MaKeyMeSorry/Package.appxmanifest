@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MaKeyMeSorry.App">
-      <m2:VisualElements DisplayName="MaKeyMeSorry" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="MaKeyMeSorry" ForegroundText="light" BackgroundColor="#8BD4E2">
+      <m2:VisualElements DisplayName="MaKeyMeSorry" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="MaKeyMeSorry" ForegroundText="light" BackgroundColor="#7c277d">
         <m2:DefaultTile ShortName="MaKeyMeSorry!" Square70x70Logo="Assets\Square70x70Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" Wide310x150Logo="Assets\Wide310x150Logo.png">
           <m2:ShowNameOnTiles>
             <m2:ShowOn Tile="square150x150Logo" />
@@ -23,7 +23,7 @@
             <m2:ShowOn Tile="square310x310Logo" />
           </m2:ShowNameOnTiles>
         </m2:DefaultTile>
-        <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#20409A" />
+        <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#7c277d" />
       </m2:VisualElements>
     </Application>
   </Applications>

@@ -139,6 +139,9 @@
     <None Include="MaKeyMeSorry_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-140.png" />
+    <Content Include="Assets\BadgeLogo.scale-180.png" />
     <Content Include="Assets\Blue Pawns\Blue Pawn - 1.png" />
     <Content Include="Assets\Blue Pawns\Blue Pawn - 2.png" />
     <Content Include="Assets\Blue Pawns\Blue Pawn - 3.png" />
@@ -275,7 +278,6 @@
     <Content Include="Assets\Square70x70Logo.scale-180.png" />
     <Content Include="Assets\Square70x70Logo.scale-80.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
-    <Content Include="Assets\board_image_example.png" />
     <Content Include="Assets\StoreLogo.scale-140.png" />
     <Content Include="Assets\StoreLogo.scale-180.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
