@@ -105,6 +105,8 @@ namespace MaKeyMeSorry
             this.navigationHelper.LoadState += navigationHelper_LoadState;
             this.navigationHelper.SaveState += navigationHelper_SaveState;
 
+            NumPlayersComboBox.SelectedIndex = 0;
+
         }
 
         /// <summary>
