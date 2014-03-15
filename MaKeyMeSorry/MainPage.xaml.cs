@@ -57,6 +57,7 @@ namespace MaKeyMeSorry
         private Card my_card;
 
         private List<Canvas> pawn_square_list;
+        private List<Canvas> preview_square_list;
 
         private List< List<Canvas>> start_lists;
         private List<List<Canvas>> safe_zone_lists;
@@ -126,7 +127,9 @@ namespace MaKeyMeSorry
 
             //game = new Game(4);
             card_color = 0;
+
             pawn_square_list = new List<Canvas>();
+            preview_square_list = new List<Canvas>();
            
             safe_zone_lists = new List<List<Canvas>>();
             start_lists = new List<List<Canvas>>();
@@ -141,7 +144,11 @@ namespace MaKeyMeSorry
             green_safe_zone_list = new List<Canvas>();
             red_safe_zone_list = new List<Canvas>();
 
-            init_pawn_square_list();
+            //creating and placing the layers of canvases
+            init_pawn_square_list(pawn_square_list);
+            init_pawn_square_list(preview_square_list);
+            init_safe_and_start_zones();
+
             //public enum Color { RED, BLUE, YELLOW, GREEN, WHITE }
             //order here important, can use current turn color as index!
             safe_zone_lists.Add(red_safe_zone_list);
@@ -1752,6 +1759,7 @@ namespace MaKeyMeSorry
             {
                 list[square_num].Background = null;
             }
+            
         }
 
         public void show_selected_move(int square_num, int pawn_num)//, List<Canvas> list)
@@ -1800,42 +1808,10 @@ namespace MaKeyMeSorry
             }
         }
 
-        private void init_pawn_square_list()
+        private void init_safe_and_start_zones()
         {
             ImageBrush ib = null;
-            //uncomment this part below to see the magic!
-            /*string uri_string = "ms-appx:///Assets/Pawn Images/RED Pawn.png";
-            ib = new ImageBrush();
-            Uri uri = new Uri(uri_string, UriKind.Absolute);
-            ib.ImageSource = new BitmapImage(uri);  */
-            for (int i = 0; i < 60; i++)
-            {
-                Canvas cv1 = new Canvas();
-                cv1.Background = ib;
-                cv1.Height = 100;
-                cv1.Width = 100;
-                game_grid.Children.Add(cv1);
-                pawn_square_list.Add(cv1);
-            }
-
             int x = 0;
-            for (int i = 0; i < 15; i++)
-            {
-
-                Canvas.SetLeft(pawn_square_list[i], 50 + x);
-                Canvas.SetTop(pawn_square_list[i], 45);
-
-                Canvas.SetLeft(pawn_square_list[i + 15], 1550);
-                Canvas.SetTop(pawn_square_list[i + 15], 45 + x);
-
-                Canvas.SetLeft(pawn_square_list[i + 30], 1550 - x);
-                Canvas.SetTop(pawn_square_list[i + 30], 1545);
-
-                Canvas.SetLeft(pawn_square_list[i + 45], 50);
-                Canvas.SetTop(pawn_square_list[i + 45], 1545 - x);
-
-                x += 100;
-            }
 
             for (int i = 0; i < 4; i++)
             {
@@ -1950,6 +1926,45 @@ namespace MaKeyMeSorry
                     Canvas.SetTop(green_safe_zone_list[i + 7], 1380);
                 }
 
+            }
+
+        }
+
+        private void init_pawn_square_list(List<Canvas> list)
+        {
+            ImageBrush ib = null;
+            //uncomment this part below to see the magic!
+            /*string uri_string = "ms-appx:///Assets/Pawn Images/RED Pawn.png";
+            ib = new ImageBrush();
+            Uri uri = new Uri(uri_string, UriKind.Absolute);
+            ib.ImageSource = new BitmapImage(uri);  */
+            for (int i = 0; i < 60; i++)
+            {
+                Canvas cv1 = new Canvas();
+                cv1.Background = ib;
+                cv1.Height = 100;
+                cv1.Width = 100;
+                game_grid.Children.Add(cv1);
+                list.Add(cv1);
+            }
+
+            int x = 0;
+            for (int i = 0; i < 15; i++)
+            {
+
+                Canvas.SetLeft(list[i], 50 + x);
+                Canvas.SetTop(list[i], 45);
+
+                Canvas.SetLeft(list[i + 15], 1550);
+                Canvas.SetTop(list[i + 15], 45 + x);
+
+                Canvas.SetLeft(list[i + 30], 1550 - x);
+                Canvas.SetTop(list[i + 30], 1545);
+
+                Canvas.SetLeft(list[i + 45], 50);
+                Canvas.SetTop(list[i + 45], 1545 - x);
+
+                x += 100;
             }
 
         }
