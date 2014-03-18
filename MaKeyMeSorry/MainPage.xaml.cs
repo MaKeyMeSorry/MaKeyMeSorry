@@ -1646,17 +1646,19 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
                             num_pawns_home[(int)color_of_current_turn] = num_pawns_home[(int)color_of_current_turn] + 1;
                         }
-                            /*
-                        else if (moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                        // This currently has a few issues. It is executing the move visually but not programatically. 
+                        // It still has issues with ending in the start square.
+                        // I also had an issue with index range.
+                        else if (moveToSquare.get_Type() == SquareKind.SLIDE_START && false)
                         {
 
                             Square endSlide = game.board.get_square_at(moveToSquare.get_index());
                             int sqIndex = moveToSquare.get_index();
-
-                            while (endSlide.get_Type() != SquareKind.SLIDE_END)
+                            int counter = 1;
+                            while (endSlide.get_Type() != SquareKind.SLIDE_END || endSlide.get_Type() != SquareKind.STARTC)
                             {
-
-                                sqIndex++;
+                                
+                                sqIndex = sqIndex + counter;
                                 endSlide = game.board.get_square_at(sqIndex);
 
                                 if (endSlide.get_has_pawn())
@@ -1669,13 +1671,13 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                                     update_pawn_square(endSlide.get_index(), color_of_current_turn, pawn_square_list, 0);
 
                                 }
+                                counter++;
                                 
                             }
 
                             update_pawn_square(endSlide.get_index(), color_of_current_turn, pawn_square_list, game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
 
                         }
-                             */
                         else
                         {
                             //send someone home here if they are in the square you want!
@@ -2085,6 +2087,9 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
         private void EndGameCommand(IUICommand command)
         {
+
+            //This has issues with null references when a new game is started.
+
             if (command.Label == "New Game")
             {
 
