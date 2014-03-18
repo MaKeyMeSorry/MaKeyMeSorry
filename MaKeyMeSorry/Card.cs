@@ -82,7 +82,7 @@ namespace MaKeyMeSorry
                 }
                 else if (value == 10)
                 {
-                    //card_features[(int)CardType.FORWARD] = true; 
+                    card_features[(int)CardType.BACKWARD] = true; 
                 }
                 else if (value == 11)
                 {

@@ -1762,6 +1762,44 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
         }
 
+        private void toggle_grey_pawn_preview(int index, int pawn_num)
+        {
+            ImageBrush ib = null;
+            if (preview_square_list[index].Background == ib)
+            {
+                string uri_string = "ms-appx:///Assets/Pawn Images/Grey Pawns/Grey Pawn - ";
+                uri_string += pawn_num.ToString();
+                uri_string += ".png";
+                ib = new ImageBrush();
+                Uri uri = new Uri(uri_string, UriKind.Absolute);
+                ib.ImageSource = new BitmapImage(uri);
+            }
+            preview_square_list[index].Background = ib;
+        }
+
+        private void toggle_sorry_preview(int index)
+        {
+            ImageBrush ib = null;
+            if (preview_square_list[index].Background == ib)
+            {
+                string uri_string = "ms-appx:///Assets/Pawn Images/Overlay Images/Pink Outline.png";
+                ib = new ImageBrush();
+                Uri uri = new Uri(uri_string, UriKind.Absolute);
+                ib.ImageSource = new BitmapImage(uri); 
+            }
+            preview_square_list[index].Background = ib;
+        }
+
+        private void clear_preivew_canvas()
+        {
+            ImageBrush ib = null;
+
+            for (int x = 0; x < preview_square_list.Count; x++)
+            {
+                preview_square_list[x].Background = ib;
+            }
+        }
+
  
         private void change_turn()
         {
