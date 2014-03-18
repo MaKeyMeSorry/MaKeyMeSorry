@@ -61,7 +61,8 @@ namespace MaKeyMeSorry
 
         private List< List<Canvas>> start_lists;
         private List<List<Canvas>> safe_zone_lists;
-
+        private List<List<Canvas>> preview_safe_zone_lists;
+ 
         private List<Canvas> blue_start_list;
         private List<Canvas> yellow_start_list;
         private List<Canvas> green_start_list;
@@ -144,6 +145,7 @@ namespace MaKeyMeSorry
            
             safe_zone_lists = new List<List<Canvas>>();
             start_lists = new List<List<Canvas>>();
+            preview_safe_zone_lists = new List<List<Canvas>>();
 
             blue_start_list = new List<Canvas>();
             yellow_start_list = new List<Canvas>();
@@ -158,7 +160,7 @@ namespace MaKeyMeSorry
             //creating and placing the layers of canvases
             init_pawn_square_list(pawn_square_list);
             init_pawn_square_list(preview_square_list);
-            init_safe_and_start_zones();
+            init_start_zones();
 
             //public enum Color { RED, BLUE, YELLOW, GREEN, WHITE }
             //order here important, can use current turn color as index!
@@ -166,6 +168,15 @@ namespace MaKeyMeSorry
             safe_zone_lists.Add(blue_safe_zone_list);
             safe_zone_lists.Add(yellow_safe_zone_list);
             safe_zone_lists.Add(green_safe_zone_list);
+
+            init_safe_zones(safe_zone_lists);
+
+            preview_safe_zone_lists.Add(new List<Canvas>());
+            preview_safe_zone_lists.Add(new List<Canvas>());
+            preview_safe_zone_lists.Add(new List<Canvas>());
+            preview_safe_zone_lists.Add(new List<Canvas>());
+
+            init_safe_zones(preview_safe_zone_lists);
 
             start_lists.Add(red_start_list);
             start_lists.Add(blue_start_list);
@@ -1767,14 +1778,24 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             ImageBrush ib = null;
             if (preview_square_list[index].Background == ib)
             {
-                string uri_string = "ms-appx:///Assets/Pawn Images/Grey Pawns/Grey Pawn - ";
+                string uri_string = "ms-appx:///Assets/Grey Pawns/Grey Pawn - ";
                 uri_string += pawn_num.ToString();
                 uri_string += ".png";
                 ib = new ImageBrush();
                 Uri uri = new Uri(uri_string, UriKind.Absolute);
                 ib.ImageSource = new BitmapImage(uri);
             }
-            preview_square_list[index].Background = ib;
+
+            if (index > 60)
+            {
+                preview_safe_zone_lists[(int)color_of_current_turn][index - color_adjustment].Background = ib;
+                return;
+            }
+            else
+            {
+                preview_square_list[index].Background = ib;
+            }
+
         }
 
         private void toggle_sorry_preview(int index)
@@ -1782,7 +1803,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             ImageBrush ib = null;
             if (preview_square_list[index].Background == ib)
             {
-                string uri_string = "ms-appx:///Assets/Pawn Images/Overlay Images/Pink Outline.png";
+                string uri_string = "ms-appx:///Assets/Overlay Images/Pink Outline.png";
                 ib = new ImageBrush();
                 Uri uri = new Uri(uri_string, UriKind.Absolute);
                 ib.ImageSource = new BitmapImage(uri); 
@@ -1790,13 +1811,27 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             preview_square_list[index].Background = ib;
         }
 
-        private void clear_preivew_canvas()
+        private void clear_preivew_canvas(int squarenum = -1)
         {
             ImageBrush ib = null;
-
-            for (int x = 0; x < preview_square_list.Count; x++)
+            if (squarenum == -1)
             {
-                preview_square_list[x].Background = ib;
+                for (int x = 0; x < preview_square_list.Count; x++)
+                {
+                    preview_square_list[x].Background = ib;
+                }
+            }
+            else
+            {
+                if (squarenum > 60)
+                {
+                    preview_safe_zone_lists[(int)color_of_current_turn][squarenum - color_adjustment].Background = ib;
+                    return;
+                }
+                else
+                {
+                    preview_square_list[squarenum].Background = ib;
+                }
             }
         }
 
@@ -1877,7 +1912,18 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
         public void show_selected_move(int square_num, int pawn_num)//, List<Canvas> list)
         {
-            string uri_string = "ms-appx:///Assets/Grey Pawns/Grey Pawn - ";
+            if (square_num < 60 && game.board.get_square_at(square_num).get_has_pawn())
+            {
+                toggle_sorry_preview(square_num);
+            }
+            else
+            {
+                toggle_grey_pawn_preview(square_num, pawn_num);
+            }
+
+            cur_selected_square = square_num;
+            
+            /*string uri_string = "ms-appx:///Assets/Grey Pawns/Grey Pawn - ";
             uri_string += pawn_num.ToString();
             uri_string += ".png";
             //change to a gray pawn later
@@ -1886,9 +1932,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             Uri uri = new Uri(uri_string, UriKind.Absolute);
             ib.ImageSource = new BitmapImage(uri);
 
-            cur_selected_square = square_num;
             
-            //
 
             if(square_num >= 60)
             {
@@ -1903,12 +1947,15 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             //
             //cur_selected_img = list[square_num].Background;
             //list[square_num].Background = ib;
-            //
+            //*/
         }
 
         public void hide_selected_move(int square_num)//, List<Canvas> list)
         {
-            if(square_num != -1)
+            
+            clear_preivew_canvas(square_num);
+            cur_selected_square = -1;
+            /*if(square_num != -1)
             {
                 cur_selected_square = -1;
                 if(square_num >= 60)
@@ -1918,41 +1965,12 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                 {
                     pawn_square_list[square_num].Background = cur_selected_img;
                 }
-            }
+            }*/
         }
 
-        private void init_safe_and_start_zones()
+        private void init_start_zones()
         {
             ImageBrush ib = null;
-            int x = 0;
-
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    Canvas cv1 = new Canvas();
-                    cv1.Background = ib;
-                    cv1.Height = 100;
-                    cv1.Width = 100;
-                    game_grid.Children.Add(cv1);
-                    switch (i)
-                    {
-                        case (0):
-                            blue_safe_zone_list.Add(cv1);
-                            break;
-                        case (1):
-                            yellow_safe_zone_list.Add(cv1);
-                            break;
-                        case (2):
-                            red_safe_zone_list.Add(cv1);
-                            break;
-                        case (3):
-                            green_safe_zone_list.Add(cv1);
-                            break;
-                    }
-                }
-            }
-
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -1979,64 +1997,96 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                     }
                 }
             }
+            int x = 0;
+            for (int i = 0; i < 2; i++)
+            {
+                x = i * 100;
+                
+                Canvas.SetLeft(red_start_list[i], 400 + x);
+                Canvas.SetTop(red_start_list[i], 140);
+                Canvas.SetLeft(red_start_list[i + 2], 400 + x);
+                Canvas.SetTop(red_start_list[i + 2], 240);
+             
+                Canvas.SetLeft(blue_start_list[i], 1360 + x);
+                Canvas.SetTop(blue_start_list[i], 370);
+                Canvas.SetLeft(blue_start_list[i + 2], 1360 + x);
+                Canvas.SetTop(blue_start_list[i + 2], 470);
+                   
+                Canvas.SetLeft(yellow_start_list[i], 1100 + x);
+                Canvas.SetTop(yellow_start_list[i], 1340);
+                Canvas.SetLeft(yellow_start_list[i + 2], 1100 + x);
+                Canvas.SetTop(yellow_start_list[i + 2], 1440);
+
+                Canvas.SetLeft(green_start_list[i], 140 + x);
+                Canvas.SetTop(green_start_list[i], 1075);
+                Canvas.SetLeft(green_start_list[i + 2], 140 + x);
+                Canvas.SetTop(green_start_list[i + 2], 1175);
+            }
+        }
+
+        //public enum Color { RED, BLUE, YELLOW, GREEN, WHITE }
+        private void init_safe_zones( List<List<Canvas> > list)
+        {
+            ImageBrush ib = null;
+            /*string uri_string = "ms-appx:///Assets/Pawn Images/RED Pawn.png";
+            ib = new ImageBrush();
+            Uri uri = new Uri(uri_string, UriKind.Absolute);
+            ib.ImageSource = new BitmapImage(uri); */
+            int x = 0;
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    Canvas cv1 = new Canvas();
+                    cv1.Background = ib;
+                    cv1.Height = 100;
+                    cv1.Width = 100;
+                    game_grid.Children.Add(cv1);
+
+                    list[i].Add(cv1);
+                }
+            }
+
 
             for (int i = 0; i < 5; i++)
             {
                 x = i * 100;
-                Canvas.SetLeft(blue_safe_zone_list[i], 1450 - x);
-                Canvas.SetTop(blue_safe_zone_list[i], 245);
+
+                Canvas.SetLeft(list[(int)Color.BLUE][i], 1450 - x);
+                Canvas.SetTop(list[(int)Color.BLUE][i], 245);
 
 
-                Canvas.SetLeft(green_safe_zone_list[i], 150 + x);
-                Canvas.SetTop(green_safe_zone_list[i], 1345);
+                Canvas.SetLeft(list[(int)Color.GREEN][i], 150 + x);
+                Canvas.SetTop(list[(int)Color.GREEN][i], 1345);
 
-                Canvas.SetLeft(red_safe_zone_list[i], 250);
-                Canvas.SetTop(red_safe_zone_list[i], 145 + x);
+                Canvas.SetLeft(list[(int)Color.RED][i], 250);
+                Canvas.SetTop(list[(int)Color.RED][i], 145 + x);
 
-                Canvas.SetLeft(yellow_safe_zone_list[i], 1350);
-                Canvas.SetTop(yellow_safe_zone_list[i], 1450 - x);
+                Canvas.SetLeft(list[(int)Color.YELLOW][i], 1350);
+                Canvas.SetTop(list[(int)Color.YELLOW][i], 1450 - x);
 
                 if (i < 2)
                 {
-                    Canvas.SetLeft(red_start_list[i], 400 + x);
-                    Canvas.SetTop(red_start_list[i], 140);
-                    Canvas.SetLeft(red_start_list[i + 2], 400 + x);
-                    Canvas.SetTop(red_start_list[i + 2], 240);
+                    Canvas.SetLeft(list[(int)Color.RED][i + 5], 200 + x);
+                    Canvas.SetTop(list[(int)Color.RED][i + 5], 625);
+                    Canvas.SetLeft(list[(int)Color.RED][i + 7], 200 + x);
+                    Canvas.SetTop(list[(int)Color.RED][i + 7], 725);
 
-                    Canvas.SetLeft(red_safe_zone_list[i + 5], 200 + x);
-                    Canvas.SetTop(red_safe_zone_list[i + 5], 625);
-                    Canvas.SetLeft(red_safe_zone_list[i + 7], 200 + x);
-                    Canvas.SetTop(red_safe_zone_list[i + 7], 725);
+                    Canvas.SetLeft(list[(int)Color.BLUE][i + 5], 860 + x);
+                    Canvas.SetTop(list[(int)Color.BLUE][i + 5], 180);
+                    Canvas.SetLeft(list[(int)Color.BLUE][i + 7], 865 + x);
+                    Canvas.SetTop(list[(int)Color.BLUE][i + 7], 280);
 
-                    Canvas.SetLeft(blue_start_list[i], 1360 + x);
-                    Canvas.SetTop(blue_start_list[i], 370);
-                    Canvas.SetLeft(blue_start_list[i + 2], 1360 + x);
-                    Canvas.SetTop(blue_start_list[i + 2], 470);
+                    Canvas.SetLeft(list[(int)Color.YELLOW][i + 5], 1300 + x);
+                    Canvas.SetTop(list[(int)Color.YELLOW][i + 5], 940);
+                    Canvas.SetLeft(list[(int)Color.YELLOW][i + 7], 1300 + x);
+                    Canvas.SetTop(list[(int)Color.YELLOW][i + 7], 840);
 
-                    Canvas.SetLeft(blue_safe_zone_list[i + 5], 860 + x);
-                    Canvas.SetTop(blue_safe_zone_list[i + 5], 180);
-                    Canvas.SetLeft(blue_safe_zone_list[i + 7], 865 + x);
-                    Canvas.SetTop(blue_safe_zone_list[i + 7], 280);
-
-                    Canvas.SetLeft(yellow_start_list[i], 1100 + x);
-                    Canvas.SetTop(yellow_start_list[i], 1340);
-                    Canvas.SetLeft(yellow_start_list[i + 2], 1100 + x);
-                    Canvas.SetTop(yellow_start_list[i + 2], 1440);
-
-                    Canvas.SetLeft(yellow_safe_zone_list[i + 5], 1300 + x);
-                    Canvas.SetTop(yellow_safe_zone_list[i + 5], 940);
-                    Canvas.SetLeft(yellow_safe_zone_list[i + 7], 1300 + x);
-                    Canvas.SetTop(yellow_safe_zone_list[i + 7], 840);
-
-                    Canvas.SetLeft(green_start_list[i], 140 + x);
-                    Canvas.SetTop(green_start_list[i], 1075);
-                    Canvas.SetLeft(green_start_list[i + 2], 140 + x);
-                    Canvas.SetTop(green_start_list[i + 2], 1175);
-
-                    Canvas.SetLeft(green_safe_zone_list[i + 5], 635 + x);
-                    Canvas.SetTop(green_safe_zone_list[i + 5], 1280);
-                    Canvas.SetLeft(green_safe_zone_list[i + 7], 635 + x);
-                    Canvas.SetTop(green_safe_zone_list[i + 7], 1380);
+                    Canvas.SetLeft(list[(int)Color.GREEN][i + 5], 635 + x);
+                    Canvas.SetTop(list[(int)Color.GREEN][i + 5], 1280);
+                    Canvas.SetLeft(list[(int)Color.GREEN][i + 7], 635 + x);
+                    Canvas.SetTop(list[(int)Color.GREEN][i + 7], 1380);
                 }
 
             }
