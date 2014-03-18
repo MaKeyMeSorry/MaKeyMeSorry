@@ -261,6 +261,8 @@
     <Content Include="Assets\SmallLogo.scale-140.png" />
     <Content Include="Assets\SmallLogo.scale-180.png" />
     <Content Include="Assets\SmallLogo.scale-80.png" />
+    <Content Include="Assets\Sorry! Overlay Images\Sorry - Black Outline-01.png" />
+    <Content Include="Assets\Sorry! Overlay Images\Sorry - Pink Outline-01.png" />
     <Content Include="Assets\Splash Image\MaKeyMeSorry!-01.scale-100.png" />
     <Content Include="Assets\Splash Image\MaKeyMeSorry!-01.scale-140.png" />
     <Content Include="Assets\Splash Image\MaKeyMeSorry!-01.scale-180.png" />
