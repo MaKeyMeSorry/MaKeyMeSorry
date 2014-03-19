@@ -58,6 +58,25 @@ namespace MaKeyMeSorry
             }
         }
 
+        public int get_safe_square(Color color)
+        {
+            // TODO Write get_start_square
+            switch (color)
+            {
+                case Color.BLUE:
+                    return blueStart - 2;
+                case Color.GREEN:
+                    return greenStart - 2;
+                case Color.RED:
+                    return redStart - 2;
+                case Color.YELLOW:
+                    return yellowStart - 2;
+                default:
+                    Debug.WriteLine("error getting base for my color!");
+                    return -1;
+            }
+        }
+
         public void execute_slide(int startSlide, Pawn pawn)
         {
             int index = startSlide;

@@ -571,7 +571,7 @@
             
             <Button x:Name="how_to_button" Content="How To" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="550" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" Click="how_to_button_Click" />
             <Button x:Name="new_game_button" Content="New Game" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="650" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" Click="new_game_button_Click" />
-            <Button x:Name="pass_button" Content="Pass" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="750" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" />
+            <Button x:Name="pass_button" Content="Forfeit Turn" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="750" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" />
             <TextBlock x:Name="no_options" Canvas.Left="350" Canvas.Top="933" Visibility="Collapsed" Text="No moves available, press Enter to continue" FontFamily="Helvetica" FontSize="48" Foreground="Black"/>
 
 

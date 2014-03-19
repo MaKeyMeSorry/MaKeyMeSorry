@@ -31,6 +31,7 @@ namespace MaKeyMeSorry
         public Board board;
         public Deck deck;
         public int MAXSQUARES = 60;
+        public bool forfeit_enabled;
 
         // Constructs the Game class with numHumans 
         // representing the number of human players.
@@ -41,6 +42,7 @@ namespace MaKeyMeSorry
             deck = new Deck(true);
             
             players = playerList;
+            forfeit_enabled = false;
 
             /*
             players = new List<Player>();
@@ -93,6 +95,7 @@ namespace MaKeyMeSorry
             Player myPlayer = get_player(playerColor);
             int moveLocation;
             int startSquareIndex = board.get_start_square(playerColor);
+            forfeit_enabled = false;
 
             // TODO If a choice is slected then check if that spot is a slide and if you need 
             // to send any pawns on the slide to start and then move your pawn to end of the slide.
@@ -103,33 +106,67 @@ namespace MaKeyMeSorry
             // If it is a start card (1 or 2), then grab the first pawn from start as a
             // choice. If this pawn is selected in UI
             choices.Clear();
-            if (card.get_start())
+            if (card.get_start() || card.can_sorry())
             {
                 if (myPlayer.get_pawn_from_start() != null)
                 {
-                    moveLocation = (startSquareIndex + card.can_move_forward() - 1) % MAXSQUARES;
-                    if (board.get_square_at(moveLocation).can_place_pawn(myPlayer.get_pawn_from_start()))
+
+                    if (card.can_sorry())
                     {
-                        choices.Add(board.get_square_at(moveLocation));
-                        allChoices.Add(new Tuple<Pawn, List<Square>>(myPlayer.get_pawn_from_start(), new List<Square>(choices)));
-                        Debug.WriteLine("START CHOICE GO TO: " + choices.ElementAt(0).get_index());
-                        foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)
+                        foreach (Player player in players)
                         {
-                            if (pawnChoice.Item1.is_start())
+                            if (player != myPlayer)
                             {
-                                Debug.WriteLine("Pawn ...location START");
+                                foreach (Pawn enemyPawn in player.get_active_pawns())
+                                {
+                                    if (!enemyPawn.is_in_safe_zone())
+                                    {
+                                        choices.Add(enemyPawn.get_current_location());
+                                    }
+                                    // TODO Check if enemy pawn is in safe zone...inside home slide.
 
-                            }
-                            else
-                            {
-                                Debug.WriteLine("Pawn ...location" + pawnChoice.Item1.get_current_location().get_index());
-
-                            }
-                            foreach (Square testSquare in pawnChoice.Item2)
-                            {
-                                Debug.WriteLine("square location" + testSquare.get_index());
+                                    // if(card.can_sorry()) 
+                                    //     add event trigger for this choice to a sorry event
+                                    // if(card.can_swap())
+                                    //     add event trigger for this choice to a swap event
+                                    // implementations for actions after the choice has
+                                    // been made on UI.
+                                }
                             }
                         }
+                        if (choices.Count != 0)
+                        {
+                            allChoices.Add(new Tuple<Pawn, List<Square>>(myPlayer.get_pawn_from_start(), new List<Square>(choices)));
+                        }
+                    }
+                    else
+                    {
+
+                        moveLocation = (startSquareIndex + card.can_move_forward() - 1) % MAXSQUARES;
+                        if (board.get_square_at(moveLocation).can_place_pawn(myPlayer.get_pawn_from_start()))
+                        {
+                            choices.Add(board.get_square_at(moveLocation));
+                            allChoices.Add(new Tuple<Pawn, List<Square>>(myPlayer.get_pawn_from_start(), new List<Square>(choices)));
+                            Debug.WriteLine("START CHOICE GO TO: " + choices.ElementAt(0).get_index());
+                            foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)
+                            {
+                                if (pawnChoice.Item1.is_start())
+                                {
+                                    Debug.WriteLine("Pawn ...location START");
+
+                                }
+                                else
+                                {
+                                    Debug.WriteLine("Pawn ...location" + pawnChoice.Item1.get_current_location().get_index());
+
+                                }
+                                foreach (Square testSquare in pawnChoice.Item2)
+                                {
+                                    Debug.WriteLine("square location" + testSquare.get_index());
+                                }
+                            }
+                        }
+
                     }
                 }
             }
@@ -141,6 +178,7 @@ namespace MaKeyMeSorry
 
                 if (pawn.is_in_safe_zone())
                 {
+
                     if (card.can_move_forward() > 0 && card.can_move_forward() <= 5)
                     {
                         if ((pawn.get_current_location().get_index() % 6) + card.can_move_forward() < 6)
@@ -161,6 +199,44 @@ namespace MaKeyMeSorry
 
                         }
 
+                    } else if (card.can_move_backward() != 0)
+                    {
+                        moveLocation = pawn.get_current_location().get_index() - card.can_move_backward();
+                        if(moveLocation < (60+(6*(int)playerColor)))
+                        {
+                            moveLocation = board.get_safe_square(playerColor) - (((60 + (6 * (int)playerColor)) - 1) - moveLocation);
+                        }
+                        if (moveLocation < 0)
+                        {
+                            moveLocation += MAXSQUARES;
+                        }
+                        if (board.get_square_at(moveLocation).can_place_pawn(pawn))
+                        {
+                            choices.Add(board.get_square_at(moveLocation));
+                        }
+                    } else if(card.can_sorry())// || card.can_swap()) //add swap here
+                    {
+                        foreach (Player player in players)
+                        {
+                            if (player != myPlayer)
+                            {
+                                foreach (Pawn enemyPawn in player.get_active_pawns())
+                                {
+                                    if(!enemyPawn.is_in_safe_zone())
+                                    {
+                                        choices.Add(enemyPawn.get_current_location());
+                                    }
+                                    // TODO Check if enemy pawn is in safe zone...inside home slide.
+
+                                    // if(card.can_sorry()) 
+                                    //     add event trigger for this choice to a sorry event
+                                    // if(card.can_swap())
+                                    //     add event trigger for this choice to a swap event
+                                    // implementations for actions after the choice has
+                                    // been made on UI.
+                                }
+                            }
+                        }
                     }
 
                 }
@@ -170,6 +246,11 @@ namespace MaKeyMeSorry
                     {
                         bool pawnJumpedBoard = false;  //bool if the pawn jumped map like from 59 to 3
                         int homeConnect;
+
+                        if(card.can_move_forward() == 11)
+                        {
+                            forfeit_enabled = true;
+                        }
 
                         moveLocation = (pawn.get_current_location().get_index() + card.can_move_forward());
                         homeConnect = startSquareIndex - 2;
@@ -202,6 +283,10 @@ namespace MaKeyMeSorry
 
                                     if (board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)).can_place_pawn(pawn))
                                     {
+                                        if(card.can_move_forward() == 11)
+                                        {
+                                            forfeit_enabled = false;
+                                        }
                                         choices.Add(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)));
                                     }
                                     //choices.Add(board.get_my_base(playerColor)[moveLocation - homeConnect]);
@@ -216,6 +301,10 @@ namespace MaKeyMeSorry
 
                                 if (board.get_square_at(moveLocation).can_place_pawn(pawn))
                                 {
+                                    if (card.can_move_forward() == 11)
+                                    {
+                                        forfeit_enabled = false;
+                                    }
                                     choices.Add(board.get_square_at(moveLocation));
                                 }
                             }
@@ -231,6 +320,10 @@ namespace MaKeyMeSorry
 
                                 if (board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)).can_place_pawn(pawn))
                                 {
+                                    if (card.can_move_forward() == 11)
+                                    {
+                                        forfeit_enabled = false;
+                                    }
                                     choices.Add(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)));
                                 }
                                 //choices.Add(board.get_my_base(playerColor)[moveLocation - homeConnect]);
@@ -246,6 +339,10 @@ namespace MaKeyMeSorry
 
                             if (board.get_square_at(moveLocation).can_place_pawn(pawn))
                             {
+                                if (card.can_move_forward() == 11)
+                                {
+                                    forfeit_enabled = false;
+                                }
                                 choices.Add(board.get_square_at(moveLocation));
                             }
                         }
@@ -268,7 +365,7 @@ namespace MaKeyMeSorry
 
                     // swap and sorry combined because they used same code to grab all enemy pawns.
                     // differences only occur after the choice has been chosen on UI.
-                    if (card.can_sorry()) //add swap here
+                    if (card.can_sorry())// || card.can_swap()) //add swap here
                     {
                         foreach (Player player in players)
                         {
