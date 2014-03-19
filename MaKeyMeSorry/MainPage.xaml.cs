@@ -1967,15 +1967,12 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
         private void toggle_grey_pawn_preview(int index, int pawn_num)
         {
             ImageBrush ib = null;
-            if (preview_square_list[index].Background == ib)
-            {
-                string uri_string = "ms-appx:///Assets/Grey Pawns/Grey Pawn - ";
-                uri_string += pawn_num.ToString();
-                uri_string += ".png";
-                ib = new ImageBrush();
-                Uri uri = new Uri(uri_string, UriKind.Absolute);
-                ib.ImageSource = new BitmapImage(uri);
-            }
+            string uri_string = "ms-appx:///Assets/Grey Pawns/Grey Pawn - ";
+            uri_string += pawn_num.ToString();
+            uri_string += ".png";
+            ib = new ImageBrush();
+            Uri uri = new Uri(uri_string, UriKind.Absolute);
+            ib.ImageSource = new BitmapImage(uri);
 
             if (index > 60)
             {
