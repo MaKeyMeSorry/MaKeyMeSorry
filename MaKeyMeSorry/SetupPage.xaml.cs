@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.UI.Popups;
 using System.Diagnostics;
+using Windows.Media;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -33,14 +34,6 @@ namespace MaKeyMeSorry
         bool blue_selected;
         bool green_selected;
         bool yellow_selected;
-        static int red_index = 0;
-        static int blue_index = 1;
-        static int green_index = 3;
-        static int yellow_index = 2;
-        int player1_color_selected;
-        int player2_color_selected;
-        int player3_color_selected;
-        int player4_color_selected;
         string player1name;
         string player2name;
         string player3name;
@@ -50,8 +43,32 @@ namespace MaKeyMeSorry
         Color player3_color;
         Color player4_color;
 
+        TextBlock red_player1 = new TextBlock();
+        TextBlock blue_player1 = new TextBlock();
+        TextBlock green_player1 = new TextBlock();
+        TextBlock yellow_player1 = new TextBlock();
+
+        TextBlock red_player2 = new TextBlock();
+        TextBlock blue_player2 = new TextBlock();
+        TextBlock green_player2 = new TextBlock();
+        TextBlock yellow_player2 = new TextBlock();
+
+        TextBlock red_player3 = new TextBlock();
+        TextBlock blue_player3 = new TextBlock();
+        TextBlock green_player3 = new TextBlock();
+        TextBlock yellow_player3 = new TextBlock();
+
+        TextBlock red_player4 = new TextBlock();
+        TextBlock blue_player4 = new TextBlock();
+        TextBlock green_player4 = new TextBlock();
+        TextBlock yellow_player4 = new TextBlock();
+
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+
+        KeyEventHandler key_up_handler;
+        KeyEventHandler key_down_handler;
+        int focus_index = -1;
 
         /// <summary>
         /// This can be changed to a strongly typed view model.
@@ -70,9 +87,7 @@ namespace MaKeyMeSorry
             get { return this.navigationHelper; }
         }
 
-        KeyEventHandler key_up_handler;
-        KeyEventHandler key_down_handler;
-        int focus_index = -1;
+
 
         public SetupPage()
         {
@@ -81,10 +96,11 @@ namespace MaKeyMeSorry
             blue_selected = false;
             yellow_selected = false;
             green_selected = false;
-            player1_color_selected = -1;
-            player2_color_selected = -1;
-            player3_color_selected = -1;
-            player4_color_selected = -1;
+
+            player1_color = Color.WHITE;
+            player2_color = Color.WHITE;
+            player3_color = Color.WHITE;
+            player4_color = Color.WHITE;
 
             numHumanPlayers = 0;
 
@@ -99,7 +115,6 @@ namespace MaKeyMeSorry
             Loaded += delegate { NumPlayersComboBox.Focus(FocusState.Keyboard); };
             focus_index = 0;
 
-            // NumPlayersComboBox.Focus(FocusState.Keyboard);
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += navigationHelper_LoadState;
@@ -107,6 +122,56 @@ namespace MaKeyMeSorry
 
             NumPlayersComboBox.SelectedIndex = 0;
 
+
+            red_player1.Text = "Red";
+            blue_player1.Text = "Blue";
+            green_player1.Text = "Green";
+            yellow_player1.Text = "Yellow";
+
+            red_player2.Text = "Red";
+            blue_player2.Text = "Blue";
+            green_player2.Text = "Green";
+            yellow_player2.Text = "Yellow";
+
+            red_player3.Text = "Red";
+            blue_player3.Text = "Blue";
+            green_player3.Text = "Green";
+            yellow_player3.Text = "Yellow";
+
+            red_player4.Text = "Red";
+            blue_player4.Text = "Blue";
+            green_player4.Text = "Green";
+            yellow_player4.Text = "Yellow";
+
+            TextBlock choose_color1 = new TextBlock();
+            choose_color1.Text = "Choose Color";
+            choose_color1.Foreground = new SolidColorBrush(Windows.UI.Colors.Gray);
+            color_combo_1.Items.Add(choose_color1);
+
+            TextBlock choose_color2 = new TextBlock();
+            choose_color2.Text = "Choose Color";
+            choose_color2.Foreground = new SolidColorBrush(Windows.UI.Colors.Gray);
+            color_combo_2.Items.Add(choose_color2);
+
+            TextBlock choose_color3 = new TextBlock();
+            choose_color3.Text = "Choose Color";
+            choose_color3.Foreground = new SolidColorBrush(Windows.UI.Colors.Gray);
+            color_combo_3.Items.Add(choose_color3);
+
+            TextBlock choose_color4 = new TextBlock();
+            choose_color4.Text = "Choose Color";
+            choose_color4.Foreground = new SolidColorBrush(Windows.UI.Colors.Gray);
+            color_combo_4.Items.Add(choose_color4);
+
+            reinsert_color_to_all_except("Red", 0);
+            reinsert_color_to_all_except("Blue", 0);
+            reinsert_color_to_all_except("Green", 0);
+            reinsert_color_to_all_except("Yellow", 0);
+
+            color_combo_1.SelectedIndex = 0;
+            color_combo_2.SelectedIndex = 0;
+            color_combo_3.SelectedIndex = 0;
+            color_combo_4.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -234,7 +299,7 @@ namespace MaKeyMeSorry
             // If we want to force them to choose colors uncomment this
             if (numHumanPlayers > 0)
             {
-                if (player1_color_selected == -1)
+                if (player1_color == Color.WHITE)
                 {
                     MessageDialog message = new MessageDialog("Please select a color for all human players");
                     message.ShowAsync();
@@ -243,7 +308,7 @@ namespace MaKeyMeSorry
             }
             if (numHumanPlayers > 1)
             {
-                if (player2_color_selected == -1)
+                if (player2_color == Color.WHITE)
                 {
                     MessageDialog message = new MessageDialog("Please select a color for all human players");
                     message.ShowAsync();
@@ -252,7 +317,7 @@ namespace MaKeyMeSorry
             }
             if (numHumanPlayers > 2)
             {
-                if (player3_color_selected == -1)
+                if (player3_color == Color.WHITE)
                 {
                     MessageDialog message = new MessageDialog("Please select a color for all human players");
                     message.ShowAsync();
@@ -261,7 +326,7 @@ namespace MaKeyMeSorry
             }
             if (numHumanPlayers > 3)
             {
-                if (player4_color_selected == -1)
+                if (player4_color == Color.WHITE)
                 {
                     MessageDialog message = new MessageDialog("Please select a color for all human players");
                     message.ShowAsync();
@@ -319,304 +384,278 @@ namespace MaKeyMeSorry
             currentComboBoxIndex = NumPlayersComboBox.SelectedIndex;
         }
 
+
+        private void reinsert_color_to_all_except(string color, int ignored_player)
+        {
+            // passing in 0 will insert color in all combo boxes
+            Debug.WriteLine("Inserting " + color + " into all players except: " + ignored_player);
+            if (ignored_player != 1)
+            {
+                if (color == "Red") color_combo_1.Items.Add(red_player1);
+                if (color == "Blue") color_combo_1.Items.Add(blue_player1);
+                if (color == "Green") color_combo_1.Items.Add(green_player1);
+                if (color == "Yellow") color_combo_1.Items.Add(yellow_player1);
+            }
+            if (ignored_player != 2)
+            {
+
+                if (color == "Red") color_combo_2.Items.Add(red_player2);
+                if (color == "Blue") color_combo_2.Items.Add(blue_player2);
+                if (color == "Green") color_combo_2.Items.Add(green_player2);
+                if (color == "Yellow") color_combo_2.Items.Add(yellow_player2);
+            }
+            if (ignored_player != 3)
+            {
+                if (color == "Red") color_combo_3.Items.Add(red_player3);
+                if (color == "Blue") color_combo_3.Items.Add(blue_player3);
+                if (color == "Green") color_combo_3.Items.Add(green_player3);
+                if (color == "Yellow") color_combo_3.Items.Add(yellow_player3);
+            }
+            if (ignored_player != 4)
+            {
+                if (color == "Red") color_combo_4.Items.Add(red_player4);
+                if (color == "Blue") color_combo_4.Items.Add(blue_player4);
+                if (color == "Green") color_combo_4.Items.Add(green_player4);
+                if (color == "Yellow") color_combo_4.Items.Add(yellow_player4);
+            }
+        }
+
+        private void remove_color_from_all_except(string color, int ignored_player)
+        {
+            Debug.WriteLine("Removing " + color + " from all players except: " + ignored_player);
+            if (ignored_player != 1)
+            {
+                if (color == "Red") color_combo_1.Items.Remove(red_player1);
+                if (color == "Blue") color_combo_1.Items.Remove(blue_player1);
+                if (color == "Green") color_combo_1.Items.Remove(green_player1);
+                if (color == "Yellow") color_combo_1.Items.Remove(yellow_player1);
+            }
+            if (ignored_player != 2)
+            {
+                if (color == "Red") color_combo_2.Items.Remove(red_player2);
+                if (color == "Blue") color_combo_2.Items.Remove(blue_player2);
+                if (color == "Green") color_combo_2.Items.Remove(green_player2);
+                if (color == "Yellow") color_combo_2.Items.Remove(yellow_player2);
+            }
+            if (ignored_player != 3)
+            {
+                if (color == "Red") color_combo_3.Items.Remove(red_player3);
+                if (color == "Blue") color_combo_3.Items.Remove(blue_player3);
+                if (color == "Green") color_combo_3.Items.Remove(green_player3);
+                if (color == "Yellow") color_combo_3.Items.Remove(yellow_player3);
+            }
+            if (ignored_player != 4)
+            {
+                if (color == "Red") color_combo_4.Items.Remove(red_player4);
+                if (color == "Blue") color_combo_4.Items.Remove(blue_player4);
+                if (color == "Green") color_combo_4.Items.Remove(green_player4);
+                if (color == "Yellow") color_combo_4.Items.Remove(yellow_player4);
+            }
+        }
+
+        private void unselect_current_color_from_player(int player)
+        {
+
+            Color currently_selected = Color.WHITE;
+
+            if (player == 1) currently_selected = player1_color;
+            if (player == 2) currently_selected = player2_color;
+            if (player == 3) currently_selected = player3_color;
+            if (player == 4) currently_selected = player4_color;
+
+            if (currently_selected == Color.RED)
+            {
+                reinsert_color_to_all_except("Red", player);
+                red_selected = false;
+            }
+            if (currently_selected == Color.BLUE)
+            {
+                reinsert_color_to_all_except("Blue", player);
+                blue_selected = false;
+            }
+            if (currently_selected == Color.GREEN)
+            {
+                reinsert_color_to_all_except("Green", player);
+                green_selected = false;
+            }
+            if (currently_selected == Color.YELLOW)
+            {
+                reinsert_color_to_all_except("Yellow", player);
+                yellow_selected = false;
+            }
+        }
+
+
         private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             // Check if already selected color and changing colors
-            if (player1_color_selected != -1)
+
+            TextBlock selected_Color = color_combo_1.SelectedItem as TextBlock;
+
+            if (player1_color != Color.WHITE)
             {
-                if (player1_color_selected == red_index)
-                {
-                    red2.Visibility = Visibility.Visible;
-                    red3.Visibility = Visibility.Visible;
-                    red4.Visibility = Visibility.Visible;
-                    red_selected = false;
-                    player1_color = Color.WHITE;
-                }
-                if (player1_color_selected == blue_index)
-                {
-                    blue2.Visibility = Visibility.Visible;
-                    blue3.Visibility = Visibility.Visible;
-                    blue4.Visibility = Visibility.Visible;
-                    blue_selected = false;
-                    player1_color = Color.WHITE;
-                }
-                if (player1_color_selected == green_index)
-                {
-                    green2.Visibility = Visibility.Visible;
-                    green3.Visibility = Visibility.Visible;
-                    green4.Visibility = Visibility.Visible;
-                    green_selected = false;
-                    player1_color = Color.WHITE;
-                }
-                if (player1_color_selected == yellow_index)
-                {
-                    yellow2.Visibility = Visibility.Visible;
-                    yellow3.Visibility = Visibility.Visible;
-                    yellow4.Visibility = Visibility.Visible;
-                    yellow_selected = false;
-                    player1_color = Color.WHITE;
-                }
+                unselect_current_color_from_player(1);
+                player1_color = Color.WHITE;
             }
 
-            if (color_combo_1.SelectedIndex == red_index)
+            if (selected_Color.Text == "Red")
             {
-                red2.Visibility = Visibility.Collapsed;
-                red3.Visibility = Visibility.Collapsed;
-                red4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Red", 1);
                 red_selected = true;
                 player1_color = Color.RED;
             }
-            if (color_combo_1.SelectedIndex == blue_index)
+            if (selected_Color.Text == "Blue")
             {
-                blue2.Visibility = Visibility.Collapsed;
-                blue3.Visibility = Visibility.Collapsed;
-                blue4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Blue", 1);
                 blue_selected = true;
                 player1_color = Color.BLUE;
             }
-            if (color_combo_1.SelectedIndex == green_index)
+            if (selected_Color.Text == "Green")
             {
-                green2.Visibility = Visibility.Collapsed;
-                green3.Visibility = Visibility.Collapsed;
-                green4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Green", 1);
                 green_selected = true;
                 player1_color = Color.GREEN;
             }
-            if (color_combo_1.SelectedIndex == yellow_index)
+            if (selected_Color.Text == "Yellow")
             {
-                yellow2.Visibility = Visibility.Collapsed;
-                yellow3.Visibility = Visibility.Collapsed;
-                yellow4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Yellow", 1);
                 yellow_selected = true;
                 player1_color = Color.YELLOW;
             }
-
-            player1_color_selected = color_combo_1.SelectedIndex;
+            if (selected_Color.Text == "Choose Color" && player1_color != Color.WHITE)
+            {
+                unselect_current_color_from_player(1);
+                player1_color = Color.WHITE;
+            }
         }
 
         private void ComboBox_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
         {
             // Check if already selected color and changing colors
-            if (player2_color_selected != -1)
+
+            TextBlock selected_Color = color_combo_2.SelectedItem as TextBlock;
+
+            if (player2_color != Color.WHITE)
             {
-                if (player2_color_selected == red_index)
-                {
-                    red1.Visibility = Visibility.Visible;
-                    red3.Visibility = Visibility.Visible;
-                    red4.Visibility = Visibility.Visible;
-                    red_selected = false;
-                    player2_color = Color.WHITE;
-                }
-                if (player2_color_selected == blue_index)
-                {
-                    blue1.Visibility = Visibility.Visible;
-                    blue3.Visibility = Visibility.Visible;
-                    blue4.Visibility = Visibility.Visible;
-                    blue_selected = false;
-                    player2_color = Color.WHITE;
-                }
-                if (player2_color_selected == green_index)
-                {
-                    green1.Visibility = Visibility.Visible;
-                    green3.Visibility = Visibility.Visible;
-                    green4.Visibility = Visibility.Visible;
-                    green_selected = false;
-                    player2_color = Color.WHITE;
-                }
-                if (player2_color_selected == yellow_index)
-                {
-                    yellow1.Visibility = Visibility.Visible;
-                    yellow3.Visibility = Visibility.Visible;
-                    yellow4.Visibility = Visibility.Visible;
-                    yellow_selected = false;
-                    player2_color = Color.WHITE;
-                }
+                unselect_current_color_from_player(2);
+                player2_color = Color.WHITE;
             }
 
-            if (color_combo_2.SelectedIndex == red_index)
+            if (selected_Color.Text == "Red")
             {
-                red1.Visibility = Visibility.Collapsed;
-                red3.Visibility = Visibility.Collapsed;
-                red4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Red", 2);
                 red_selected = true;
                 player2_color = Color.RED;
             }
-            if (color_combo_2.SelectedIndex == blue_index)
+            if (selected_Color.Text == "Blue")
             {
-                blue1.Visibility = Visibility.Collapsed;
-                blue3.Visibility = Visibility.Collapsed;
-                blue4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Blue", 2);
                 blue_selected = true;
                 player2_color = Color.BLUE;
             }
-            if (color_combo_2.SelectedIndex == green_index)
+            if (selected_Color.Text == "Green")
             {
-                green1.Visibility = Visibility.Collapsed;
-                green3.Visibility = Visibility.Collapsed;
-                green4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Green", 2);
                 green_selected = true;
                 player2_color = Color.GREEN;
             }
-            if (color_combo_2.SelectedIndex == yellow_index)
+            if (selected_Color.Text == "Yellow")
             {
-                yellow1.Visibility = Visibility.Collapsed;
-                yellow3.Visibility = Visibility.Collapsed;
-                yellow4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Yellow", 2);
                 yellow_selected = true;
                 player2_color = Color.YELLOW;
             }
-
-            player2_color_selected = color_combo_2.SelectedIndex;
+            if (selected_Color.Text == "Choose Color" && player2_color != Color.WHITE)
+            {
+                unselect_current_color_from_player(2);
+                player2_color = Color.WHITE;
+            }
         }
 
         private void ComboBox_SelectionChanged_3(object sender, SelectionChangedEventArgs e)
         {
             // Check if already selected color and changing colors
-            if (player3_color_selected != -1)
+
+            TextBlock selected_Color = color_combo_3.SelectedItem as TextBlock;
+
+            if (player3_color != Color.WHITE)
             {
-                if (player3_color_selected == red_index)
-                {
-                    red2.Visibility = Visibility.Visible;
-                    red1.Visibility = Visibility.Visible;
-                    red4.Visibility = Visibility.Visible;
-                    red_selected = false;
-                    player3_color = Color.WHITE;
-                }
-                if (player3_color_selected == blue_index)
-                {
-                    blue2.Visibility = Visibility.Visible;
-                    blue1.Visibility = Visibility.Visible;
-                    blue4.Visibility = Visibility.Visible;
-                    blue_selected = false;
-                    player3_color = Color.WHITE;
-                }
-                if (player3_color_selected == green_index)
-                {
-                    green2.Visibility = Visibility.Visible;
-                    green1.Visibility = Visibility.Visible;
-                    green4.Visibility = Visibility.Visible;
-                    green_selected = false;
-                    player3_color = Color.WHITE;
-                }
-                if (player3_color_selected == yellow_index)
-                {
-                    yellow2.Visibility = Visibility.Visible;
-                    yellow1.Visibility = Visibility.Visible;
-                    yellow4.Visibility = Visibility.Visible;
-                    yellow_selected = false;
-                    player3_color = Color.WHITE;
-                }
+                unselect_current_color_from_player(3);
+                player3_color = Color.WHITE;
             }
 
-            if (color_combo_3.SelectedIndex == red_index)
+            if (selected_Color.Text == "Red")
             {
-                red2.Visibility = Visibility.Collapsed;
-                red1.Visibility = Visibility.Collapsed;
-                red4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Red", 3);
                 red_selected = true;
                 player3_color = Color.RED;
             }
-            if (color_combo_3.SelectedIndex == blue_index)
+            if (selected_Color.Text == "Blue")
             {
-                blue2.Visibility = Visibility.Collapsed;
-                blue1.Visibility = Visibility.Collapsed;
-                blue4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Blue", 3);
                 blue_selected = true;
                 player3_color = Color.BLUE;
             }
-            if (color_combo_3.SelectedIndex == green_index)
+            if (selected_Color.Text == "Green")
             {
-                green2.Visibility = Visibility.Collapsed;
-                green1.Visibility = Visibility.Collapsed;
-                green4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Green", 3);
                 green_selected = true;
                 player3_color = Color.GREEN;
             }
-            if (color_combo_3.SelectedIndex == yellow_index)
+            if (selected_Color.Text == "Yellow")
             {
-                yellow2.Visibility = Visibility.Collapsed;
-                yellow1.Visibility = Visibility.Collapsed;
-                yellow4.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Yellow", 3);
                 yellow_selected = true;
                 player3_color = Color.YELLOW;
             }
-
-            player3_color_selected = color_combo_3.SelectedIndex;
+            if (selected_Color.Text == "Choose Color" && player3_color != Color.WHITE)
+            {
+                unselect_current_color_from_player(3);
+                player3_color = Color.WHITE;
+            }
         }
 
         private void ComboBox_SelectionChanged_4(object sender, SelectionChangedEventArgs e)
         {
             // Check if already selected color and changing colors
-            if (player4_color_selected != -1)
+
+            TextBlock selected_Color = color_combo_4.SelectedItem as TextBlock;
+
+            if (player4_color != Color.WHITE)
             {
-                if (player4_color_selected == red_index)
-                {
-                    red2.Visibility = Visibility.Visible;
-                    red1.Visibility = Visibility.Visible;
-                    red3.Visibility = Visibility.Visible;
-                    red_selected = false;
-                    player4_color = Color.WHITE;
-                }
-                if (player4_color_selected == blue_index)
-                {
-                    blue2.Visibility = Visibility.Visible;
-                    blue1.Visibility = Visibility.Visible;
-                    blue3.Visibility = Visibility.Visible;
-                    blue_selected = false;
-                    player4_color = Color.WHITE;
-                }
-                if (player4_color_selected == green_index)
-                {
-                    green2.Visibility = Visibility.Visible;
-                    green1.Visibility = Visibility.Visible;
-                    green3.Visibility = Visibility.Visible;
-                    green_selected = false;
-                    player4_color = Color.WHITE;
-                }
-                if (player4_color_selected == yellow_index)
-                {
-                    yellow2.Visibility = Visibility.Visible;
-                    yellow1.Visibility = Visibility.Visible;
-                    yellow3.Visibility = Visibility.Visible;
-                    yellow_selected = false;
-                    player4_color = Color.WHITE;
-                }
+                unselect_current_color_from_player(4);
+                player4_color = Color.WHITE;
             }
 
-            if (color_combo_4.SelectedIndex == red_index)
+            if (selected_Color.Text == "Red")
             {
-                red2.Visibility = Visibility.Collapsed;
-                red1.Visibility = Visibility.Collapsed;
-                red3.Visibility = Visibility.Collapsed;
-                player4_color = Color.RED;
+                remove_color_from_all_except("Red", 4);
                 red_selected = true;
+                player4_color = Color.RED;
             }
-            if (color_combo_4.SelectedIndex == blue_index)
+            if (selected_Color.Text == "Blue")
             {
-                blue2.Visibility = Visibility.Collapsed;
-                blue1.Visibility = Visibility.Collapsed;
-                blue3.Visibility = Visibility.Collapsed;
-                player4_color = Color.BLUE;
+                remove_color_from_all_except("Blue", 4);
                 blue_selected = true;
+                player4_color = Color.BLUE;
             }
-            if (color_combo_4.SelectedIndex == green_index)
+            if (selected_Color.Text == "Green")
             {
-                green2.Visibility = Visibility.Collapsed;
-                green1.Visibility = Visibility.Collapsed;
-                green3.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Green", 4);
                 green_selected = true;
                 player4_color = Color.GREEN;
             }
-            if (color_combo_4.SelectedIndex == yellow_index)
+            if (selected_Color.Text == "Yellow")
             {
-                yellow2.Visibility = Visibility.Collapsed;
-                yellow1.Visibility = Visibility.Collapsed;
-                yellow3.Visibility = Visibility.Collapsed;
+                remove_color_from_all_except("Yellow", 4);
                 yellow_selected = true;
                 player4_color = Color.YELLOW;
             }
-
-            player4_color_selected = color_combo_4.SelectedIndex;
+            if (selected_Color.Text == "Choose Color" && player4_color != Color.WHITE)
+            {
+                unselect_current_color_from_player(4);
+                player4_color = Color.WHITE;
+            }
         }
 
         private void TextBox_TextChanged1(object sender, TextChangedEventArgs e)
@@ -662,49 +701,6 @@ namespace MaKeyMeSorry
         int player2colorIndex = -1;
         int player3colorIndex = -1;
         int player4colorIndex = -1;
-
-        //private void NumPlayersComboBox_KeyUp(object sender, KeyRoutedEventArgs e)
-        //{
-        //    Debug.WriteLine("Key Up Pressed");
-
-        //    if (comboIndex != NumPlayersComboBox.SelectedIndex)
-        //    {
-        //        if ((e.Key == Windows.System.VirtualKey.Right))
-        //        {
-        //            NumPlayersComboBox.SelectedIndex = comboIndex;
-        //            return;
-        //        }
-        //    }
-        //    comboIndex = NumPlayersComboBox.SelectedIndex;
-        //    e.Handled = true;
-        //}
-
-        //private void NumPlayersComboBox_KeyDown(object sender, KeyRoutedEventArgs e)
-        //{
-        //    //if (e.Key == Windows.System.VirtualKey.Right)
-        //    //{
-        //    //    e.Handled = true;
-        //    //    return;
-        //    //}
-        //    //if (e.Key == Windows.System.VirtualKey.Left)
-        //    //{
-        //    //    e.Handled = true;
-        //    //    return;
-        //    //}
-
-        //    Debug.WriteLine("Key Down Pressed");
-
-        //    if (comboIndex != NumPlayersComboBox.SelectedIndex)
-        //    {
-        //        if ((e.Key == Windows.System.VirtualKey.Right))
-        //        {
-        //            NumPlayersComboBox.SelectedIndex = comboIndex;
-        //            return;
-        //        }
-        //    }
-        //    comboIndex = NumPlayersComboBox.SelectedIndex;
-        //    e.Handled = true;
-        //}
 
 
         private void Page_KeyUp(object sender, KeyRoutedEventArgs e)
