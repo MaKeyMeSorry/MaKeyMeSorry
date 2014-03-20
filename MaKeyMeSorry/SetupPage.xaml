@@ -20,7 +20,7 @@
         * Row 0 contains the back button and page title
         * Row 1 contains the rest of the page layout
     -->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="#FF7C277D">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
@@ -46,9 +46,9 @@
             <TextBlock x:Name="pageTitle" Text="Game Setup" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                         IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40" />
         </Grid>
-        <Button x:Name="start_button" Content="Start Game!" HorizontalAlignment="Left" Margin="1082,512,0,0" Grid.Row="1" VerticalAlignment="Top" Height="72" Width="225" FontSize="36" Click="Button_Click"/>
+        <Button x:Name="start_button" Content="Start Game" HorizontalAlignment="Left" Margin="1082,512,0,0" Grid.Row="1" VerticalAlignment="Top" Height="72" Width="225" FontSize="36" Click="Button_Click" BorderBrush="#FFED1C7F" BorderThickness="5"/>
         <TextBlock HorizontalAlignment="Left" Margin="116,2,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Select the number of human players: " VerticalAlignment="Top" Height="60" Width="791" FontSize="48"/>
-        <ComboBox x:Name="NumPlayersComboBox" HorizontalAlignment="Left" Margin="946,18,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" IsDropDownOpen="True" FontSize="18" SelectionChanged="ComboBox_SelectionChanged" PlaceholderText="0">
+        <ComboBox x:Name="NumPlayersComboBox" HorizontalAlignment="Left" Margin="946,18,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" IsDropDownOpen="True" FontSize="18" SelectionChanged="ComboBox_SelectionChanged" PlaceholderText="0" BorderBrush="#FFED1C7F">
             <x:String>0</x:String>
             <x:String>1</x:String>
             <x:String>2</x:String>
