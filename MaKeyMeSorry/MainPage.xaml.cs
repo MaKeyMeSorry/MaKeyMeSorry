@@ -36,7 +36,7 @@ namespace MaKeyMeSorry
         private bool AI_on = false;
 
         private Game game;
-        private int card_color;
+        private int card_count;
         private Brush cur_selected_img;
         private int cur_selected_square;
         private List<Canvas> cur_selected_list;
@@ -150,7 +150,7 @@ namespace MaKeyMeSorry
 
 
             //game = new Game(4);
-            card_color = 0;
+            card_count = 0;
 
             pawn_square_list = new List<Canvas>();
             preview_square_list = new List<Canvas>();
@@ -227,7 +227,6 @@ namespace MaKeyMeSorry
                 }
             
             }
-            //
 
         }
 
@@ -329,6 +328,7 @@ namespace MaKeyMeSorry
                 cover.Opacity = 0;
                 player_turn.Text = game.players[index_of_current_player].get_player_name() + "'s Turn, Choose a Move!";
                 deselect_all_buttons();
+
             }
             else if (card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button))
             {
@@ -651,37 +651,30 @@ namespace MaKeyMeSorry
             Card card = game.deck.draw_card();
             string card_val = card.get_value().ToString();
             string flipped_extenstion;
-            string back_extenstion;
-            int temp = card_color % 4;
+
+            int temp = (int)color_of_current_turn;
             switch (temp)
             {
-                case (1):
+                //public enum Color { RED, BLUE, YELLOW, GREEN, WHITE }
+           
+                case (0):
                     flipped_extenstion = "Red.png";
-                    back_extenstion = "Blue Front.png";
-                    //update_pawn_square(card_color, Color.RED);
-                    card_color++;
+                    card_count++;
+                    break;
+                case (1):
+                    flipped_extenstion = "Blue.png";
+                    card_count++;
                     break;
                 case (2):
-                    flipped_extenstion = "Blue.png";
-                    back_extenstion = "Yellow Front.png";
-                    //update_pawn_square(card_color, Color.BLUE);
-                    card_color++;
+                    flipped_extenstion = "Yellow.png";
+                    card_count++;
                     break;
                 case (3):
-                    flipped_extenstion = "Yellow.png";
-                    back_extenstion = "Green Front.png";
-                    //update_pawn_square(card_color, Color.YELLOW);
-                    card_color++;
-                    break;
-                case (0):
                     flipped_extenstion = "Green.png";
-                    back_extenstion = "Red Front.png";
-                    //update_pawn_square(card_color, Color.GREEN);
-                    card_color++;
+                    card_count++;
                     break;
                 default:
                     flipped_extenstion = "";
-                    back_extenstion = "";
                     break;
             }
             if (card_val == "13")
@@ -699,20 +692,23 @@ namespace MaKeyMeSorry
             ib.ImageSource = new BitmapImage(uri);
             used_deck.Background = ib;
 
+            Debug.WriteLine("URI STRING: " + uri_string);
+            Debug.WriteLine("cardvale: " + card_count + "  temp: " + temp + " Color of current turn:" + color_of_current_turn.ToString());
+
             uri_string = "ms-appx:///Assets/Card Back/Card Back ";
 
-            if (card_color == 43)
+            if (card_count == 43)
             {
                 uri_string += "3 Left.png";
             }
-            else if (card_color == 44)
+            else if (card_count == 44)
             {
                 uri_string += "2 Left.png";
             }
-            else if (card_color == 45)
+            else if (card_count == 45)
             {
                 uri_string += "1 Left.png";
-                card_color = 1;
+                card_count = 1;
             }
             else
             {
@@ -1982,6 +1978,10 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
             if (index >= 60)
             {
+                if (index == game.board.get_home_square(color_of_current_turn))
+                {
+                    index += pawn_num - 1;
+                }
                 preview_safe_zone_lists[(int)color_of_current_turn][index - color_adjustment].Background = ib;
                 return;
             }
@@ -2016,14 +2016,27 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                     preview_square_list[x].Background = ib;
                     preview_square_list[x].Opacity = 1;
                 }
+                //write code to clear safe zones too
             }
             else
             {
                 if (squarenum >= 60)
                 {
-                    preview_safe_zone_lists[(int)color_of_current_turn][squarenum - color_adjustment].Background = ib;
+                    if (squarenum == game.board.get_home_square(color_of_current_turn))
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {   //since clear doesn't get the pawn num, if clear is called on the home square clears the whole
+                            //home square
+                            preview_safe_zone_lists[(int)color_of_current_turn][squarenum - color_adjustment + i].Background = ib;
+                        }
+                    }
+                    else
+                    {
+                        preview_safe_zone_lists[(int)color_of_current_turn][squarenum - color_adjustment].Background = ib;
+                    }
+                    
                     return;
-        }
+                }
                 else
                 {
                     preview_square_list[squarenum].Background = ib;
@@ -2381,9 +2394,9 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
             if (command.Label == "New Game")
             {
-
                 MaKeyMeSorry.App.currentGame = null;
                 game = null;
+                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
                 this.Frame.Navigate(typeof(SetupPage));
 
             }
@@ -2392,6 +2405,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
                 MaKeyMeSorry.App.currentGame = null;
                 game = null;
+                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
                 this.Frame.Navigate(typeof(StartPage));
 
             }

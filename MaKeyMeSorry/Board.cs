@@ -28,6 +28,13 @@ namespace MaKeyMeSorry
         private int greenStart;
         private int redStart;
 
+        private int blueHome;
+        private int yellowHome;
+        private int greenHome;
+        private int redHome;
+
+
+
         private static int slideSize1;
         private static int slideSize2;
         private static int numSquares;
@@ -58,6 +65,23 @@ namespace MaKeyMeSorry
             }
         }
 
+        public int get_home_square(Color color)
+        {
+            switch (color)
+            {
+                case Color.BLUE:
+                    return blueHome;
+                case Color.GREEN:
+                    return greenHome;
+                case Color.RED:
+                    return redHome;
+                case Color.YELLOW:
+                    return yellowHome;
+                default:
+                    Debug.WriteLine("error getting base for my color!");
+                    return -1;
+            }
+        }
         public int get_safe_square(Color color)
         {
             // TODO Write get_start_square
@@ -154,12 +178,34 @@ namespace MaKeyMeSorry
             }
             for (int i = 0; i < 4; i++)
             {
+                //public enum Color { RED, BLUE, YELLOW, GREEN, WHITE }
                 theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
                 theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
                 theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
                 theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
                 theBoard.Add(new Square(index++, SquareKind.SAFE, (Color)i));
                 theBoard.Add(new Square(index++, SquareKind.HOMESQ, (Color)i));
+                switch (i)
+                {
+                    case 0:
+                        redHome = theBoard.Count - 1;
+                        break;
+                    case 1 :
+                        blueHome = theBoard.Count - 1;
+                        break;
+                    case 2:
+                        yellowHome = theBoard.Count - 1;
+                        break;
+                    case 3:
+                        greenHome = theBoard.Count - 1;
+                        break;
+                    default:
+                        break;
+                }
+                Debug.WriteLine("red: " + redHome);
+                Debug.WriteLine("blue: " + blueHome);
+                Debug.WriteLine("yellow: " + yellowHome);
+                Debug.WriteLine("green: " + greenHome);
             }
             print_Board();
         }
