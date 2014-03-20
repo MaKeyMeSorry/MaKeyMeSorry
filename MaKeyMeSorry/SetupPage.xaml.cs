@@ -455,13 +455,14 @@ namespace MaKeyMeSorry
 
         private void unselect_current_color_from_player(int player)
         {
-
             Color currently_selected = Color.WHITE;
 
             if (player == 1) currently_selected = player1_color;
             if (player == 2) currently_selected = player2_color;
             if (player == 3) currently_selected = player3_color;
             if (player == 4) currently_selected = player4_color;
+
+            Debug.WriteLine("Unselecting " + currently_selected + " from player: " + player);
 
             if (currently_selected == Color.RED)
             {
@@ -696,11 +697,11 @@ namespace MaKeyMeSorry
             }
         }
 
-        int comboIndex = -1;
-        int player1colorIndex = -1;
-        int player2colorIndex = -1;
-        int player3colorIndex = -1;
-        int player4colorIndex = -1;
+        int comboIndex = 0;
+        int player1colorIndex = 0;
+        int player2colorIndex = 0;
+        int player3colorIndex = 0;
+        int player4colorIndex = 0;
 
 
         private void Page_KeyUp(object sender, KeyRoutedEventArgs e)

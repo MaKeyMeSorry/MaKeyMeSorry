@@ -79,6 +79,10 @@ namespace MaKeyMeSorry
         //This will keep count of home many pawns are in their home squares (Need to add an implementation of this for non AI)
         private int[] num_pawns_home;
 
+        //Handles keyboard presses
+        KeyEventHandler key_up_handler;
+
+
         /// <summary>
         /// NavigationHelper is used on each page to aid in navigation and 
         /// process lifetime management
@@ -113,7 +117,9 @@ namespace MaKeyMeSorry
             current_spot = -1;
             forefeit_disabled = false;
 
-            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(App_KeyUp), true);
+            key_up_handler = new KeyEventHandler(App_KeyUp);
+            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+
             Loaded += delegate { this.Focus(Windows.UI.Xaml.FocusState.Programmatic); };
 
             //Initialize count of home, if respective players number reaches 4 he won.
@@ -2350,6 +2356,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                 // Remove current game
                 MaKeyMeSorry.App.currentGame = null;
                 game = null;
+                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
                 this.Frame.Navigate(typeof(SetupPage));
             }
         }
