@@ -1980,7 +1980,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             Uri uri = new Uri(uri_string, UriKind.Absolute);
             ib.ImageSource = new BitmapImage(uri);
 
-            if (index > 60)
+            if (index >= 60)
             {
                 preview_safe_zone_lists[(int)color_of_current_turn][index - color_adjustment].Background = ib;
                 return;
@@ -2017,7 +2017,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             }
             else
             {
-                if (squarenum > 60)
+                if (squarenum >= 60)
                 {
                     preview_safe_zone_lists[(int)color_of_current_turn][squarenum - color_adjustment].Background = ib;
                     return;
