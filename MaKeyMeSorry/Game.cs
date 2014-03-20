@@ -88,10 +88,10 @@ namespace MaKeyMeSorry
         }
 
         //this should be the meat of the entire game i thinkkkk? haha 
-        public List<Tuple<Pawn, List<Square>>> get_move_options(Color playerColor, Card card)
+        public List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> get_move_options(Color playerColor, Card card)
         {
-            List<Tuple<Pawn, List<Square>>> allChoices = new List<Tuple<Pawn, List<Square>>>();
-            List<Square> choices = new List<Square>();
+            List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>> allChoices = new List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>>();
+            List<Tuple<Square,ComboData.move>> choices = new List<Tuple<Square,ComboData.move>>();
             Player myPlayer = get_player(playerColor);
             int moveLocation;
             int startSquareIndex = board.get_start_square(playerColor);
@@ -110,7 +110,6 @@ namespace MaKeyMeSorry
             {
                 if (myPlayer.get_pawn_from_start() != null)
                 {
-
                     if (card.can_sorry())
                     {
                         foreach (Player player in players)
@@ -121,7 +120,7 @@ namespace MaKeyMeSorry
                                 {
                                     if (!enemyPawn.is_in_safe_zone())
                                     {
-                                        choices.Add(enemyPawn.get_current_location());
+                                        choices.Add(new Tuple<Square,ComboData.move>(enemyPawn.get_current_location(),ComboData.move.SORRY));
                                     }
                                     // TODO Check if enemy pawn is in safe zone...inside home slide.
 
@@ -136,7 +135,7 @@ namespace MaKeyMeSorry
                         }
                         if (choices.Count != 0)
                         {
-                            allChoices.Add(new Tuple<Pawn, List<Square>>(myPlayer.get_pawn_from_start(), new List<Square>(choices)));
+                            allChoices.Add(new Tuple<Pawn, List<Tuple<Square,ComboData.move>>>(myPlayer.get_pawn_from_start(), new List<Tuple<Square,ComboData.move>>(choices)));
                         }
                     }
                     else
@@ -145,10 +144,13 @@ namespace MaKeyMeSorry
                         moveLocation = (startSquareIndex + card.can_move_forward() - 1) % MAXSQUARES;
                         if (board.get_square_at(moveLocation).can_place_pawn(myPlayer.get_pawn_from_start()))
                         {
-                            choices.Add(board.get_square_at(moveLocation));
-                            allChoices.Add(new Tuple<Pawn, List<Square>>(myPlayer.get_pawn_from_start(), new List<Square>(choices)));
-                            Debug.WriteLine("START CHOICE GO TO: " + choices.ElementAt(0).get_index());
-                            foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)
+                            //choices.Add(board.get_square_at(moveLocation));
+                            choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at(moveLocation), ComboData.move.SORRY));
+                            //allChoices.Add(new Tuple<Pawn, List<Square>>(myPlayer.get_pawn_from_start(), new List<Square>(choices)));
+                            allChoices.Add(new Tuple<Pawn, List<Tuple<Square, ComboData.move>>>(myPlayer.get_pawn_from_start(), new List<Tuple<Square, ComboData.move>>(choices)));
+
+                            //Debug.WriteLine("START CHOICE GO TO: " + choices.ElementAt(0).get_index());
+                            /*foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)
                             {
                                 if (pawnChoice.Item1.is_start())
                                 {
@@ -164,7 +166,7 @@ namespace MaKeyMeSorry
                                 {
                                     Debug.WriteLine("square location" + testSquare.get_index());
                                 }
-                            }
+                            }*/
                         }
 
                     }
@@ -186,14 +188,18 @@ namespace MaKeyMeSorry
                             //if land at home don't check to add
                             if ((pawn.get_current_location().get_index() % 6) + card.can_move_forward() == 6)
                             {
-                                choices.Add(board.get_square_at(pawn.get_current_location().get_index() + card.can_move_forward()));
+                                //choices.Add(board.get_square_at(pawn.get_current_location().get_index() + card.can_move_forward()));
+                                choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at(pawn.get_current_location().get_index() + card.can_move_forward()), ComboData.move.FORWARD));
+
 
                             }
                             else
                             {
                                 if (board.get_square_at(pawn.get_current_location().get_index() + card.can_move_forward()).can_place_pawn(pawn))
                                 {
-                                    choices.Add(board.get_square_at(pawn.get_current_location().get_index() + card.can_move_forward()));
+                                    //choices.Add(board.get_square_at(pawn.get_current_location().get_index() + card.can_move_forward()));
+                                    choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at(pawn.get_current_location().get_index() + card.can_move_forward()), ComboData.move.FORWARD));
+
                                 }
                             }
 
@@ -212,7 +218,8 @@ namespace MaKeyMeSorry
                         }
                         if (board.get_square_at(moveLocation).can_place_pawn(pawn))
                         {
-                            choices.Add(board.get_square_at(moveLocation));
+                            //choices.Add(board.get_square_at(moveLocation));
+                            choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at(moveLocation), ComboData.move.BACKWARD));
                         }
                     } else if(card.can_sorry())// || card.can_swap()) //add swap here
                     {
@@ -224,7 +231,9 @@ namespace MaKeyMeSorry
                                 {
                                     if(!enemyPawn.is_in_safe_zone())
                                     {
-                                        choices.Add(enemyPawn.get_current_location());
+                                        //choices.Add(enemyPawn.get_current_location());
+                                        choices.Add(new Tuple<Square, ComboData.move>(enemyPawn.get_current_location(), ComboData.move.SORRY));
+
                                     }
                                     // TODO Check if enemy pawn is in safe zone...inside home slide.
 
@@ -238,6 +247,7 @@ namespace MaKeyMeSorry
                             }
                         }
                     }
+                    
 
                 }
                 else
@@ -287,7 +297,9 @@ namespace MaKeyMeSorry
                                         {
                                             forfeit_enabled = false;
                                         }
-                                        choices.Add(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)));
+                                        //choices.Add(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)));
+                                        choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)), ComboData.move.FORWARD));
+
                                     }
                                     //choices.Add(board.get_my_base(playerColor)[moveLocation - homeConnect]);
                                     //used bottom for testing...top is correct once we implement the home connector squares
@@ -305,7 +317,9 @@ namespace MaKeyMeSorry
                                     {
                                         forfeit_enabled = false;
                                     }
-                                    choices.Add(board.get_square_at(moveLocation));
+                                    //choices.Add(board.get_square_at(moveLocation));
+                                    choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at(moveLocation), ComboData.move.FORWARD));
+
                                 }
                             }
                         }
@@ -324,7 +338,9 @@ namespace MaKeyMeSorry
                                     {
                                         forfeit_enabled = false;
                                     }
-                                    choices.Add(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)));
+                                    //choices.Add(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)));
+                                    choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at((((int)pawn.get_color()) * 6) + 59 + (moveLocation - homeConnect)), ComboData.move.FORWARD));
+
                                 }
                                 //choices.Add(board.get_my_base(playerColor)[moveLocation - homeConnect]);
                                 //used bottom for testing...top is correct once we implement the home connector squares
@@ -343,7 +359,9 @@ namespace MaKeyMeSorry
                                 {
                                     forfeit_enabled = false;
                                 }
-                                choices.Add(board.get_square_at(moveLocation));
+                                //choices.Add(board.get_square_at(moveLocation));
+                                choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at(moveLocation), ComboData.move.FORWARD));
+
                             }
                         }
 
@@ -359,7 +377,9 @@ namespace MaKeyMeSorry
                         }
                         if (board.get_square_at(moveLocation).can_place_pawn(pawn))
                         {
-                            choices.Add(board.get_square_at(moveLocation));
+                            //choices.Add(board.get_square_at(moveLocation));
+                            choices.Add(new Tuple<Square, ComboData.move>(board.get_square_at(moveLocation), ComboData.move.FORWARD));
+
                         }
                     }
 
@@ -375,7 +395,8 @@ namespace MaKeyMeSorry
                                 {
                                     if(!enemyPawn.is_in_safe_zone())
                                     {
-                                        choices.Add(enemyPawn.get_current_location());
+                                        //choices.Add(enemyPawn.get_current_location());
+                                        choices.Add(new Tuple<Square, ComboData.move>(enemyPawn.get_current_location(), ComboData.move.SORRY));
                                     }
                                     // TODO Check if enemy pawn is in safe zone...inside home slide.
 
@@ -389,15 +410,35 @@ namespace MaKeyMeSorry
                             }
                         }
                     }
+                    if (card.can_swap())
+                    {
+                        foreach (Player player in players)
+                        {
+                            if (player != myPlayer)
+                            {
+                                foreach (Pawn enemyPawn in player.get_active_pawns())
+                                {
+                                    if (!enemyPawn.is_in_safe_zone())
+                                    {
+                                        //choices.Add(enemyPawn.get_current_location());
+                                        choices.Add(new Tuple<Square, ComboData.move>(enemyPawn.get_current_location(), ComboData.move.SWAP));
+
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 if(choices.Count != 0)
                 {
-                    allChoices.Add(new Tuple<Pawn, List<Square>>(pawn, new List<Square>(choices)));
+                    //allChoices.Add(new Tuple<Pawn, List<Square>>(pawn, new List<Square>(choices)));
+                    allChoices.Add(new Tuple<Pawn, List<Tuple<Square, ComboData.move>>>(pawn, new List<Tuple<Square, ComboData.move>>(choices)));
+
                 }
 
             }
-            foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)
+            /*foreach (Tuple<Pawn, List<Square>> pawnChoice in allChoices)
             {
                 if (pawnChoice.Item1.is_start())
                 {
@@ -413,7 +454,7 @@ namespace MaKeyMeSorry
                 {
                     Debug.WriteLine("square location " + testSquare.get_index());
                 }
-            }
+            }*/
             return allChoices;
         }
     }

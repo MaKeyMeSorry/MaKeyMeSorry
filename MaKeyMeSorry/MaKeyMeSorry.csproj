@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="Board.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="ComboData.cs" />
     <Compile Include="Common\NavigationHelper.cs" />
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
