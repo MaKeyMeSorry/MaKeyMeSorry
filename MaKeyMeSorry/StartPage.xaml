@@ -7,10 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Content="Start New Game" HorizontalAlignment="Left" Margin="727,456,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <TextBlock HorizontalAlignment="Center" Margin="10,10,0,0" TextWrapping="Wrap" Text="Welcome to MaKeyMeSorry!" VerticalAlignment="Center" Height="140" Width="674" FontSize="48" TextAlignment="Center"/>
-        <Button Content="How To Play" HorizontalAlignment="Left" Margin="488,456,0,0" VerticalAlignment="Top" Height="38" Width="143" Click="Button_Click_1"/>
+    <Grid Background="#FF7C277D">
+        <Button Content="Start New Game" HorizontalAlignment="Right" Margin="0,434,342,0" VerticalAlignment="Top" Click="Button_Click" BorderBrush="#FFED1C7F" Width="226" Height="60" FontSize="20" BorderThickness="5"/>
+        <Button Content="How To Play" HorizontalAlignment="Left" Margin="342,434,0,0" VerticalAlignment="Top" Height="60" Width="228" Click="Button_Click_1" BorderBrush="#FFED1C7F" FontSize="20" BorderThickness="5"/>
+        <Image Height="136" Margin="280,261,280,0" VerticalAlignment="Top" Source="Assets/MaKeyMeSorry! Text_1.4x.png"/>
 
     </Grid>
 </Page>
