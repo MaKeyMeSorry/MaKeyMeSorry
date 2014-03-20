@@ -46,11 +46,12 @@ namespace MaKeyMeSorry
         private bool how_to_highlighted;
         private bool new_game_higlighted;
         private bool pass_highlighted;
-        private List<Tuple<Pawn, List<Square>>> myOptions;
+        private List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> myOptions;
         private int current_spot;
         private bool forefeit_disabled;
         private bool first;
         private bool from_safe_zone;
+        private ComboData.move current_move_type;
 
         //variables for keeping state of a turn
         private Color color_of_current_turn;
@@ -113,7 +114,7 @@ namespace MaKeyMeSorry
             pawns_available.Add(false);
             color_adjustment = 60 + 6 * ((int)color_of_current_turn);
             how_to_highlighted = false;
-            myOptions = new List<Tuple<Pawn, List<Square>>>();
+            myOptions = new List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>>();
             current_spot = -1;
             forefeit_disabled = false;
 
@@ -227,6 +228,10 @@ namespace MaKeyMeSorry
                 }
             
             }
+<<<<<<< HEAD
+=======
+            // testing the combo data
+>>>>>>> a719f5762437324fae6cb912cb0ca0d7bb12a8f0
 
         }
 
@@ -247,6 +252,15 @@ namespace MaKeyMeSorry
             game = MaKeyMeSorry.App.currentGame;
             //color_of_current_turn = game.players[index_of_current_player].get_pawn_color();
             change_turn(true);
+            /*Square mySquare = game.board.get_square_at(6);
+            ComboData comboData = new ComboData(ComboData.move.SWAP, mySquare);
+            options_1.Visibility = Visibility.Visible;
+            pawn_1.Text = "Pawn 1 Options:";
+            options_1.Items.Add(comboData);
+            options_1.SelectedIndex = 0;
+            options_1.Focus(FocusState.Keyboard);
+            cur_pawn_selection = 0;
+            Debug.WriteLine(((ComboData)options_1.SelectedItem).move_choice + " space: " + ((ComboData)options_1.SelectedItem).square_location.get_index());*/
         }
 
         /// <summary>
@@ -290,24 +304,27 @@ namespace MaKeyMeSorry
 
         void play_game()
         {
-            if(first)
+            /*if(first)
             {
-                /*
+                
                 for (int i = 0; i < 4; i++)
                 {
                     int color_test = 60 + 6 * (i);
-                    for (int j = 0; j < 4; j++)
+                    for (int j = 0; j < 1; j++)
                     {
                         //testing card 11
-                        update_pawn_square(j, Color.RED, start_lists[i], 0);
-                        update_pawn_square(j, (Color)i, safe_zone_lists[i], j + 1);
-                        game.players[i].pawns[j].set_in_safe_zone(true);
-                        game.players[i].pawns[j].move_to(game.board.get_square_at(color_test + j));
+                        //Debug.WriteLine(game.board.get_start_square((Color)i) - 2);
+                        update_pawn_square(j, (Color)i, start_lists[i], 0);
+                        update_pawn_square(game.board.get_start_square((Color)i) - 2, (Color)i, pawn_square_list, j+1);
+                        game.players[i].pawns[j].move_to(game.board.get_square_at(game.board.get_start_square((Color)i) - 2));
+                        //update_pawn_square(j, (Color)i, safe_zone_lists[i], j + 1);
+                        //game.players[i].pawns[j].set_in_safe_zone(true);
+                        //game.players[i].pawns[j].move_to(game.board.get_square_at(color_test + j));
                     }
                 }
-                first = false;*/
-            }
-            if (!card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button))
+                first = false;
+            }*/
+            if (!card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button) && (FocusManager.GetFocusedElement() != pass_button))
             {
                 color_adjustment = 60 + 6 * ((int)color_of_current_turn);
                 Debug.WriteLine("Return button pressed");
@@ -318,7 +335,7 @@ namespace MaKeyMeSorry
                 new_game_higlighted = false;
                 this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
                 Debug.WriteLine("card value: " + my_card.get_value());
-                myOptions = new List<Tuple<Pawn, List<Square>>>();
+                myOptions = new List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>>();
                 myOptions = game.get_move_options(color_of_current_turn, my_card);
                 display_options(myOptions);
                 if(game.forfeit_enabled)
@@ -330,7 +347,7 @@ namespace MaKeyMeSorry
                 deselect_all_buttons();
 
             }
-            else if (card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button))
+            else if (card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button) && (FocusManager.GetFocusedElement() != pass_button))
             {
                 if(myOptions.Count == 0 || cur_selected_square != -1)
                 {
@@ -394,7 +411,14 @@ namespace MaKeyMeSorry
             if (e.Key == Windows.System.VirtualKey.Space)
             {
                 Debug.WriteLine("Space button pressed");
-                play_game();
+                if ((FocusManager.GetFocusedElement() == pass_button))
+                {
+                    pass_button_Click();
+                }
+                else
+                {
+                    play_game();
+                }
             }
 
             if (e.Key == Windows.System.VirtualKey.Right)
@@ -607,16 +631,27 @@ namespace MaKeyMeSorry
                     hide_selected_move(cur_selected_square);//, pawn_square_list);
                 }
 
-                if (Convert.ToInt32(comboBox.SelectedValue) >= 60)
+                //if (Convert.ToInt32(comboBox.SelectedValue) >= 60)
+                //Debug.WriteLine("something " + ((ComboData)options_1.SelectedItem).square_location.get_index());
+
+                if (Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()) >= 60)
+
                 {
-                    Debug.WriteLine(Convert.ToInt32(comboBox.SelectedValue) - color_adjustment);
-                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);// - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
+                    Debug.WriteLine(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()) - color_adjustment);
+                    show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected);// - color_adjustment, safe_zone_lists[(int)color_of_current_turn]);
+                    //Debug.WriteLine(Convert.ToInt32(comboBox.SelectedValue)- color_adjustment);
+                    //show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);
+                    current_move_type = ((ComboData)comboBox.SelectedItem).move_choice;
                 }
                 else
                 {
-                    show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);//, pawn_square_list);
+                    show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected);//, pawn_square_list);
+                    //show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);//, pawn_square_list);
+                    current_move_type = ((ComboData)comboBox.SelectedItem).move_choice;
+
+
                 }
-                Debug.WriteLine("Current Sel val: " + Convert.ToInt32(comboBox.SelectedValue));
+               // Debug.WriteLine("Current Sel val: " + Convert.ToInt32(comboBox.SelectedValue));
         }
             Debug.WriteLine("Current index: " + comboBox.SelectedIndex);
 
@@ -726,7 +761,7 @@ namespace MaKeyMeSorry
             return card;
         }
 
-        void display_options(List<Tuple<Pawn, List<Square>>> options)
+        void display_options(List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options)
         {
             // Display options
             /***********NICK*****************/
@@ -742,43 +777,47 @@ namespace MaKeyMeSorry
                 no_options.Visibility = Visibility.Visible;
             }
 
-            foreach(Tuple<Pawn, List<Square>> option in options)
+            foreach(Tuple<Pawn, List<Tuple<Square,ComboData.move>>> option in options)
             {
                 switch(option.Item1.get_id())
                 {
                     case 0:
                         options_1.Visibility = Visibility.Visible;
                         pawn_1.Text = "Pawn 1 Options:";
-                        foreach (Square mySquare in option.Item2)
+                        foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            options_1.Items.Add(mySquare.get_index());
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            options_1.Items.Add(comboData);
                         }
                         pawns_available[0] = true;
                         break;
                     case 1:
                         pawn_2.Text = "Pawn 2 Options:";
                         options_2.Visibility = Visibility.Visible;
-                        foreach (Square mySquare in option.Item2)
+                        foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            options_2.Items.Add(mySquare.get_index());
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            options_2.Items.Add(comboData);
                         }
                         pawns_available[1] = true;
                         break;
                     case 2:
                         pawn_3.Text = "Pawn 3 Options:";
                         options_3.Visibility = Visibility.Visible;
-                        foreach (Square mySquare in option.Item2)
+                        foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            options_3.Items.Add(mySquare.get_index());
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            options_3.Items.Add(comboData);
                         }
                         pawns_available[2] = true;
                         break;
                     case 3:
                         pawn_4.Text = "Pawn 4 Options:";
                         options_4.Visibility = Visibility.Visible;
-                        foreach (Square mySquare in option.Item2)
+                        foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            options_4.Items.Add(mySquare.get_index());
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            options_4.Items.Add(comboData);
                         }
                         pawns_available[3] = true;
                         break;
@@ -893,12 +932,12 @@ namespace MaKeyMeSorry
             Square moveToSquare;
 
             Debug.WriteLine("card value: " + card.get_value());
-            List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
+            List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options = new List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>>();
             options = game.get_move_options(color_of_current_turn, card);
 
             //display_options(options);
 
-
+/*
             if (card.get_value() != 13)
             {
 
@@ -1065,7 +1104,7 @@ namespace MaKeyMeSorry
                     
                 }
 
-            }
+            }*/
             //change_turn();
 
             /*********************** NICK'S SECITION ***********************************/
@@ -1209,7 +1248,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             Square moveToSquareTwo;
 
             Debug.WriteLine("card value: " + card.get_value());
-            List<Tuple<Pawn, List<Square>>> options = new List<Tuple<Pawn, List<Square>>>();
+            List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options = new List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>>();
             options = game.get_move_options(color_of_current_turn, card);
 
             /************************* Zoltan's Section *******************************/
@@ -1223,7 +1262,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             if ((!game.get_player(color_of_current_turn).get_is_human()) && AI_on)
                     {
 
-                var moveLevel = new Tuple<int, int>(0, 0);
+                /*var moveLevel = new Tuple<int, int>(0, 0);
                 var bestMove = new Tuple<int, int>(0, 0);
 
                 if (options.Count == 1 && (card.get_value() == 1 || card.get_value() == 2))
@@ -1713,7 +1752,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                     }
                     //private void execute_update(fromChoice, toChoice, bestMove.Item1);
                 }
-                
+                */
             
                 
             }
@@ -1730,8 +1769,8 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                     {
                         int pawnChoice = cur_pawn_selection;
 
-                        //if (card.can_move_forward() == 11)
-                        if(false) //change back to above line once you switch the swapping issue
+                        if (card.can_move_forward() == 11 && current_move_type == ComboData.move.SWAP)
+                        //if(false) //change back to above line once you switch the swapping issue
                         {
 
                             if (pawnChoice != -1)
@@ -2483,6 +2522,39 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                 box_selected = 6;
             }
             return box_selected;
+        }
+
+        private void pass_button_Click()
+        {
+            pass_highlighted = false;
+            how_to_highlighted = false;
+            new_game_higlighted = false;
+            pass_button.IsEnabled = false;
+            from_safe_zone = false;
+
+            change_turn();
+            pawn_1.Text = "";
+            pawn_2.Text = "";
+            pawn_3.Text = "";
+            pawn_4.Text = "";
+            options_1.Visibility = Visibility.Collapsed;
+            options_1.Items.Clear();
+            options_2.Visibility = Visibility.Collapsed;
+            options_2.Items.Clear();
+            options_3.Visibility = Visibility.Collapsed;
+            options_3.Items.Clear();
+            options_4.Visibility = Visibility.Collapsed;
+            options_4.Items.Clear();
+            no_options.Visibility = Visibility.Collapsed;
+            this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            deselect_all_buttons();
+            pawns_available.Clear();
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+
+            //e.Handled = true;
         }
         
     }
