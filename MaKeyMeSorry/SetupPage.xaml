@@ -96,6 +96,6 @@
             </Grid>
         </Viewbox>
         <TextBlock x:Name="ComputerPlayerMessage" HorizontalAlignment="Left" Margin="512,541,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Four computer players will be added to this game" VerticalAlignment="Top" Height="30" Width="528" FontSize="24" TextAlignment="Right" FontStyle="Italic"/>
-        <TextBlock x:Name="Grace_Message_1" HorizontalAlignment="Left" Margin="450,180,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Press Enter for Grace" VerticalAlignment="Top" FontSize="20" FontStyle="Italic" Visibility="Collapsed"/>
+        <TextBlock x:Name="Grace_Message_1" HorizontalAlignment="Left" Margin="450,180,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Press Space for Grace" VerticalAlignment="Top" FontSize="20" FontStyle="Italic" Visibility="Collapsed"/>
     </Grid>
 </Page>

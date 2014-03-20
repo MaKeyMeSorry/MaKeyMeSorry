@@ -691,7 +691,7 @@ namespace MaKeyMeSorry
 
         private void name_textbox_1_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Space)
             {
                 name_textbox_1.Text = "Grace";
             }

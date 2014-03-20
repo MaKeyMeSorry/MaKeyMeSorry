@@ -391,9 +391,9 @@ namespace MaKeyMeSorry
                 new_game_button.Focus(FocusState.Keyboard);
             }*/
 
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Space)
             {
-                Debug.WriteLine("Enter button pressed");
+                Debug.WriteLine("Space button pressed");
                 play_game();
             }
 

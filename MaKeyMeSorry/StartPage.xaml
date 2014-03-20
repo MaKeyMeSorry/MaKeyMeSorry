@@ -8,9 +8,9 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Content="Start New Game" HorizontalAlignment="Left" Margin="727,456,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button x:Name="StartGameButton" Content="Start New Game" HorizontalAlignment="Left" Margin="727,456,0,0" VerticalAlignment="Top" Click="Button_Click"/>
         <TextBlock HorizontalAlignment="Center" Margin="10,10,0,0" TextWrapping="Wrap" Text="Welcome to MaKeyMeSorry!" VerticalAlignment="Center" Height="140" Width="674" FontSize="48" TextAlignment="Center"/>
-        <Button Content="How To Play" HorizontalAlignment="Left" Margin="488,456,0,0" VerticalAlignment="Top" Height="38" Width="143" Click="Button_Click_1"/>
+        <Button x:Name="HowToPlayButton" Content="How To Play" HorizontalAlignment="Left" Margin="488,456,0,0" VerticalAlignment="Top" Height="38" Width="143" Click="Button_Click_1"/>
 
     </Grid>
 </Page>
