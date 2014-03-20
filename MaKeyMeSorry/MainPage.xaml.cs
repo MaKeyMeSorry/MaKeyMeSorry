@@ -1997,7 +1997,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             ImageBrush ib = null;
             if (preview_square_list[index].Background == ib)
             {
-                string uri_string = "ms-appx:///Assets/Overlay Images/Pink Outline.png";
+                string uri_string = "ms-appx:///Assets/Overlay Images/Black Outline.png";
                 ib = new ImageBrush();
                 Uri uri = new Uri(uri_string, UriKind.Absolute);
                 ib.ImageSource = new BitmapImage(uri); 
