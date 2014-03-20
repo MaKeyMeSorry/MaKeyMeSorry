@@ -61,8 +61,7 @@
                 <TextBlock HorizontalAlignment="Left" Margin="154,43,0,0" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top" FontSize="36"/>
                 <TextBox x:Name="name_textbox_1" HorizontalAlignment="Left" Margin="277,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="337" Height="43" FontSize="24" PlaceholderText="Enter Name Here" TextChanged="TextBox_TextChanged1" GotFocus="name_textbox_1_GotFocus" LostFocus="name_textbox_1_LostFocus" KeyUp="name_textbox_1_KeyUp"/>
                 <TextBlock HorizontalAlignment="Left" Margin="655,43,0,0" TextWrapping="Wrap" Text="Color:" VerticalAlignment="Top" FontSize="36"/>
-                <ComboBox x:Name="color_combo_1" HorizontalAlignment="Left" Margin="774,43,-44,0" VerticalAlignment="Top" Width="182" IsDropDownOpen="True" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_1" PlaceholderText="Choose Color">
-                </ComboBox>
+                <ComboBox x:Name="color_combo_1" HorizontalAlignment="Left" Margin="774,43,-44,0" VerticalAlignment="Top" Width="182" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_1"/>
             </Grid>
         </Viewbox>
         <Viewbox x:Name="PlayerOptions2" Margin="116,190,229,351" Grid.Row="1" Visibility="Collapsed">
@@ -71,8 +70,8 @@
                 <TextBlock HorizontalAlignment="Left" Margin="154,45,0,-1" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top" FontSize="36"/>
                 <TextBox x:Name="name_textbox_2" HorizontalAlignment="Left" Margin="277,45,0,-1" TextWrapping="Wrap" VerticalAlignment="Top" Width="337" Height="43" FontSize="24" PlaceholderText="Enter Name Here" TextChanged="TextBox_TextChanged2"/>
                 <TextBlock HorizontalAlignment="Left" Margin="655,44,0,0" TextWrapping="Wrap" Text="Color:" VerticalAlignment="Top" FontSize="36"/>
-                <ComboBox x:Name="color_combo_2" HorizontalAlignment="Left" Margin="774,44,-44,0" VerticalAlignment="Top" Width="182" IsDropDownOpen="True" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_2" PlaceholderText="Choose Color">
-                </ComboBox>
+                <ComboBox x:Name="color_combo_2" HorizontalAlignment="Left" Margin="774,44,-44,0" VerticalAlignment="Top" Width="182" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_2" />
+
             </Grid>
         </Viewbox>
         <Viewbox x:Name="PlayerOptions4" Margin="116,388,229,153" Grid.Row="1" Visibility="Collapsed">
@@ -81,8 +80,8 @@
                 <TextBlock HorizontalAlignment="Left" Margin="154,44,0,0" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top" FontSize="36"/>
                 <TextBox x:Name="name_textbox_4" HorizontalAlignment="Left" Margin="277,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="337" Height="43" FontSize="24" PlaceholderText="Enter Name Here" TextChanged="TextBox_TextChanged4"/>
                 <TextBlock HorizontalAlignment="Left" Margin="655,44,0,0" TextWrapping="Wrap" Text="Color:" VerticalAlignment="Top" FontSize="36"/>
-                <ComboBox x:Name="color_combo_4" HorizontalAlignment="Left" Margin="774,44,-44,0" VerticalAlignment="Top" Width="182" IsDropDownOpen="True" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_4" PlaceholderText="Choose Color">
-                </ComboBox>
+                <ComboBox x:Name="color_combo_4" HorizontalAlignment="Left" Margin="774,44,-44,0" VerticalAlignment="Top" Width="182" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_4" />
+
 
             </Grid>
         </Viewbox>
@@ -92,11 +91,11 @@
                 <TextBlock HorizontalAlignment="Left" Margin="154,44,0,0" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top" FontSize="36"/>
                 <TextBox x:Name="name_textbox_3" HorizontalAlignment="Left" Margin="277,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="337" Height="43" FontSize="24" PlaceholderText="Enter Name Here" TextChanged="TextBox_TextChanged3"/>
                 <TextBlock HorizontalAlignment="Left" Margin="655,44,0,0" TextWrapping="Wrap" Text="Color:" VerticalAlignment="Top" FontSize="36"/>
-                <ComboBox x:Name="color_combo_3" HorizontalAlignment="Left" Margin="774,44,-44,0" VerticalAlignment="Top" Width="182" IsDropDownOpen="True" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_3" PlaceholderText="Choose Color">
-                </ComboBox>
+                <ComboBox x:Name="color_combo_3" HorizontalAlignment="Left" Margin="774,44,-44,0" VerticalAlignment="Top" Width="182" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_3"/>
+
             </Grid>
         </Viewbox>
         <TextBlock x:Name="ComputerPlayerMessage" HorizontalAlignment="Left" Margin="512,541,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Four computer players will be added to this game" VerticalAlignment="Top" Height="30" Width="528" FontSize="24" TextAlignment="Right" FontStyle="Italic"/>
-        <TextBlock x:Name="Grace_Message_1" HorizontalAlignment="Left" Margin="450,180,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Press Enter for Grace" VerticalAlignment="Top" FontSize="20" FontStyle="Italic" Visibility="Collapsed"/>
+        <TextBlock x:Name="Grace_Message_1" HorizontalAlignment="Left" Margin="450,180,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Press Space for Grace" VerticalAlignment="Top" FontSize="20" FontStyle="Italic" Visibility="Collapsed"/>
     </Grid>
 </Page>

@@ -25,11 +25,14 @@ namespace MaKeyMeSorry
     public sealed partial class StartPage : Page
     {
         KeyEventHandler key_up_handler;
+        int focus_index;
 
         public StartPage()
         {
+            focus_index = 1;
             key_up_handler = new KeyEventHandler(App_KeyUp);
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+            Loaded += delegate { StartGameButton.Focus(FocusState.Keyboard); };
             this.InitializeComponent();
         }
 
@@ -46,17 +49,34 @@ namespace MaKeyMeSorry
             Debug.WriteLine("Keyboard button pressed");
 
 
-            if (e.Key == Windows.System.VirtualKey.Down)
-            { 
-                Debug.WriteLine("Down button pressed");
-                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
-                this.Frame.Navigate(typeof(SetupPage));
+            if (e.Key == Windows.System.VirtualKey.Space)
+            {
+                if (focus_index == 0)
+                {
+                    Debug.WriteLine("Space button pressed");
+                    Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                    this.Frame.Navigate(typeof(SetupPage));
+                }
+                else if (focus_index == 1)
+                {
+                    howToPlayMessage();
+                }
 
             }
-            else if (e.Key == Windows.System.VirtualKey.Up)
+            else if (e.Key == Windows.System.VirtualKey.Right || e.Key == Windows.System.VirtualKey.Left)
             {
-                Debug.WriteLine("Up button pressed");
+                Debug.WriteLine("Right or Left button pressed");
                 //howToPlayMessage();
+                if (focus_index == 0)
+                {
+                    StartGameButton.Focus(FocusState.Keyboard);
+                    focus_index = 1;
+                }
+                else if (focus_index == 1)
+                {
+                    HowToPlayButton.Focus(FocusState.Keyboard);
+                    focus_index = 0;
+                }
             }
             else
             {

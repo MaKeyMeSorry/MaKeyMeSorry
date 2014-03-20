@@ -80,6 +80,10 @@ namespace MaKeyMeSorry
         //This will keep count of home many pawns are in their home squares (Need to add an implementation of this for non AI)
         private int[] num_pawns_home;
 
+        //Handles keyboard presses
+        KeyEventHandler key_up_handler;
+
+
         /// <summary>
         /// NavigationHelper is used on each page to aid in navigation and 
         /// process lifetime management
@@ -114,7 +118,9 @@ namespace MaKeyMeSorry
             current_spot = -1;
             forefeit_disabled = false;
 
-            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(App_KeyUp), true);
+            key_up_handler = new KeyEventHandler(App_KeyUp);
+            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+
             Loaded += delegate { this.Focus(Windows.UI.Xaml.FocusState.Programmatic); };
 
             //Initialize count of home, if respective players number reaches 4 he won.
@@ -223,7 +229,7 @@ namespace MaKeyMeSorry
             
             }
             // testing the combo data
-            
+
         }
 
 
@@ -304,7 +310,7 @@ namespace MaKeyMeSorry
                     for (int j = 0; j < 1; j++)
                     {
                         //testing card 11
-                        Debug.WriteLine(game.board.get_start_square((Color)i) - 2);
+                        //Debug.WriteLine(game.board.get_start_square((Color)i) - 2);
                         update_pawn_square(j, (Color)i, start_lists[i], 0);
                         update_pawn_square(game.board.get_start_square((Color)i) - 2, (Color)i, pawn_square_list, j+1);
                         game.players[i].pawns[j].move_to(game.board.get_square_at(game.board.get_start_square((Color)i) - 2));
@@ -315,7 +321,7 @@ namespace MaKeyMeSorry
                 }
                 first = false;
             }*/
-            if (!card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button))
+            if (!card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button) && (FocusManager.GetFocusedElement() != pass_button))
             {
                 color_adjustment = 60 + 6 * ((int)color_of_current_turn);
                 Debug.WriteLine("Return button pressed");
@@ -337,7 +343,7 @@ namespace MaKeyMeSorry
                 player_turn.Text = game.players[index_of_current_player].get_player_name() + "'s Turn, Choose a Move!";
                 deselect_all_buttons();
             }
-            else if (card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button))
+            else if (card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button) && (FocusManager.GetFocusedElement() != pass_button))
             {
                 if(myOptions.Count == 0 || cur_selected_square != -1)
                 {
@@ -398,10 +404,17 @@ namespace MaKeyMeSorry
                 new_game_button.Focus(FocusState.Keyboard);
             }*/
 
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Space)
             {
-                Debug.WriteLine("Enter button pressed");
-                play_game();
+                Debug.WriteLine("Space button pressed");
+                if ((FocusManager.GetFocusedElement() == pass_button))
+                {
+                    pass_button_Click();
+                }
+                else
+                {
+                    play_game();
+                }
             }
 
             if (e.Key == Windows.System.VirtualKey.Right)
@@ -927,7 +940,7 @@ namespace MaKeyMeSorry
 /*
             if (card.get_value() != 13)
             {
-                
+
                 int pawnIndex = 0;
                 int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
@@ -1090,7 +1103,7 @@ namespace MaKeyMeSorry
 
                     
                 }
-            
+
             }*/
             //change_turn();
 
@@ -2019,12 +2032,13 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             ImageBrush ib = null;
             if (preview_square_list[index].Background == ib)
             {
-                string uri_string = "ms-appx:///Assets/Overlay Images/Pink Outline.png";
+                string uri_string = "ms-appx:///Assets/Overlay Images/pink70.png";
                 ib = new ImageBrush();
                 Uri uri = new Uri(uri_string, UriKind.Absolute);
                 ib.ImageSource = new BitmapImage(uri); 
             }
             preview_square_list[index].Background = ib;
+            preview_square_list[index].Opacity = 0.75;
         }
 
         private void clear_preivew_canvas(int squarenum = -1)
@@ -2035,6 +2049,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                 for (int x = 0; x < preview_square_list.Count; x++)
                 {
                     preview_square_list[x].Background = ib;
+                    preview_square_list[x].Opacity = 1;
                 }
             }
             else
@@ -2378,6 +2393,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                 // Remove current game
                 MaKeyMeSorry.App.currentGame = null;
                 game = null;
+                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
                 this.Frame.Navigate(typeof(SetupPage));
             }
         }
@@ -2488,6 +2504,39 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                 box_selected = 6;
             }
             return box_selected;
+        }
+
+        private void pass_button_Click()
+        {
+            pass_highlighted = false;
+            how_to_highlighted = false;
+            new_game_higlighted = false;
+            pass_button.IsEnabled = false;
+            from_safe_zone = false;
+
+            change_turn();
+            pawn_1.Text = "";
+            pawn_2.Text = "";
+            pawn_3.Text = "";
+            pawn_4.Text = "";
+            options_1.Visibility = Visibility.Collapsed;
+            options_1.Items.Clear();
+            options_2.Visibility = Visibility.Collapsed;
+            options_2.Items.Clear();
+            options_3.Visibility = Visibility.Collapsed;
+            options_3.Items.Clear();
+            options_4.Visibility = Visibility.Collapsed;
+            options_4.Items.Clear();
+            no_options.Visibility = Visibility.Collapsed;
+            this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            deselect_all_buttons();
+            pawns_available.Clear();
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+            pawns_available.Add(false);
+
+            //e.Handled = true;
         }
         
     }
