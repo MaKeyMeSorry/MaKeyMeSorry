@@ -245,8 +245,8 @@
     <Content Include="Assets\Logo.scale-140.png" />
     <Content Include="Assets\Logo.scale-180.png" />
     <Content Include="Assets\Logo.scale-80.png" />
-    <Content Include="Assets\Overlay Images\pink border backgroud 30.png" />
-    <Content Include="Assets\Overlay Images\pink border backgroud 70.png" />
+    <Content Include="Assets\Overlay Images\pink30.png" />
+    <Content Include="Assets\Overlay Images\pink70.png" />
     <Content Include="Assets\Pawn Images\BLUE Pawn.png" />
     <Content Include="Assets\Pawn Images\GREEN Pawn.png" />
     <Content Include="Assets\Pawn Images\RED Pawn.png" />

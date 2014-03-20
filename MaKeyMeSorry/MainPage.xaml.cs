@@ -1997,12 +1997,13 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             ImageBrush ib = null;
             if (preview_square_list[index].Background == ib)
             {
-                string uri_string = "ms-appx:///Assets/Overlay Images/pink border border 30.png";
+                string uri_string = "ms-appx:///Assets/Overlay Images/pink70.png";
                 ib = new ImageBrush();
                 Uri uri = new Uri(uri_string, UriKind.Absolute);
                 ib.ImageSource = new BitmapImage(uri); 
             }
             preview_square_list[index].Background = ib;
+            preview_square_list[index].Opacity = 0.75;
         }
 
         private void clear_preivew_canvas(int squarenum = -1)
@@ -2013,6 +2014,7 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                 for (int x = 0; x < preview_square_list.Count; x++)
                 {
                     preview_square_list[x].Background = ib;
+                    preview_square_list[x].Opacity = 1;
                 }
             }
             else
