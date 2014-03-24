@@ -63,7 +63,7 @@ namespace MaKeyMeSorry
         private List<Canvas> pawn_square_list;
         private List<Canvas> preview_square_list;
 
-        private List< List<Canvas>> start_lists;
+        private List<List<Canvas>> start_lists;
         private List<List<Canvas>> safe_zone_lists;
         private List<List<Canvas>> preview_safe_zone_lists;
 
@@ -1121,37 +1121,36 @@ namespace MaKeyMeSorry
 
         }
 
-        private void execute_update(List<Tuple<Pawn, List<Square>>> options, Square currentSquare, Square moveToSquare, int levelMove) 
+        private void execute_update(List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
         {
-
-            switch(levelMove)
-        {
+            int pawnInSquare = options.ElementAt(Pawn).Item1.get_id();
+            switch (levelMove)
+            {
 
                 case 0:
                     // Initiate a pawn to a location without any other pawns in it
 
-                    update_pawn_square(game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
+                    update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
 
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].move_to(moveToSquare);
-
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
                 case 1:
                     // Initiate a pawn to a location with a pawn in it
 
-                    update_pawn_square(game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
+                    update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
 
-                            update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
-                            moveToSquare.get_pawn_in_square().sorry();
+                    moveToSquare.get_pawn_in_square().sorry();
 
-                            update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
 
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].move_to(moveToSquare);
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
                 case 2:
@@ -1159,11 +1158,11 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
 
-                    update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
-                    
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].set_in_safe_zone(true);
-                    
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].move_to(moveToSquare);
+                    update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1);
+
+                    currentPlayer.pawns[pawnInSquare].set_in_safe_zone(true);
+
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
                 case 3:
@@ -1171,11 +1170,11 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1);
 
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].set_in_safe_zone(true);
+                    currentPlayer.pawns[pawnInSquare].set_in_safe_zone(true);
 
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].move_to(moveToSquare);
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
                 case 4:
@@ -1183,60 +1182,166 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
 
-                    update_pawn_square(moveToSquare.get_index() + game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index() + currentPlayer.pawns[pawnInSquare].get_id() - color_adjustment, color_of_current_turn,
+                    safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1);
 
-                    num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
+                    num_pawns_home[(int)color_of_current_turn] = num_pawns_home[(int)color_of_current_turn] + 1;
 
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].move_to(moveToSquare);
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
                 case 5:
                     // Move a pawn to home from not safe
 
-                            update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index() + game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() - color_adjustment, color_of_current_turn,
-safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index() + currentPlayer.pawns[pawnInSquare].get_id() - color_adjustment, color_of_current_turn,
+                    safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1);
 
-                    num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
+                    num_pawns_home[(int)color_of_current_turn] = num_pawns_home[(int)color_of_current_turn] + 1;
 
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].move_to(moveToSquare);
-                    
-                    break;    
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
+                    break;
                 case 6:
                     // Move a pawn to square with no other pawns
 
-                            update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
 
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].move_to(moveToSquare);
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
 
                 case 7:
                     // Move a pawn to a square with a pawn in it
 
-                                update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                                update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
-                                moveToSquare.get_pawn_in_square().sorry();
+                    moveToSquare.get_pawn_in_square().sorry();
 
-                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
 
-                    game.players[(int)color_of_current_turn].pawns[cur_pawn_selection].move_to(moveToSquare);
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
+                    break;
+                case 8:
+
+                    //Move a pawn to a not safe square from safe where there is no pawn
+
+                    update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+
+                    currentPlayer.pawns[pawnInSquare].set_in_safe_zone(false);
+
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
 
-                        }
-        
+                case 9:
+
+                    //Move a pawn to not safe square from safe where there is a pawn
+
+                    update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
+
+                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+
+                    moveToSquare.get_pawn_in_square().sorry();
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+
+                    currentPlayer.pawns[pawnInSquare].set_in_safe_zone(false);
+
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
+                    break;
+
+                case 10:
+			
+			        //Execute a swap when current Pawn is not in safe
+			
+			        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+			
+			        update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1);
+			
+			        game.players[(int)moveToSquare.get_pawn_in_square().get_color()].pawns[moveToSquare.get_pawn_in_square().get_id()].move_to(currentSquare);
+			
+			        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
+                    break;
+
+                case 11:
+
+                    //Execute Sorry if pawn is at start
+                    update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
+           
+                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+           
+                    moveToSquare.get_pawn_in_square().sorry();
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
+
+                    break;
+                case 12:
+
+                    //Execute Sorry if pawn is on safe
+                    update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
+                    currentPlayer.pawns[pawnInSquare].set_in_safe_zone(false);
+
+                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+           
+                    moveToSquare.get_pawn_in_square().sorry();
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
+
+                    break;
+
+                case 13:
+
+                    //Execute Sorry if Pawn is neither
+                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+           
+                    moveToSquare.get_pawn_in_square().sorry();
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+
+                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
+
+                    break;
+
+            }
+
         } //NEED TO ADD FOR OPTIMIZATION
         
         void apply_card_real(Card card)
-                        {
+        {
             /*************************** NICK'S SECITION *******************************/
             Square currentSquare;
             Square moveToSquare;
@@ -1249,43 +1354,47 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
             /************************* Zoltan's Section *******************************/
             /**************************************************************************/
 
-            //Are we removing pawns from safe if they get a backwards move which takes them off of it?
-            //What is the win scenario if cards end and no one reaches 4 pawns?
-
+           
             //AI_on = true;
 
-            if ((!game.get_player(color_of_current_turn).get_is_human()) && AI_on)
-                    {
-
-                /*var moveLevel = new Tuple<int, int>(0, 0);
+            if ((!game.get_player(color_of_current_turn).get_is_human()))// && AI_on)
+            {
+                var moveLevel = new Tuple<int, int>(0, 0);
                 var bestMove = new Tuple<int, int>(0, 0);
 
-                if (options.Count == 1 && (card.get_value() == 1 || card.get_value() == 2))
+                int levelOfMove = 11;
+                int countOfMove = 0;
+                int pawnOfBest = 5;
+                int moveOfBest = 3;
+
+                Player currentPlayer = game.get_player(color_of_current_turn);
+
+                if ((card.get_value() == 1 || card.get_value() == 2) && options.Count == 1 && options.ElementAt(0).Item1.is_start())
                 {
                     // This will happen if there isnt any other pawn in the board (for the computer whose turn it is)
-                
 
                     currentSquare = options.ElementAt(0).Item1.get_current_location();
-                        moveToSquare = options.ElementAt(0).Item2.ElementAt(0);
+                    moveToSquare = options.ElementAt(0).Item2.ElementAt(0).Item1;
+
                     int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
                     if (moveToSquare.get_has_pawn())
-                        {
+                    {
 
-                        execute_update(options, currentSquare, moveToSquare, 1);
+                        execute_update(options, 0, currentSquare, moveToSquare, 1, currentPlayer);
 
                     }
                     else
                     {
 
-                        execute_update(options, currentSquare, moveToSquare, 0);
+                        execute_update(options, 0, currentSquare, moveToSquare, 0, currentPlayer);
 
                     }
 
 
-                        }
-                else if (options.Count == 1 || (options.Count != 0 && true))
-                        {
+                }
+                else if (options.Count == 1 )//|| (options.Count > 1 && (card.get_value() == 11 || card.get_value() == 13)))
+                {
 
                     //This will yield the adequate move if there is already a single pawn on the board for the computer who's current turn it is
 
@@ -1293,105 +1402,180 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
                     int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
-                    Debug.WriteLine("AT LEAST HERE");
-
-                    if ((card.get_value() != 7 && card.get_value() < 10) || card.get_value() == 12)
+                    if ((card.get_value() < 10) || card.get_value() == 12)
                     {
-                        //This executes a normal movement for the pawn ( cards: 3, 4, 5, 8, 12 )
+                        //This executes a normal movement for the pawn ( cards: 3, 4, 5, 8, 12 ) Also 7 since it will only be moving forward
                         Debug.WriteLine("gets here");
 
-                        moveToSquare = options.ElementAt(0).Item2.ElementAt(0);
+                        moveToSquare = options.ElementAt(0).Item2.ElementAt(0).Item1;
 
                         if (moveToSquare.get_Type() == SquareKind.SAFE)
                         {
 
-                            if(currentSquare.get_Type() == SquareKind.SAFE)
+                            if (currentSquare.get_Type() == SquareKind.SAFE)
                             {
 
-                                execute_update(options, currentSquare, moveToSquare, 2);
+                                execute_update(options, 0, currentSquare, moveToSquare, 2, currentPlayer);
 
                             }
                             else
                             {
-                                
-                                execute_update(options, currentSquare, moveToSquare, 3);
+
+                                execute_update(options, 0, currentSquare, moveToSquare, 3, currentPlayer);
+
+                            }
 
                         }
-
-                    }
                         else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
-                    {
-                            if(currentSquare.get_Type() == SquareKind.SAFE)
+                        {
+
+                            if (currentSquare.get_Type() == SquareKind.SAFE)
                             {
 
-                                execute_update(options, currentSquare, moveToSquare, 4);
-                                num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player]+1;
+                                execute_update(options, 0, currentSquare, moveToSquare, 4, currentPlayer);
+                                num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
 
                             }
                             else
-                        {
+                            {
 
-                                execute_update(options, currentSquare, moveToSquare, 5);
-                                num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player]+1;
+                                execute_update(options, 0, currentSquare, moveToSquare, 5, currentPlayer);
+                                num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
 
                             }
 
                         }
                         else if (moveToSquare.get_has_pawn())
                         {
+                            if(currentSquare.get_Type() == SquareKind.SAFE)
+                            {
 
-                            execute_update(options, currentSquare, moveToSquare, 7);
+                                execute_update(options, 0, currentSquare, moveToSquare, 9, currentPlayer);
+
+                            }
+                            else
+                            {
+
+                                execute_update(options, 0, currentSquare, moveToSquare, 7, currentPlayer);
+
+                            }
 
                         }
                         else
                         {
                             Debug.WriteLine("FAIL HERE");
-                            execute_update(options, currentSquare, moveToSquare, 6);
+                            if(currentSquare.get_Type() == SquareKind.SAFE)
+                            {
 
+                                execute_update(options, 0, currentSquare, moveToSquare, 8, currentPlayer);
+
+                            }
+                            else
+                            {
+
+                                execute_update(options, 0, currentSquare, moveToSquare, 6, currentPlayer);
+
+                            }
+                            
                         }
 
                     }
                     else if (card.get_value() == 10)
-                            {
+                    {
 
                         //Could add more constraints (based on cur position)
 
-                        
-                        moveToSquare = options.ElementAt(0).Item2.ElementAt(0);
+
+                        moveToSquare = options.ElementAt(0).Item2.ElementAt(0).Item1;
                         moveToSquareTwo = null;
 
                         bool twoElements = false;
-                        
-                        if(options.ElementAt(0).Item2.Count() > 1)
+
+                        if (options.ElementAt(0).Item2.Count() > 1)
                         {
 
-                            moveToSquareTwo = options.ElementAt(0).Item2.ElementAt(1);
+                            moveToSquareTwo = options.ElementAt(0).Item2.ElementAt(1).Item1;
                             twoElements = true;
 
                         }
 
-                        if (moveToSquare.get_has_pawn())
+                        if (moveToSquare.get_has_pawn() && currentSquare.get_Type() != SquareKind.SAFE)
                         {
 
-                            execute_update(options, currentSquare, moveToSquare, 7);
-
-                            }
-                        else if (twoElements && moveToSquareTwo.get_has_pawn())
-                        {
-                        
-                            execute_update(options, currentSquare, moveToSquareTwo, 7);
+                            execute_update(options, 0, currentSquare, moveToSquare, 7, currentPlayer);
 
                         }
-                        else if (currentSquare.get_index() == game.board.get_start_square(color_of_current_turn) && twoElements)
+                        else if (twoElements)
                         {
 
-                            execute_update(options, currentSquare, moveToSquareTwo, 6);
+                            if(moveToSquareTwo.get_has_pawn() && currentSquare.get_Type() != SquareKind.SAFE)
+                            {
+
+                                execute_update(options, 0, currentSquare, moveToSquareTwo, 7, currentPlayer);
+
+                            }
+                            /*else if(moveToSquareTwo.get_has_pawn() && currentSquare.get_Type() == SquareKind.SAFE)
+                            {
+
+                                execute_update(currentSquare, moveToSquareTwo, 9, currentPlayer);
+
+                            }*///THIS SHOULD NEVER HAPPEN.
+                            else
+                            {
+                                if(moveToSquare.get_Type() == SquareKind.SAFE)
+                                {
+
+                                    execute_update(options, 0, currentSquare, moveToSquare, 3, currentPlayer);
+
+                                }
+                                else
+                                {
+
+                                    execute_update(options, 0, currentSquare, moveToSquare, 6, currentPlayer);
+
+                                }
+                                
+
+                            }
 
                         }
                         else
                         {
+                            
+                            if(currentSquare.get_Type() == SquareKind.SAFE)
+                            {
 
-                            execute_update(options, currentSquare, moveToSquare, 6);
+                                if(moveToSquare.get_has_pawn() == true)
+                                {
+
+                                    execute_update(options, 0, currentSquare, moveToSquare, 9, currentPlayer);
+
+                                }
+                                else
+                                {
+                                    if(moveToSquare.get_Type() == SquareKind.SAFE)
+                                    {
+
+                                        execute_update(options, 0, currentSquare, moveToSquare, 2, currentPlayer);
+
+                                    }
+                                    else
+                                    {
+
+                                        execute_update(options, 0, currentSquare, moveToSquare, 8, currentPlayer);
+
+                                    }
+                                    
+                                    
+                                }
+                            }
+                            else
+                            {
+
+                                execute_update(options, 0, currentSquare, moveToSquare, 6, currentPlayer);
+
+                            }
+                            
 
                         }
 
@@ -1400,354 +1584,822 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
                     {
                         // Need to update with priorities for game finished
 
-                        int bestChoice = 11;
-                        Square bestMoveSquare;
-                        bestMoveSquare = options.ElementAt(0).Item2.ElementAt(0);
-                        int moveChoice = 0;
-                        moveToSquare = bestMoveSquare;
+                        moveToSquare = options.ElementAt(0).Item2.ElementAt(0).Item1;
+                        
+                        currentSquare = options.ElementAt(0).Item1.get_current_location();
 
-                        //Will this execute correctly if only one choice? Verify.
+                        int bestChoice = moveToSquare.get_index() - currentSquare.get_index();
 
-                        for (int i = 1; i < options.ElementAt(0).Item2.Count; i++)
+                        bool noForward = true;
+
+                        if(bestChoice < 0)
                         {
 
-                            moveToSquare = options.ElementAt(0).Item2.ElementAt(i);
+                            bestChoice = bestChoice + 60;
 
-                            //This can be placed in function to be more efficient
+                        }
+                        if (bestChoice == 11 || moveToSquare.get_Type() == SquareKind.SAFE)
+                        {
 
-                            int curPawn = 0;
-                            int curHome = 0;
-                            int enemyPawn = 0;
-                            int enemyHome = 0;
-                            int CalcVal = 0;
-
-                            curPawn = currentSquare.get_index();
-                            curHome = game.board.get_start_square(color_of_current_turn) - 1;
-                            enemyPawn = moveToSquare.get_index();
-                            enemyHome = game.board.get_start_square(moveToSquare.get_pawn_in_square().get_color()) - 1;
-
-                            CalcVal = get_AI_sorry_choice(curPawn, curHome, enemyPawn, enemyHome);
-
-                            if (CalcVal > bestChoice)
+                            if (moveToSquare.get_has_pawn() == true)
                             {
 
-                                bestChoice = CalcVal;
-                                bestMoveSquare = moveToSquare; // Possible Seg Fault?
-                                moveChoice = i;
+                                execute_update(options, 0, currentSquare, moveToSquare, 7, currentPlayer);
+
+                            }
+                            else if (moveToSquare.get_Type() == SquareKind.SAFE)
+                            {
+
+                                execute_update(options, 0, currentSquare, moveToSquare, 3, currentPlayer);
+
+                            }
+                            else
+                            {
+
+                                execute_update(options, 0, currentSquare, moveToSquare, 6, currentPlayer);
+
+                            }
+                            noForward = false;
+
+                        }
+
+                        int curBase;
+                        curBase = game.board.get_start_square(currentSquare.get_pawn_in_square().get_color()) - 2;
+                        int curDistToBase = curBase - currentSquare.get_index();
+                        Square testToSquare;
+
+                        if (curDistToBase < 0)
+                        {
+
+                            curDistToBase = curDistToBase + 60;
+
+                        }
+
+                        if (options.ElementAt(0).Item2.Count() > 1 && noForward == true)
+                        {
+                            
+                            
+
+                            int moveChoice = 0;
+                            int chosenDist = 61;
+
+                            int distToBaseTest = 61;
+
+                            for (int i = 0; i < options.ElementAt(0).Item2.Count; i++)
+                            {
+
+                                testToSquare = options.ElementAt(0).Item2.ElementAt(i).Item1;
+
+                                int testLocation;
+
+                                testLocation = testToSquare.get_index();
+                                distToBaseTest = curBase - testLocation;
+                                if(distToBaseTest < 0)
+                                {
+
+                                    distToBaseTest = distToBaseTest + 60;
+
+                                }
+
+                                Debug.WriteLine("GOT HERREEEE AND THE DISTANCE ISSS " + distToBaseTest);
+
+                                if(distToBaseTest < curDistToBase && distToBaseTest < chosenDist)
+                                {
+
+                                    chosenDist = distToBaseTest;
+                                    moveChoice = i;
+
+                                }
+
+                            }
+
+                            if(chosenDist < curDistToBase)
+                            {
+
+                                testToSquare = options.ElementAt(0).Item2.ElementAt(moveChoice).Item1;
+
+                                execute_update(options, 0, currentSquare, testToSquare, 10, currentPlayer);
 
                             }
 
                         }
-                        if (bestChoice == 11)
+                        else if(noForward == true)
                         {
 
-                            //If bumps normally should be prioritized
+                            testToSquare = options.ElementAt(0).Item2.ElementAt(0).Item1;
+                            int testLocation;
 
-                            if (bestMoveSquare.get_has_pawn())
+                            testLocation = testToSquare.get_index();
+                            int distToBaseTest = curBase - testLocation;
+                            if (distToBaseTest < 0)
                             {
 
-                                execute_update(options, currentSquare, moveToSquare, 7);
-
-                                }
-                            else
-                            {
-
-                                execute_update(options, currentSquare, moveToSquare, 6);
+                                distToBaseTest = distToBaseTest + 60;
 
                             }
+                            if (distToBaseTest < curDistToBase)
+                            {
+
+                                execute_update(options, 0, currentSquare, testToSquare, 10, currentPlayer);
+
+                            }
+
+
+                        }
+                        
+                    }
+                    else if(card.get_value() == 13)
+                    {
+
+                        
+                        moveToSquare = options.ElementAt(0).Item2.ElementAt(0).Item1;
+                        if(options.ElementAt(0).Item1.is_start() == true)
+                        {
+
+                            execute_update(options, 0, currentSquare, moveToSquare, 11, currentPlayer);
+
+                        }
+                        else if(currentSquare.get_Type() == SquareKind.SAFE)
+                        {
+
+                            execute_update(options, 0, currentSquare, moveToSquare, 12, currentPlayer);
 
                         }
                         else
                         {
 
-                            execute_update(options, currentSquare, moveToSquare, 7);
+                            execute_update(options, 0, currentSquare, moveToSquare, 13, currentPlayer);
 
                         }
+                        
 
                     }
 
                 }
-                else if (false)
+                else if (options.Count > 1)
                 {
+                    Debug.WriteLine("HERE IT IS SEES OPTIONS");
 
+                    int updateLevel; 
+                    updateLevel = 15;
+
+                    moveLevel = update_tuple(11, 0);
+                    bestMove = update_tuple(5, 10);
                     for (int i = 0; i < options.Count; i++)
                     {
+                        /*
+                        if(options.Count > i)
+                        {
+                            Debug.WriteLine("TESTING THIS SHIATTTT");
+                            int test = options.ElementAt(i + 1).Item1.get_id();
+                            Debug.WriteLine("WELL THE ISSUE ISNT WITH I + 1 SINCE IT EQUALS PAWN: " + test);
 
-                        //This could be changed to move on upon moveLevel comparison
-                        // curCount position change possibly?
-
-
+                        }
+                        */
                         currentSquare = options.ElementAt(i).Item1.get_current_location();
 
-                        for (int j = 0; j < options.ElementAt(i).Item2.Count; i++)
+                        int curBase = game.board.get_start_square(color_of_current_turn) - 2;
+                        int curDistToBase = 0;
+                        if(options.ElementAt(i).Item1.is_start() != true)
                         {
 
-                            moveToSquare = options.ElementAt(i).Item2.ElementAt(j);
+                            curBase = game.board.get_start_square(currentSquare.get_pawn_in_square().get_color()) - 2;
+                            curDistToBase = curBase - currentSquare.get_index();
+                            if (curDistToBase < 0)
+                            {
 
-                            if (card.get_value() == 3 || card.get_value() == 5 || card.get_value() == 8 || card.get_value() == 12 || card.get_value() == 10)
+                                curDistToBase = curDistToBase + 60;
+
+                            }
+
+                        }
+                        
+                        
+                        Debug.WriteLine("Our I value at this point is" + i);
+                        for (int j = 0; j < options.ElementAt(i).Item2.Count; j++)
+                        {
+                            Debug.WriteLine("OUR COUNT FOR J IS : "+ options.ElementAt(i).Item2.Count);
+                            Debug.WriteLine("OUT J VALUE AT THIS POINT IS: " + j);
+                            moveToSquare = options.ElementAt(i).Item2.ElementAt(j).Item1;
+                            int curCount;
+                            if (card.get_value() != 11 && card.get_value() != 1 && card.get_value() != 2 && card.get_value() != 13)
                             {
                                 if (moveToSquare.get_Type() == SquareKind.HOMESQ)
                                 {
+                                    levelOfMove = 1;
+                                    countOfMove = 0;
+                                    pawnOfBest = i;
+                                    moveOfBest = j;
 
-                                    moveLevel = update_tuple(9, 0);
-                                    bestMove = update_tuple(i, j);
+                                    //moveLevel = update_tuple(1, 0);
+                                    //bestMove = update_tuple(i, j);
+                                    Debug.WriteLine("Our PRESUMABLY UPDATED I IS: " + i);
+                                    if(currentSquare.get_Type() == SquareKind.SAFE)
+                                    {
 
-                                    // should double break. or execute normally (inefficient)
+                                        updateLevel = 4;
+
+                                    }
+                                    else
+                                    {
+                                        updateLevel = 5;
+
+                                    }
 
                                 }
 
                                 else if (moveToSquare.get_Type() == SquareKind.SAFE && currentSquare.get_Type() != SquareKind.SAFE)
                                 {
-
-                                    int curCount = (card.get_value());
-
-                                    if (moveLevel.Item1 == 8)
+                                    curCount = curDistToBase;
+                                    if (levelOfMove == 2)
                                     {
 
-                                        if (moveLevel.Item2 < curCount)
+                                        if (countOfMove > curCount)
                                         {
-
-                                            moveLevel = update_tuple(8, curCount);
-                                            bestMove = update_tuple(i, j);
-                                        }
-
-                                    }
-                                    else if (moveLevel.Item1 < 8)
-                                    {
-
-                                        moveLevel = update_tuple(8, curCount);
-                                        bestMove = update_tuple(i, j);
-
-                                    }
-                                }
-                                else if (moveToSquare.get_has_pawn() && (moveToSquare.get_pawn_in_square().get_color() == color_of_current_turn))
-                                {
-                                    int curPawn = 0;
-                                    int curHome = 0;
-                                    int enemyPawn = 0;
-                                    int enemyHome = 0;
-                                    int enemyStart = 0;
-                                    int CalcVal = 0;
-
-                                    curPawn = currentSquare.get_index();
-                                    curHome = game.board.get_start_square(color_of_current_turn) - 1;
-                                    enemyPawn = moveToSquare.get_index();
-                                    enemyHome = game.board.get_start_square(moveToSquare.get_pawn_in_square().get_color()) - 1;
-                                    enemyStart = game.board.get_start_square(moveToSquare.get_pawn_in_square().get_color());
-
-                                    CalcVal = ((enemyHome - enemyStart) - (enemyHome - enemyPawn)) + ((curHome - enemyPawn) - (curHome - curPawn));
-
-                                    int curCount = CalcVal;
-
-                                    if (moveLevel.Item1 == 5)
-                                    {
-
-                                        if (moveLevel.Item2 < curCount)
-                                        {
-
-                                            moveLevel = update_tuple(5, curCount);
-                                            bestMove = update_tuple(i, j);
+                                            levelOfMove = 2;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            //moveLevel = update_tuple(2, curCount);
+                                            //bestMove = update_tuple(i, j);
+                                            updateLevel = 3;
+                                            Debug.WriteLine("Our PRESUMABLY UPDATED I IS: " + i);
 
                                         }
-
+                                        
                                     }
-                                    else if (moveLevel.Item1 < 5)
+                                    else if (levelOfMove > 2)
                                     {
 
-                                        moveLevel = update_tuple(5, curCount);
-                                        bestMove = update_tuple(i, j);
+                                        levelOfMove = 2;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        updateLevel = 3;
+                                        Debug.WriteLine("Our PRESUMABLY UPDATED I IS: " + i);
 
                                     }
 
                                 }
-                                else if (currentSquare.get_Type() == SquareKind.STARTC && (currentSquare.get_color() == color_of_current_turn))
+                                else if (moveToSquare.get_has_pawn())
                                 {
-
-                                    if (moveLevel.Item1 < 4)
+                                    curCount = curBase - moveToSquare.get_index();
+                                    if(curCount < 0)
                                     {
 
-                                        moveLevel = update_tuple(4, 0);
-                                        bestMove = update_tuple(i, j);
+                                        curCount = curCount + 60;
 
                                     }
-
-                                }
-                                else if (currentSquare.get_Type() == SquareKind.STARTC && (currentSquare.get_color() != color_of_current_turn))
-                                {
-
-                                    int curHome = game.board.get_start_square(color_of_current_turn);
-
-                                    int curCount = curHome - currentSquare.get_index();
-
-                                    if (moveLevel.Item1 == 3)
+                                    if (levelOfMove == 3)
                                     {
 
-                                        if (moveLevel.Item2 < curCount)
+                                        if (countOfMove > curCount)
                                         {
 
-                                            moveLevel = update_tuple(3, curCount);
-                                            bestMove = update_tuple(i, j);
+                                            levelOfMove = 3;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            if(currentSquare.get_Type() == SquareKind.SAFE)
+                                            {
+
+                                                updateLevel = 9;
+
+                                            }
+                                            else
+                                            {
+
+                                                updateLevel = 7;
+
+                                            }
+                                            Debug.WriteLine("Our PRESUMABLY UPDATED I IS: " + i);
 
                                         }
 
                                     }
-                                    else if (moveLevel.Item1 < 3)
+                                    else if (levelOfMove > 3)
                                     {
 
-                                        moveLevel = update_tuple(3, curCount);
-                                        bestMove = update_tuple(i, j);
+                                        levelOfMove = 3;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        if (currentSquare.get_Type() == SquareKind.SAFE)
+                                        {
+
+                                            updateLevel = 9;
+
+                                        }
+                                        else
+                                        {
+
+                                            updateLevel = 7;
+
+                                        }
+
+                                        Debug.WriteLine("Our PRESUMABLY UPDATED I IS: " + i);
+
+                                    }
+
+
+                                }
+                                else
+                                {
+
+                                    curCount = curBase - moveToSquare.get_index();
+                                    if (curCount < 0)
+                                    {
+
+                                        curCount = curCount + 60;
+
+                                    }
+                                    if (levelOfMove == 5)
+                                    {
+
+                                        if (countOfMove > curCount)
+                                        {
+
+                                            levelOfMove = 5;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            if(currentSquare.get_Type() == SquareKind.SAFE)
+                                            {
+
+                                                updateLevel = 2;
+
+                                            }
+                                            else
+                                            {
+
+                                                updateLevel = 6;
+
+                                            }
+
+                                        }
+
+                                    }
+                                    else if (levelOfMove > 5)
+                                    {
+
+                                        levelOfMove = 5;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        if (currentSquare.get_Type() == SquareKind.SAFE)
+                                        {
+
+                                            updateLevel = 2;
+
+                                        }
+                                        else
+                                        {
+
+                                            updateLevel = 6;
+
+                                        }
+                                    }
+
+                                    
+
+                                }
+                                
+
+                            }
+                            else if (card.get_value() == 1 || card.get_value() == 2)
+                            {
+
+                                
+                                if (options.ElementAt(i).Item1.is_start() == true)
+                                {
+
+                                    if (levelOfMove > 4)
+                                    {
+                                        curCount = 0;
+                                        levelOfMove = 4;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        if (moveToSquare.get_has_pawn() == true)
+                                        {
+
+                                            updateLevel = 1;
+
+                                        }
+                                        else
+                                        {
+                                            updateLevel = 0;
+
+                                        }
+                                    }
+
+                                }
+                                else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
+                                {
+
+                                    levelOfMove = 1;
+                                    countOfMove = 0;
+                                    pawnOfBest = i;
+                                    moveOfBest = j;
+
+                                    if (currentSquare.get_Type() == SquareKind.SAFE)
+                                    {
+
+                                        updateLevel = 4;
+
+                                    }
+                                    else
+                                    {
+                                        updateLevel = 5;
+
+                                    }
+
+                                }
+                                else if (moveToSquare.get_Type() == SquareKind.SAFE && currentSquare.get_Type() != SquareKind.SAFE)
+                                {
+
+                                    curCount = curDistToBase;
+                                    if (curCount < 0)
+                                    {
+
+                                        curCount = curCount + 60;
+
+                                    }
+                                    if (levelOfMove == 2)
+                                    {
+
+                                        if (countOfMove > curCount)
+                                        {
+                                            levelOfMove = 2;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            updateLevel = 3;
+
+                                        }
+
+                                    }
+                                    else if (levelOfMove > 2)
+                                    {
+
+                                        levelOfMove = 2;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        updateLevel = 3;
+
+                                    }
+
+                                }
+                                else if (moveToSquare.get_has_pawn() == true)
+                                {
+                                    curCount = curBase - moveToSquare.get_index();
+                                    if (curCount < 0)
+                                    {
+
+                                        curCount = curCount + 60;
+
+                                    }
+                                    if (levelOfMove == 3)
+                                    {
+                                        if (countOfMove > curCount)
+                                        {
+
+                                            levelOfMove = 3;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            updateLevel = 7;
+
+                                        }
+
+
+                                    }
+                                    else if (levelOfMove > 3)
+                                    {
+
+                                        levelOfMove = 3;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        updateLevel = 7;
 
                                     }
 
                                 }
                                 else
                                 {
-
-                                    int curCount = card.get_value();
-
-                                    if (moveLevel.Item1 == 2)
+                                    Debug.WriteLine("WELL AT LEAST IT GETS HERE RIGHT?");
+                                    curCount = curBase - moveToSquare.get_index();
+                                    if (curCount < 0)
                                     {
 
-                                        if (moveLevel.Item2 < curCount)
+                                        curCount = curCount + 60;
+
+                                    }
+                                    if (levelOfMove == 5)
+                                    {
+
+                                        if (countOfMove > curCount)
                                         {
 
-                                            moveLevel = update_tuple(2, curCount);
-                                            bestMove = update_tuple(i, j);
+                                            levelOfMove = 5;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            if (currentSquare.get_Type() == SquareKind.SAFE)
+                                            {
+
+                                                updateLevel = 2;
+
+                                            }
+                                            else
+                                            {
+
+                                                updateLevel = 6;
+
+                                            }
 
                                         }
 
                                     }
-                                    else if (moveLevel.Item1 < 2)
+                                    else if (levelOfMove > 5)
                                     {
-
-                                        moveLevel = update_tuple(2, curCount);
-                                        bestMove = update_tuple(i, j);
-
-                                    }
-                                }
-
-                            }
-                            else if (card.get_value() == 4)
-                            {
-                                int curCount = (game.board.get_start_square(color_of_current_turn) - currentSquare.get_index());
-
-                                //Add the possible bumping by updating first statement criteria
-
-                                if (curCount < 4)
-                                {
-
-                                    if (moveLevel.Item1 == 6)
-                                    {
-
-                                        if (moveLevel.Item2 < curCount)
+                                        
+                                        levelOfMove = 5;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        if (currentSquare.get_Type() == SquareKind.SAFE)
                                         {
 
-                                            moveLevel = update_tuple(6, curCount);
-                                            bestMove = update_tuple(i, j);
+                                            updateLevel = 2;
+
+                                        }
+                                        else
+                                        {
+
+                                            updateLevel = 6;
+
+                                        }
+                                    }
+
+                                }
+
+
+                            }
+                            else if(card.get_value() == 11)
+                            {
+
+                                int isEleven = moveToSquare.get_index() - currentSquare.get_index();
+                                if(isEleven < 0)
+                                {
+
+                                    isEleven = isEleven + 60;
+
+                                }
+                                if(moveToSquare.get_Type() == SquareKind.HOMESQ)
+                                {
+
+                                    levelOfMove = 1;
+                                    countOfMove = 0;
+                                    pawnOfBest = i;
+                                    moveOfBest = j;
+                                    updateLevel = 5;
+
+
+                                }
+                                else if(moveToSquare.get_Type() == SquareKind.SAFE)
+                                {
+
+                                    curCount = curDistToBase;
+                                    
+                                    if (curCount < 0)
+                                    {
+
+                                        curCount = curCount + 60;
+
+                                    }
+                                    if (levelOfMove == 2)
+                                    {
+
+                                        if (countOfMove > curCount)
+                                        {
+                                            levelOfMove = 2;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            updateLevel = 3;
+
+                                        }
+
+                                    }
+                                    else if (levelOfMove > 2)
+                                    {
+
+                                        levelOfMove = 2;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        updateLevel = 3;
+
+                                    }
+
+
+                                }
+                                else if(isEleven == 11 && moveToSquare.get_has_pawn() == true)
+                                {
+
+                                    curCount = curBase - moveToSquare.get_index();
+                                    if (curCount < 0)
+                                    {
+
+                                        curCount = curCount + 60;
+
+                                    }
+                                    if (levelOfMove == 3)
+                                    {
+                                        if (countOfMove > curCount)
+                                        {
+
+                                            levelOfMove = 3;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            updateLevel = 7;
 
                                         }
 
 
                                     }
-                                    else if (moveLevel.Item1 < 6)
+                                    else if (levelOfMove > 3)
                                     {
 
-                                        moveLevel = update_tuple(6, curCount);
-                                        bestMove = update_tuple(i, j);
+                                        levelOfMove = 3;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        updateLevel = 7;
 
                                     }
 
-
                                 }
-
-                            }
-                            else if (card.get_value() == 7)
-                            {
-                                //7 is more complex based on separation 
-
-                            }
-                            else if (card.get_value() == -1)//This is incorrect I but I need to take a better look at how 10's option is displayed
-                            {
-
-                                //Add bump
-
-                                int curCount = (game.board.get_start_square(color_of_current_turn) - currentSquare.get_index());
-
-                                if (curCount < 2)
+                                else if(isEleven == 11)
                                 {
 
-                                    if (moveLevel.Item1 < 6)
+                                    curCount = curBase - moveToSquare.get_index();
+                                    if (curCount < 0)
                                     {
 
-                                        moveLevel = update_tuple(6, curCount);
-                                        bestMove = update_tuple(i, j);
+                                        curCount = curCount + 60;
 
                                     }
-
-
-                                }
-
-                            }
-                            else if (card.get_value() == 11)
-                            {
-
-                                //ADD the levels associated with going forward.
-
-                                if (moveToSquare.get_has_pawn() && (moveToSquare.get_pawn_in_square().get_color() == color_of_current_turn))
-                                {
-
-                                    //Verify correctness
-
-                                    int curPawn = 0;
-                                    int curHome = 0;
-                                    int enemyPawn = 0;
-                                    int enemyHome = 0;
-                                    int CalcVal = 0;
-
-                                    curPawn = currentSquare.get_index();
-                                    curHome = game.board.get_start_square(color_of_current_turn) - 1;
-                                    enemyPawn = moveToSquare.get_index();
-                                    enemyHome = game.board.get_start_square(moveToSquare.get_pawn_in_square().get_color()) - 1;
-
-                                    CalcVal = get_AI_sorry_choice(curPawn, curHome, enemyPawn, enemyHome);
-
-                                    int curCount = CalcVal;
-
-                                    if (moveLevel.Item1 == 5)
+                                    if (levelOfMove == 5)
                                     {
 
-                                        if (moveLevel.Item2 < curCount)
+                                        if (countOfMove > curCount)
                                         {
 
-                                            moveLevel = update_tuple(5, curCount);
-                                            bestMove = update_tuple(i, j);
+                                            levelOfMove = 5;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            updateLevel = 6;
+
 
                                         }
 
                                     }
-                                    else if (moveLevel.Item1 < 5)
+                                    else if (levelOfMove > 5)
                                     {
 
-                                        moveLevel = update_tuple(5, curCount);
-                                        bestMove = update_tuple(i, j);
+                                        levelOfMove = 5;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        updateLevel = 6;
+
+                                    }
+
+
+                                }
+                                else
+                                {
+
+                                    curCount = curBase - moveToSquare.get_index();
+                                    if (curCount < 0)
+                                    {
+
+                                        curCount = curCount + 60;
+
+                                    }
+                                    if (levelOfMove == 6 || levelOfMove >6)
+                                    {
+                                        countOfMove = 25;
+                                        if (countOfMove > curCount)
+                                        {
+
+                                            levelOfMove = 6;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            updateLevel = 10;
+
+
+                                        }
 
                                     }
 
                                 }
+                                  
 
                             }
+                            if(card.get_value() == 13)
+                            {
 
+                                if (moveToSquare.get_has_pawn())
+                                {
+                                    curCount = curBase - moveToSquare.get_index();
+                                    if (curCount < 0)
+                                    {
+
+                                        curCount = curCount + 60;
+
+                                    }
+                                    if (levelOfMove == 3)
+                                    {
+
+                                        if (countOfMove > curCount)
+                                        {
+
+                                            levelOfMove = 3;
+                                            countOfMove = curCount;
+                                            pawnOfBest = i;
+                                            moveOfBest = j;
+                                            if(options.ElementAt(i).Item1.is_start() == true)
+                                            {
+
+                                                updateLevel = 11;
+
+                                            }
+                                            else if (currentSquare.get_Type() == SquareKind.SAFE)
+                                            {
+
+                                                updateLevel = 12;
+
+                                            }
+                                            else
+                                            {
+                                                updateLevel = 13;
+                                            }
+
+                                        }
+
+                                    }
+                                    else if (levelOfMove > 3)
+                                    {
+
+                                        levelOfMove = 3;
+                                        countOfMove = curCount;
+                                        pawnOfBest = i;
+                                        moveOfBest = j;
+                                        if (options.ElementAt(i).Item1.is_start() == true)
+                                        {
+
+                                            updateLevel = 11;
+
+                                        }
+                                        else if (currentSquare.get_Type() == SquareKind.SAFE)
+                                        {
+
+                                            updateLevel = 12;
+
+                                        }
+                                        else
+                                        {
+                                            updateLevel = 13;
+                                        }
+
+                                    }
+
+
+                                }
+                                
+
+                            }
+                            
                         }
 
-
-                        Square fromChoice;
-                        Square toChoice;
-                        fromChoice = options.ElementAt(bestMove.Item1).Item1.get_current_location();
-                        toChoice = options.ElementAt(bestMove.Item1).Item2.ElementAt(bestMove.Item2);
                     }
-                    //private void execute_update(fromChoice, toChoice, bestMove.Item1);
+                    
+                    Square fromChoice;
+                    Square toChoice;
+                    fromChoice = options.ElementAt(pawnOfBest).Item1.get_current_location();
+                    toChoice = options.ElementAt(pawnOfBest).Item2.ElementAt(moveOfBest).Item1;
+
+                    execute_update(options, pawnOfBest, fromChoice, toChoice, updateLevel, currentPlayer);
                 }
-                */
+                
             
                 
             }
@@ -1815,118 +2467,118 @@ safe_zone_lists[(int)color_of_current_turn], game.players[(int)color_of_current_
 
 
                             currentSquare = currentPlayer.pawns[cur_pawn_selection].get_current_location();
-                        //moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
-                        moveToSquare = game.board.get_square_at(current_spot);
+                            //moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
+                            moveToSquare = game.board.get_square_at(current_spot);
 
-                        if (!currentPlayer.pawns[cur_pawn_selection].is_start())
-                        {
-                            Debug.WriteLine("PAWN NOT AT START!");
-                            if (currentSquare.get_Type() == SquareKind.SAFE)
+                            if (!currentPlayer.pawns[cur_pawn_selection].is_start())
                             {
-                                //update_pawn_square(currentSquare.get_index() - 66,color_of_current_turn, blue_safe_zone_list);
-                                //pawn num doesn't matter
-                                update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
-                                from_safe_zone = true;
+                                Debug.WriteLine("PAWN NOT AT START!");
+                                if (currentSquare.get_Type() == SquareKind.SAFE)
+                                {
+                                    //update_pawn_square(currentSquare.get_index() - 66,color_of_current_turn, blue_safe_zone_list);
+                                    //pawn num doesn't matter
+                                    update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
+                                    from_safe_zone = true;
+                                }
+                                else
+                                {
+                                    //pawn num doesn't matter
+                                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                                }
+
                             }
                             else
                             {
+                                //update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, blue_start_list);
                                 //pawn num doesn't matter
-                                update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                                update_pawn_square(currentPlayer.pawns[cur_pawn_selection].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
+
                             }
+                            Debug.WriteLine("PAWN 0's location: " + currentPlayer.pawns[cur_pawn_selection].get_current_location());
+                            //if (options.ElementAt(0).Item2.Count != 0)
+                            //{
+                            //moved up into else
+                            //    if (options.ElementAt(0).Item1.is_start())
+                            //    {
+                            //    }
+                            //Debug.WriteLine("PAWN 0's move to location: " + options.ElementAt(pawnChoice).Item2.ElementAt(0).get_index());
 
-                        }
-                        else
-                        {
-                            //update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, blue_start_list);
-                            //pawn num doesn't matter
-                            update_pawn_square(currentPlayer.pawns[cur_pawn_selection].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
-
-                        }
-                        Debug.WriteLine("PAWN 0's location: " + currentPlayer.pawns[cur_pawn_selection].get_current_location());
-                        //if (options.ElementAt(0).Item2.Count != 0)
-                        //{
-                        //moved up into else
-                        //    if (options.ElementAt(0).Item1.is_start())
-                        //    {
-                        //    }
-                        //Debug.WriteLine("PAWN 0's move to location: " + options.ElementAt(pawnChoice).Item2.ElementAt(0).get_index());
-
-                        if (moveToSquare.get_Type() == SquareKind.SAFE)//|| moveToSquare.get_Type() == SquareKind.HOMESQ)
-                        {
-                            update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
-                            currentPlayer.pawns[cur_pawn_selection].set_in_safe_zone(true);
-
-                        }
-                        else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
-                        {
-                            //update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - 66, color_of_current_turn, blue_safe_zone_list);
-                            update_pawn_square(moveToSquare.get_index() + currentPlayer.pawns[cur_pawn_selection].get_id() - color_adjustment, color_of_current_turn,
-                                safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
-
-                            num_pawns_home[(int)color_of_current_turn] = num_pawns_home[(int)color_of_current_turn] + 1;
-                        }
-                        // This currently has a few issues. It is executing the move visually but not programatically. 
-                        // It still has issues with ending in the start square.
-                        // I also had an issue with index range.
-                        else if (moveToSquare.get_Type() == SquareKind.SLIDE_START && false)
-                        {
-
-                            Square endSlide = game.board.get_square_at(moveToSquare.get_index());
-                            int sqIndex = moveToSquare.get_index();
-                            int counter = 1;
-                            while (endSlide.get_Type() != SquareKind.SLIDE_END || endSlide.get_Type() != SquareKind.STARTC)
+                            if (moveToSquare.get_Type() == SquareKind.SAFE)//|| moveToSquare.get_Type() == SquareKind.HOMESQ)
                             {
-                                
-                                sqIndex = sqIndex + counter;
-                                endSlide = game.board.get_square_at(sqIndex);
+                                update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                currentPlayer.pawns[cur_pawn_selection].set_in_safe_zone(true);
 
-                                if (endSlide.get_has_pawn())
+                            }
+                            else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
+                            {
+                                //update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - 66, color_of_current_turn, blue_safe_zone_list);
+                                update_pawn_square(moveToSquare.get_index() + currentPlayer.pawns[cur_pawn_selection].get_id() - color_adjustment, color_of_current_turn,
+                                    safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+
+                                num_pawns_home[(int)color_of_current_turn] = num_pawns_home[(int)color_of_current_turn] + 1;
+                            }
+                            // This currently has a few issues. It is executing the move visually but not programatically. 
+                            // It still has issues with ending in the start square.
+                            // I also had an issue with index range.
+                            else if (moveToSquare.get_Type() == SquareKind.SLIDE_START && false)
+                            {
+
+                                Square endSlide = game.board.get_square_at(moveToSquare.get_index());
+                                int sqIndex = moveToSquare.get_index();
+                                int counter = 1;
+                                while (endSlide.get_Type() != SquareKind.SLIDE_END || endSlide.get_Type() != SquareKind.STARTC)
                                 {
-
-                                    update_pawn_square(endSlide.get_pawn_in_square().get_id(), endSlide.get_pawn_in_square().get_color(), start_lists[(int)endSlide.get_pawn_in_square().get_color()], endSlide.get_pawn_in_square().get_id() + 1);
-
-                                    endSlide.get_pawn_in_square().sorry();
-
-                                    update_pawn_square(endSlide.get_index(), color_of_current_turn, pawn_square_list, 0);
-
-                                }
-                                counter++;
                                 
-                        }
+                                    sqIndex = sqIndex + counter;
+                                    endSlide = game.board.get_square_at(sqIndex);
 
-                            update_pawn_square(endSlide.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                    if (endSlide.get_has_pawn())
+                                    {
 
-                        }
-                        else
-                        {
-                            //send someone home here if they are in the square you want!
-                            if (moveToSquare.get_has_pawn())
-                            {
-                                //send the visual pawn to start square
-                                update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
-                                //send the data pawn to start state
-                                moveToSquare.get_pawn_in_square().sorry();
+                                        update_pawn_square(endSlide.get_pawn_in_square().get_id(), endSlide.get_pawn_in_square().get_color(), start_lists[(int)endSlide.get_pawn_in_square().get_color()], endSlide.get_pawn_in_square().get_id() + 1);
 
-                                //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
-                                //first call sets square image brush to nill;
-                                //pawn num doesn't matter here
-                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                                        endSlide.get_pawn_in_square().sorry();
+
+                                        update_pawn_square(endSlide.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                                    }
+                                    counter++;
+                                
+                                }
+
+                                update_pawn_square(endSlide.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+
                             }
-                            //second call sets square image brush to pawn we want
-                            //or first if no one was there in the first place
-                            update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
-                            if(from_safe_zone)
+                            else
                             {
-                                currentPlayer.pawns[cur_pawn_selection].set_in_safe_zone(false);
+                                //send someone home here if they are in the square you want!
+                                if (moveToSquare.get_has_pawn())
+                                {
+                                    //send the visual pawn to start square
+                                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+                                    //send the data pawn to start state
+                                    moveToSquare.get_pawn_in_square().sorry();
+
+                                    //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
+                                    //first call sets square image brush to nill;
+                                    //pawn num doesn't matter here
+                                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                                }
+                                //second call sets square image brush to pawn we want
+                                //or first if no one was there in the first place
+                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                if(from_safe_zone)
+                                {
+                                    currentPlayer.pawns[cur_pawn_selection].set_in_safe_zone(false);
+                                }
                             }
+                            //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
+                            currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
+
+
+
+
                         }
-                        //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
-                        currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
-
-
-
-
-                    }
 
                     }
 

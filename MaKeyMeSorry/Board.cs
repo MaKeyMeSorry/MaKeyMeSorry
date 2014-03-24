@@ -206,6 +206,10 @@ namespace MaKeyMeSorry
                 Debug.WriteLine("blue: " + blueHome);
                 Debug.WriteLine("yellow: " + yellowHome);
                 Debug.WriteLine("green: " + greenHome);
+                Debug.WriteLine("Red Start: " + redStart);
+                Debug.WriteLine("Blue Start: " + blueStart);
+                Debug.WriteLine("Yellow Start: " + yellowStart);
+                Debug.WriteLine("Green Start: " + greenStart);
             }
             print_Board();
         }
