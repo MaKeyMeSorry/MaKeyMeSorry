@@ -640,7 +640,14 @@ namespace MaKeyMeSorry
                 }
                 else
                 {
-                    show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected);//, pawn_square_list);
+                    if(((ComboData)comboBox.SelectedItem).move_choice == ComboData.move.SWAP)
+                    {
+                        show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected, true);//, pawn_square_list);
+                    }
+                    else
+                    {
+                        show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected);//, pawn_square_list);
+                    }
                     //show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);//, pawn_square_list);
                     current_move_type = ((ComboData)comboBox.SelectedItem).move_choice;
 
@@ -2692,6 +2699,20 @@ namespace MaKeyMeSorry
             preview_square_list[index].Opacity = 0.75;
         }
 
+        private void toggle_swap_preview(int index)
+        {
+            ImageBrush ib = null;
+            if (preview_square_list[index].Background == ib)
+            {
+                string uri_string = "ms-appx:///Assets/Overlay Images/swap_pawn.jpg";
+                ib = new ImageBrush();
+                Uri uri = new Uri(uri_string, UriKind.Absolute);
+                ib.ImageSource = new BitmapImage(uri);
+            }
+            preview_square_list[index].Background = ib;
+            preview_square_list[index].Opacity = 0.75;
+        }
+
         private void clear_preivew_canvas(int squarenum = -1)
         {
             ImageBrush ib = null;
@@ -2809,11 +2830,14 @@ namespace MaKeyMeSorry
             
         }
 
-        public void show_selected_move(int square_num, int pawn_num)//, List<Canvas> list)
+        public void show_selected_move(int square_num, int pawn_num, bool swap = false)//, List<Canvas> list)
         {
-            if (square_num < 60 && game.board.get_square_at(square_num).get_has_pawn())
+            if (square_num < 60 && game.board.get_square_at(square_num).get_has_pawn() && !swap)
             {
                 toggle_sorry_preview(square_num);
+            } else if(square_num < 60 && game.board.get_square_at(square_num).get_has_pawn() && swap)
+            {
+                toggle_swap_preview(square_num);
             }
             else
             {
