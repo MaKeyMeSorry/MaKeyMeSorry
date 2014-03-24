@@ -781,6 +781,7 @@ namespace MaKeyMeSorry
 
             foreach(Tuple<Pawn, List<Tuple<Square,ComboData.move>>> option in options)
             {
+                int index = 1;
                 switch(option.Item1.get_id())
                 {
                     case 0:
@@ -788,8 +789,9 @@ namespace MaKeyMeSorry
                         pawn_1.Text = "Pawn 1 Options:";
                         foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1,index, option.Item2.Count);
                             options_1.Items.Add(comboData);
+                            index++;
                         }
                         pawns_available[0] = true;
                         break;
@@ -798,8 +800,9 @@ namespace MaKeyMeSorry
                         options_2.Visibility = Visibility.Visible;
                         foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1,index,option.Item2.Count);
                             options_2.Items.Add(comboData);
+                            index++;
                         }
                         pawns_available[1] = true;
                         break;
@@ -808,8 +811,9 @@ namespace MaKeyMeSorry
                         options_3.Visibility = Visibility.Visible;
                         foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1,index, option.Item2.Count);
                             options_3.Items.Add(comboData);
+                            index++;
                         }
                         pawns_available[2] = true;
                         break;
@@ -818,8 +822,9 @@ namespace MaKeyMeSorry
                         options_4.Visibility = Visibility.Visible;
                         foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1,index, option.Item2.Count);
                             options_4.Items.Add(comboData);
+                            index++;
                         }
                         pawns_available[3] = true;
                         break;
