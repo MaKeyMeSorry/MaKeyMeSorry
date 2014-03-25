@@ -589,21 +589,21 @@
                         <ColumnDefinition Width="150"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="1700" Height="150" Grid.Column="1">
-                        <Button x:Name="how_to_play_menu_button" Height="100" Width="400" Click="AppBar_HowToPlay_ButtonClick">
+                        <Button x:Name="how_to_play_menu_button" Height="100" Width="400" Click="AppBar_HowToPlay_ButtonClick" BorderBrush="Transparent">
                             <Button.Background>
                                 <ImageBrush ImageSource="how_to_play.png" Stretch="Fill"/>
                             </Button.Background>
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="1700" Height="150" Grid.Column="3">
-                        <Button x:Name="new_game_menu_button" Height="100" Width="400" Click="AppBar_NewGame_ButtonClick">
+                        <Button x:Name="new_game_menu_button" Height="100" Width="400" Click="AppBar_NewGame_ButtonClick" BorderBrush="Transparent">
                             <Button.Background>
                                 <ImageBrush ImageSource="new_game.png" Stretch="Fill"/>
                             </Button.Background>
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="1700" Height="150" Grid.Column="5">
-                        <Button x:Name="quit_menu_button" Height="100" Width="400" Click="AppBar_Quit_ButtonClick">
+                        <Button x:Name="quit_menu_button" Height="100" Width="400" Click="AppBar_Quit_ButtonClick" BorderBrush="Transparent">
                             <Button.Background>
                                 <ImageBrush ImageSource="quit.png" Stretch="Fill"/>
                             </Button.Background>

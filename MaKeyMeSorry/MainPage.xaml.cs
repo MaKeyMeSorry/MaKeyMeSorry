@@ -456,10 +456,14 @@ namespace MaKeyMeSorry
                     app_bar.IsOpen = false;
                     app_bar_open = false;
                     this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                 }
                 else
                 {
                     how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
                     app_bar.IsOpen = true;
                     app_bar_open = true;
                     current_menu_item_index = 0;
@@ -476,17 +480,23 @@ namespace MaKeyMeSorry
             {
                 case 0:
                     // Currently on the How To Play Button
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     quit_menu_button.Focus(FocusState.Keyboard);
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
                     current_menu_item_index = 2;
                     break;
                 case 1:
                     // Currently on the New Game Button
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
                     current_menu_item_index--;
                     break;
                 case 2:
                     // Currently on the Quit Button
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     new_game_menu_button.Focus(FocusState.Keyboard);
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
                     current_menu_item_index--;
                     break;
             }
@@ -498,17 +508,23 @@ namespace MaKeyMeSorry
             {
                 case 0:
                     // Currently on the How To Play Button
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     new_game_menu_button.Focus(FocusState.Keyboard);
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
                     current_menu_item_index++;
                     break;
                 case 1:
                     // Currently on the New Game Button
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     quit_menu_button.Focus(FocusState.Keyboard);
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
                     current_menu_item_index++;
                     break;
                 case 2:
                     // Currently on the Quit Button
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
                     current_menu_item_index = 0;
                     break;
             }
@@ -3326,6 +3342,7 @@ namespace MaKeyMeSorry
         {
             app_bar_open = false;
             this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
             howToPlayMessage();
         }
 
@@ -3333,6 +3350,7 @@ namespace MaKeyMeSorry
         {
             app_bar_open = false;
             this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
             newGameMessage();
         }
 
@@ -3340,6 +3358,7 @@ namespace MaKeyMeSorry
         {
             app_bar_open = false;
             this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
             quitMessage();
         }
 
