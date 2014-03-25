@@ -251,6 +251,7 @@
     <Content Include="Assets\MaKeyMeSorry! Text_1x.png" />
     <Content Include="Assets\Overlay Images\pink30.png" />
     <Content Include="Assets\Overlay Images\pink70.png" />
+    <Content Include="Assets\Overlay Images\swap_pawn.jpg" />
     <Content Include="Assets\Pawn Images\BLUE Pawn.png" />
     <Content Include="Assets\Pawn Images\GREEN Pawn.png" />
     <Content Include="Assets\Pawn Images\RED Pawn.png" />
@@ -297,6 +298,9 @@
     <Content Include="Assets\Yellow Pawns\Yellow Pawn - 3.png" />
     <Content Include="Assets\Yellow Pawns\Yellow Pawn - 4.png" />
     <Content Include="Common\ReadMe.txt" />
+    <Content Include="how_to_play.png" />
+    <Content Include="new_game.png" />
+    <Content Include="quit.png" />
     <Page Include="SetupPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

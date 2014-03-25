@@ -201,7 +201,94 @@ namespace MaKeyMeSorry
         {
 
             List<Player> players = new List<Player>();
+            int player1_index = 0;
 
+
+            if (red_selected)
+            {
+                Player player;
+                if (player1_color == Color.RED)
+                {
+                    player = new Player(player1name, player1_color, true, true);
+                    player1_index = 0;
+                }
+                else if (player2_color == Color.RED) player = new Player(player2name, player2_color, true, true);
+                else if (player3_color == Color.RED) player = new Player(player3name, player3_color, true, true);
+                else player = new Player(player4name, player4_color, true, true);
+                players.Add(player);
+            }
+            else
+            {
+                // Add Red Computer
+                string computerName = "Red Computer";
+                Player computer = new Player(computerName, Color.RED, false, true);
+                players.Add(computer);
+            }
+
+            if (blue_selected)
+            {
+                Player player;
+                if (player1_color == Color.BLUE)
+                {
+                    player = new Player(player1name, player1_color, true, true);
+                    player1_index = 1;
+                }
+                else if (player2_color == Color.BLUE) player = new Player(player2name, player2_color, true, true);
+                else if (player3_color == Color.BLUE) player = new Player(player3name, player3_color, true, true);
+                else player = new Player(player4name, player4_color, true, true);
+                players.Add(player);
+            }
+            else
+            {
+                // Add Blue Computer
+                string computerName = "Blue Computer";
+                Player computer = new Player(computerName, Color.BLUE, false, true);
+                players.Add(computer);
+            }
+
+            if (yellow_selected)
+            {
+                Player player;
+                if (player1_color == Color.YELLOW)
+                {
+                    player = new Player(player1name, player1_color, true, true);
+                    player1_index = 2;
+                }
+                else if (player2_color == Color.YELLOW) player = new Player(player2name, player2_color, true, true);
+                else if (player3_color == Color.YELLOW) player = new Player(player3name, player3_color, true, true);
+                else player = new Player(player4name, player4_color, true, true);
+                players.Add(player);
+            }
+            else
+            {
+                // Add Yellow Computer
+                string computerName = "Yellow Computer";
+                Player computer = new Player(computerName, Color.YELLOW, false, true);
+                players.Add(computer);
+            }
+
+            if (green_selected)
+            {
+                Player player;
+                if (player1_color == Color.GREEN)
+                {
+                    player = new Player(player1name, player1_color, true, true);
+                    player1_index = 3;
+                }
+                else if (player2_color == Color.GREEN) player = new Player(player2name, player2_color, true, true);
+                else if (player3_color == Color.GREEN) player = new Player(player3name, player3_color, true, true);
+                else player = new Player(player4name, player4_color, true, true);
+                players.Add(player);
+            }
+            else
+            {
+                // Add Green Computer
+                string computerName = "Green Computer";
+                Player computer = new Player(computerName, Color.GREEN, false, true);
+                players.Add(computer);
+            }
+
+            /*
             if (numHumanPlayers >= 1)
             {
                 Player player1 = new Player(player1name, player1_color, true, true);
@@ -253,9 +340,9 @@ namespace MaKeyMeSorry
                 players.Add(greenComputer);
                 numComputers--;
             }
+            */
 
-
-            Game game = new Game(numHumanPlayers, players);
+            Game game = new Game(numHumanPlayers, players, player1_index);
 
             // TODO: save and load game
 

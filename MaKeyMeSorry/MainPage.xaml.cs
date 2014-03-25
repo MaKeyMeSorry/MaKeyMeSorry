@@ -101,7 +101,7 @@ namespace MaKeyMeSorry
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             this.InitializeComponent();
             this.IsTabStop = true;
-            index_of_current_player = -1;
+            //index_of_current_player = -1;
             //color_of_current_turn = Color.RED;
             card_drawn = false;
             cur_selected_square = -1;
@@ -228,6 +228,8 @@ namespace MaKeyMeSorry
                 }
             
             }
+
+            app_bar_open = false;
         }
 
 
@@ -246,6 +248,7 @@ namespace MaKeyMeSorry
         {
             game = MaKeyMeSorry.App.currentGame;
             //color_of_current_turn = game.players[index_of_current_player].get_pawn_color();
+            index_of_current_player = game.get_start_index() - 1;
             change_turn(true);
             /*Square mySquare = game.board.get_square_at(6);
             ComboData comboData = new ComboData(ComboData.move.SWAP, mySquare);
@@ -394,6 +397,10 @@ namespace MaKeyMeSorry
             }
 
         }
+
+        bool app_bar_open;
+        int current_menu_item_index;
+
         private void App_KeyUp(object sender, KeyRoutedEventArgs e)
         {
 
@@ -418,17 +425,111 @@ namespace MaKeyMeSorry
 
             if (e.Key == Windows.System.VirtualKey.Right)
             {
-                change_selected_pawn_box_right();
+                if (app_bar_open)
+                {
+                    change_selected_menu_button_right();
+                }
+                else
+                {
+                    change_selected_pawn_box_right();
+                }
                 e.Handled = true;
             }
 
             if (e.Key == Windows.System.VirtualKey.Left)
             {
-                change_selected_pawn_box_left();
+                if (app_bar_open)
+                {
+                    change_selected_menu_button_left();
+                }
+                else
+                {
+                    change_selected_pawn_box_left();
+                }
                 e.Handled = true;
-        }
+            }
+
+            if (e.Key == Windows.System.VirtualKey.W)
+            {
+                if (app_bar_open)
+                {
+                    app_bar.IsOpen = false;
+                    app_bar_open = false;
+                    this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                }
+                else
+                {
+                    how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+                    app_bar.IsOpen = true;
+                    app_bar_open = true;
+                    current_menu_item_index = 0;
+                }
+
+                e.Handled = true;
+            }
 
         }
+
+        private void change_selected_menu_button_left()
+        {
+            switch (current_menu_item_index)
+            {
+                case 0:
+                    // Currently on the How To Play Button
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    quit_menu_button.Focus(FocusState.Keyboard);
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+                    current_menu_item_index = 2;
+                    break;
+                case 1:
+                    // Currently on the New Game Button
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+                    current_menu_item_index--;
+                    break;
+                case 2:
+                    // Currently on the Quit Button
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    new_game_menu_button.Focus(FocusState.Keyboard);
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+                    current_menu_item_index--;
+                    break;
+            }
+        }
+
+        private void change_selected_menu_button_right()
+        {
+            switch (current_menu_item_index)
+            {
+                case 0:
+                    // Currently on the How To Play Button
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    new_game_menu_button.Focus(FocusState.Keyboard);
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+                    current_menu_item_index++;
+                    break;
+                case 1:
+                    // Currently on the New Game Button
+                    new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    quit_menu_button.Focus(FocusState.Keyboard);
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+                    current_menu_item_index++;
+                    break;
+                case 2:
+                    // Currently on the Quit Button
+                    quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                    how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+                    current_menu_item_index = 0;
+                    break;
+            }
+        }
+
 
         private void change_selected_pawn_box_left()
             {
@@ -640,7 +741,14 @@ namespace MaKeyMeSorry
                 }
                 else
                 {
-                    show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected);//, pawn_square_list);
+                    if(((ComboData)comboBox.SelectedItem).move_choice == ComboData.move.SWAP)
+                    {
+                        show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected, true);//, pawn_square_list);
+                    }
+                    else
+                    {
+                        show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected);//, pawn_square_list);
+                    }
                     //show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);//, pawn_square_list);
                     current_move_type = ((ComboData)comboBox.SelectedItem).move_choice;
 
@@ -774,6 +882,7 @@ namespace MaKeyMeSorry
 
             foreach(Tuple<Pawn, List<Tuple<Square,ComboData.move>>> option in options)
             {
+                int index = 1;
                 switch(option.Item1.get_id())
                 {
                     case 0:
@@ -781,8 +890,9 @@ namespace MaKeyMeSorry
                         pawn_1.Text = "Pawn 1 Options:";
                         foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1,index, option.Item2.Count);
                             options_1.Items.Add(comboData);
+                            index++;
                         }
                         pawns_available[0] = true;
                         break;
@@ -791,8 +901,9 @@ namespace MaKeyMeSorry
                         options_2.Visibility = Visibility.Visible;
                         foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1,index,option.Item2.Count);
                             options_2.Items.Add(comboData);
+                            index++;
                         }
                         pawns_available[1] = true;
                         break;
@@ -801,8 +912,9 @@ namespace MaKeyMeSorry
                         options_3.Visibility = Visibility.Visible;
                         foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1,index, option.Item2.Count);
                             options_3.Items.Add(comboData);
+                            index++;
                         }
                         pawns_available[2] = true;
                         break;
@@ -811,8 +923,9 @@ namespace MaKeyMeSorry
                         options_4.Visibility = Visibility.Visible;
                         foreach (Tuple<Square, ComboData.move> mySquare in option.Item2)
                         {
-                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1);
+                            ComboData comboData = new ComboData(mySquare.Item2, mySquare.Item1,index, option.Item2.Count);
                             options_4.Items.Add(comboData);
+                            index++;
                         }
                         pawns_available[3] = true;
                         break;
@@ -2721,6 +2834,20 @@ namespace MaKeyMeSorry
             preview_square_list[index].Opacity = 0.75;
         }
 
+        private void toggle_swap_preview(int index)
+        {
+            ImageBrush ib = null;
+            if (preview_square_list[index].Background == ib)
+            {
+                string uri_string = "ms-appx:///Assets/Overlay Images/swap_pawn.jpg";
+                ib = new ImageBrush();
+                Uri uri = new Uri(uri_string, UriKind.Absolute);
+                ib.ImageSource = new BitmapImage(uri);
+            }
+            preview_square_list[index].Background = ib;
+            preview_square_list[index].Opacity = 0.75;
+        }
+
         private void clear_preivew_canvas(int squarenum = -1)
         {
             ImageBrush ib = null;
@@ -2782,6 +2909,7 @@ namespace MaKeyMeSorry
             */
 
             int playerNumber = index_of_current_player + 1;
+
             Debug.WriteLine("Previous player's index: " + playerNumber);
             Debug.WriteLine("Previous player's color: " + color_of_current_turn);
 
@@ -2838,11 +2966,14 @@ namespace MaKeyMeSorry
             
         }
 
-        public void show_selected_move(int square_num, int pawn_num)//, List<Canvas> list)
+        public void show_selected_move(int square_num, int pawn_num, bool swap = false)//, List<Canvas> list)
         {
-            if (square_num < 60 && game.board.get_square_at(square_num).get_has_pawn())
+            if (square_num < 60 && game.board.get_square_at(square_num).get_has_pawn() && !swap)
             {
                 toggle_sorry_preview(square_num);
+            } else if(square_num < 60 && game.board.get_square_at(square_num).get_has_pawn() && swap)
+            {
+                toggle_swap_preview(square_num);
             }
             else
             {
@@ -3067,16 +3198,19 @@ namespace MaKeyMeSorry
 
         private void new_game_button_Click(object sender, RoutedEventArgs e)
         {
+            newGameMessage();
+        }
+
+        private void newGameMessage()
+        {
             // Ask if user is sure
-            MessageDialog message = new MessageDialog("Are you sure you want to start a new game?");
+            MessageDialog message = new MessageDialog("Your current game will be lost. Are you sure you want to start a new game?");
 
             //message.Commands.Add(new Button());
             message.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(RespondToCommand)));
             message.Commands.Add(new UICommand("No", new UICommandInvokedHandler(RespondToCommand)));
             message.ShowAsync();
             return;
-
-
         }
  
         private void RespondToCommand(IUICommand command)
@@ -3232,6 +3366,61 @@ namespace MaKeyMeSorry
 
             //e.Handled = true;
         }
-        
+
+        private void AppBar_HowToPlay_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            app_bar_open = false;
+            this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+            howToPlayMessage();
+        }
+
+        private void AppBar_NewGame_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            app_bar_open = false;
+            this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+            newGameMessage();
+        }
+
+        private void AppBar_Quit_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            app_bar_open = false;
+            this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+            quitMessage();
+        }
+
+        private void howToPlayMessage()
+        {
+            MessageDialog message = new MessageDialog("The object of the game: \nTo get all your pawns to the Home section of the board of the pawns' colors (e.g. If you have green pawns, and there is a green Home section, then that is your goal) before everyone else does. The route of the process goes clockwise. \n\nCards: \nThere are many kinds of cards in the deck. Make sure to read carefully when the options are displayed. \n\nTo start:\nThe cards 1 and 2 are the only cards that you can use to start a pawn. If any of your pawns are not on the board and you get a card other than a 1 or a 2, you must forfeit your turn.\n\nJumping and bumping: \nYou may jump over any pawn that is in your way. But...if you land on a space that is occupied by another person's pawn, bump it back to its own start space. \n\nMoving backward: \nThe cards 4 and 10 can move you backward. If you have successfully moved a pawn backward at least 2 spaces beyond your own start space, you may, on a subsequent turn, move into your own safety zone without moving all the way around the board.\n\nSlide: \nIf your pawns land on a slide space, slide to the end. You can bump any of the pawns that are in your pathway - including your own! - back to their start space. If you land on a slide that is your own color, don't slide.\n\nTo Win:\nThe first player to get all four of their pawns to their home space wins! If you win, and you play again with other people, the winner goes first.");
+            message.ShowAsync();
+        }
+
+
+        private void quitMessage()
+        {
+            // Ask if user is sure
+            MessageDialog message = new MessageDialog("Your current game will be lost. Are you sure you want to quit?");
+
+            //message.Commands.Add(new Button());
+            message.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(quitCommand)));
+            message.Commands.Add(new UICommand("No", new UICommandInvokedHandler(quitCommand)));
+            message.ShowAsync();
+            return;
+        }
+
+        private void quitCommand(IUICommand command)
+        {
+            if (command.Label == "Yes")
+            {
+                // Remove current game
+                MaKeyMeSorry.App.currentGame = null;
+                game = null;
+                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                Application.Current.Exit();
+            }
+        }
+
     }
 }
