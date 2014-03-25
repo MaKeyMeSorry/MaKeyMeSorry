@@ -2943,47 +2943,56 @@ namespace MaKeyMeSorry
                                 currentSquare = game.get_player(color_of_current_turn).pawns[cur_pawn_selection].get_current_location();
                                 moveToSquare = game.board.get_square_at(current_spot);
                                 temp_color = moveToSquare.get_pawn_in_square().get_color();
+
                                 //pawn num doesn't matter here
+                                //remove me from UI
                                 update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
                                 //send the visual pawn to start square
                                 //update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
                                 //send the data pawn to start state
                                 if (currentPlayer.pawns[cur_pawn_selection].is_in_safe_zone())
-                                {
+                                {   //this sould never get called?????
                                     update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), safe_zone_lists[(int)color_of_current_turn], moveToSquare.get_pawn_in_square().get_id() + 1);
                                 }
                                 else
                                 {
+                                    //put them in my UI spot
                                     update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1);
                                 }
 
+                                //put them in my spot programatically
                                 game.players[(int)moveToSquare.get_pawn_in_square().get_color()].pawns[moveToSquare.get_pawn_in_square().get_id()].move_to(currentSquare);
 
 
                                 //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
                                 //first call sets square image brush to nill;
                                 //pawn num doesn't matter here
+
+                                //remove them from UI in my final spot
                                 update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
                                 //second call sets square image brush to pawn we want
                                 //or first if no one was there in the first place
+                                //but me in the final spot programatically
                                 update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
 
                                 //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
+                                //put  me in the final spot programatically
                                 currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
 
                                 if (currentSquare.get_color() != temp_color && currentSquare.get_Type() == SquareKind.SLIDE_START)
                                 {
+                                    //if the original square I was at, is a slide start for the pawn i swapped with
                                     int pawn_id = currentSquare.get_pawn_in_square().get_id();
-                                    currentSquare = slide_baby_slide(currentSquare, game.get_player(temp_color));
+                                    currentSquare = slide_baby_slide(currentSquare, game.get_player(temp_color), pawn_id);
                                     Player temp_player = game.get_player(temp_color);
                                     temp_player.pawns[pawn_id].move_to(currentSquare);
                                 }
 
                                 if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
                                 {
-                                    moveToSquare = slide_baby_slide(moveToSquare, currentPlayer);
+                                    moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection);
                                     currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
                                 }
 
@@ -2996,7 +3005,8 @@ namespace MaKeyMeSorry
                             currentSquare = currentPlayer.pawns[cur_pawn_selection].get_current_location();
                             //moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
                              moveToSquare = game.board.get_square_at(current_spot);
-
+                            
+                            //visually taking me off my current locations
                             if (!currentPlayer.pawns[cur_pawn_selection].is_start())
                             {
                                 Debug.WriteLine("PAWN NOT AT START!");
@@ -3010,6 +3020,7 @@ namespace MaKeyMeSorry
                                 else
                                 {
                                     //pawn num doesn't matter
+                                    
                                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
                                 }
 
@@ -3049,7 +3060,12 @@ namespace MaKeyMeSorry
                             // I also had an issue with index range.
                             else if (moveToSquare.get_Type() == SquareKind.SLIDE_START && moveToSquare.get_color() != color_of_current_turn)
                             {
-                                moveToSquare = slide_baby_slide(moveToSquare, currentPlayer);
+
+                                /*update_pawn_square(moveToSquare.get_index(), color_of_current_turn,
+                                                        pawn_square_list, cur_pawn_selection + 1);
+                                currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);*/
+
+                                moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection);
                             }
                             else
                             {
@@ -3113,7 +3129,7 @@ namespace MaKeyMeSorry
                             }
                             else
                             {
-                            update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                                update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
                             }
 
                             //send the visual pawn to start square
@@ -3135,7 +3151,7 @@ namespace MaKeyMeSorry
 
                             if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
                             {
-                                moveToSquare = slide_baby_slide(moveToSquare, currentPlayer);
+                                moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection);
                                 currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
                             }
 
@@ -3154,8 +3170,7 @@ namespace MaKeyMeSorry
             /*********************** NICK'S SECITION ***********************************/
 
         }
-
-        private Square slide_baby_slide(Square moveToSquare, Player currentPlayer)
+        private Square slide_baby_slide(Square moveToSquare, Player currentPlayer, int PawnNum)
         {
             Square endSlide = game.board.get_square_at(moveToSquare.get_index() + 3);
             Square current_square = moveToSquare;
@@ -3165,11 +3180,38 @@ namespace MaKeyMeSorry
             {
                 endSlide = game.board.get_square_at(endSlide.get_index() + 1);
             }
+
+            if (moveToSquare.get_has_pawn() && moveToSquare.get_pawn_in_square() != currentPlayer.pawns[PawnNum])
+            {
+                //if someone else at the beginning of the slide, take them off that spot in UI land
+                update_pawn_square(moveToSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, moveToSquare.get_pawn_in_square().get_id());
+                
+                //send them home in UI land
+                update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(),
+                            start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+                
+                //send them home in program land
+                moveToSquare.get_pawn_in_square().sorry();
+                moveToSquare.set_has_pawn(false);
+
+            }
+            if(!moveToSquare.get_has_pawn())
+            {
+                //if Im not already there, put me there
+                //put me at the beginning of the slide, in UI and programatically
+
+                //PawnNum and PlayerColor sent
+                update_pawn_square(moveToSquare.get_index(), color_of_current_turn,
+                            pawn_square_list, cur_pawn_selection + 1);
+
+                currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
+            }
+
             while (current_square.get_index() <= endSlide.get_index())
             {
                 if (current_square.get_has_pawn())
                 {
-                    if (current_square.get_pawn_in_square() != currentPlayer.pawns[cur_pawn_selection]) 
+                    if (current_square.get_pawn_in_square() != currentPlayer.pawns[PawnNum]) 
                     {
                         update_pawn_square(current_square.get_pawn_in_square().get_id(), current_square.get_pawn_in_square().get_color(),
                             start_lists[(int)current_square.get_pawn_in_square().get_color()], current_square.get_pawn_in_square().get_id() + 1);
@@ -3179,7 +3221,7 @@ namespace MaKeyMeSorry
 
                         game.board.get_square_at(sqIndex).get_pawn_in_square().sorry();
                     }
-                    /*else
+                    else
                     {   // if you were at the end and get a backwards 4, you want to stay there ie dont call
                         //if you were at 1 away from beginning and get a -1 from a 10, you want to erase your image!
                         if (current_square.get_index() != endSlide.get_index())
@@ -3187,13 +3229,13 @@ namespace MaKeyMeSorry
                             update_pawn_square(current_square.get_index(), current_square.get_pawn_in_square().get_color(),
                                 pawn_square_list, current_square.get_pawn_in_square().get_id() + 1);
                         }
-                    }*/
+                    }
                 }
                 sqIndex++;
                 current_square = game.board.get_square_at(sqIndex);
             }
-            //game.board.execute_slide(moveToSquare.get_index(), currentPlayer.pawns[cur_pawn_selection]);
-            update_pawn_square(endSlide.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+            
+            update_pawn_square(endSlide.get_index(), currentPlayer.get_pawn_color(), pawn_square_list, currentPlayer.pawns[PawnNum].get_id() + 1);
             return endSlide;
         }
 
