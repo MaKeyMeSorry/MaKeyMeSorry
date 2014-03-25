@@ -332,7 +332,7 @@ namespace MaKeyMeSorry
                 Debug.WriteLine("card value: " + my_card.get_value());
                 myOptions = new List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>>();
                 myOptions = game.get_move_options(color_of_current_turn, my_card);
-                display_options(myOptions);
+                
                 if(game.forfeit_enabled)
                 {
                     pass_button.IsEnabled = true;
@@ -340,6 +340,28 @@ namespace MaKeyMeSorry
                 cover.Opacity = 0;
                 player_turn.Text = game.players[index_of_current_player].get_player_name() + "'s Turn, Choose a Move!";
                 deselect_all_buttons();
+                if (game.get_player(color_of_current_turn).get_is_human())
+                {
+                    display_options(myOptions);
+                }
+                else{
+                    display_options(myOptions);
+                    /*
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+                    while (true)
+                    {
+
+                        if (stopwatch.ElapsedMilliseconds >= 100)
+                        {
+
+                            break;
+
+                        }
+
+
+                    }
+                    play_game();*/
+                }
 
             }
             else if (card_drawn && (FocusManager.GetFocusedElement() != pass_button))
@@ -378,6 +400,10 @@ namespace MaKeyMeSorry
                     pawns_available.Add(false);
                     pawns_available.Add(false);
                     pawns_available.Add(false);
+                    if (!game.get_player(color_of_current_turn).get_is_human())
+                    {
+                        //play_game();
+                    }
                 }
                 
             }
@@ -1637,7 +1663,38 @@ namespace MaKeyMeSorry
 
         }
 
-        private void execute_update(List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
+        private void execute_update(List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            while (true)
+            {
+
+                if (stopwatch.ElapsedMilliseconds >= 100)
+                {
+
+                    break;
+
+                }
+
+
+            }
+            show_selected_move(moveToSquare.get_index(), Pawn);
+            stopwatch = Stopwatch.StartNew();
+            while (true)
+            {
+
+                if (stopwatch.ElapsedMilliseconds >= 100)
+                {
+
+                    break;
+
+                }
+
+
+            }
+            actual_execute_update(options, Pawn, currentSquare, moveToSquare, levelMove, currentPlayer);
+        }
+        private void actual_execute_update(List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
         {
             int pawnInSquare = options.ElementAt(Pawn).Item1.get_id();
             switch (levelMove)
