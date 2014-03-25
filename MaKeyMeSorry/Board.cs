@@ -109,7 +109,7 @@ namespace MaKeyMeSorry
             // for some reason your pawn is on the start location it will
             // be sent to start then sent to the end of slide but user will
             // never see
-            while (theBoard[index].get_Type() != SquareKind.SLIDE_END)
+            while (theBoard[index].get_Type() != SquareKind.SLIDE_END && theBoard[index].get_Type() != SquareKind.STARTC)
             {
                 if (theBoard[index].get_has_pawn())
                 {
@@ -117,7 +117,7 @@ namespace MaKeyMeSorry
                 }
                 index++;
             }
-            if (theBoard[index].get_Type() == SquareKind.SLIDE_END)
+            if (theBoard[index].get_Type() == SquareKind.SLIDE_END || theBoard[index].get_Type() != SquareKind.STARTC)
             {
                 if (theBoard[index].get_has_pawn())
                 {
