@@ -298,6 +298,9 @@
     <Content Include="Assets\Yellow Pawns\Yellow Pawn - 3.png" />
     <Content Include="Assets\Yellow Pawns\Yellow Pawn - 4.png" />
     <Content Include="Common\ReadMe.txt" />
+    <Content Include="how_to_play.png" />
+    <Content Include="new_game.png" />
+    <Content Include="quit.png" />
     <Page Include="SetupPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

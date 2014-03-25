@@ -228,6 +228,8 @@ namespace MaKeyMeSorry
                 }
             
             }
+
+            app_bar_open = false;
         }
 
 
@@ -394,6 +396,10 @@ namespace MaKeyMeSorry
             }
 
         }
+
+        bool app_bar_open;
+        int current_menu_item_index;
+
         private void App_KeyUp(object sender, KeyRoutedEventArgs e)
         {
 
@@ -418,17 +424,95 @@ namespace MaKeyMeSorry
 
             if (e.Key == Windows.System.VirtualKey.Right)
             {
-                change_selected_pawn_box_right();
+                if (app_bar_open)
+                {
+                    change_selected_menu_button_right();
+                }
+                else
+                {
+                    change_selected_pawn_box_right();
+                }
                 e.Handled = true;
             }
 
             if (e.Key == Windows.System.VirtualKey.Left)
             {
-                change_selected_pawn_box_left();
+                if (app_bar_open)
+                {
+                    change_selected_menu_button_left();
+                }
+                else
+                {
+                    change_selected_pawn_box_left();
+                }
                 e.Handled = true;
-        }
+            }
+
+            if (e.Key == Windows.System.VirtualKey.W)
+            {
+                if (app_bar_open)
+                {
+                    app_bar.IsOpen = false;
+                    app_bar_open = false;
+                    this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                }
+                else
+                {
+                    how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    app_bar.IsOpen = true;
+                    app_bar_open = true;
+                    current_menu_item_index = 0;
+                }
+
+                e.Handled = true;
+            }
 
         }
+
+        private void change_selected_menu_button_left()
+        {
+            switch (current_menu_item_index)
+            {
+                case 0:
+                    // Currently on the How To Play Button
+                    quit_menu_button.Focus(FocusState.Keyboard);
+                    current_menu_item_index = 2;
+                    break;
+                case 1:
+                    // Currently on the New Game Button
+                    how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    current_menu_item_index--;
+                    break;
+                case 2:
+                    // Currently on the Quit Button
+                    new_game_menu_button.Focus(FocusState.Keyboard);
+                    current_menu_item_index--;
+                    break;
+            }
+        }
+
+        private void change_selected_menu_button_right()
+        {
+            switch (current_menu_item_index)
+            {
+                case 0:
+                    // Currently on the How To Play Button
+                    new_game_menu_button.Focus(FocusState.Keyboard);
+                    current_menu_item_index++;
+                    break;
+                case 1:
+                    // Currently on the New Game Button
+                    quit_menu_button.Focus(FocusState.Keyboard);
+                    current_menu_item_index++;
+                    break;
+                case 2:
+                    // Currently on the Quit Button
+                    how_to_play_menu_button.Focus(FocusState.Keyboard);
+                    current_menu_item_index = 0;
+                    break;
+            }
+        }
+
 
         private void change_selected_pawn_box_left()
             {
@@ -3062,16 +3146,19 @@ namespace MaKeyMeSorry
 
         private void new_game_button_Click(object sender, RoutedEventArgs e)
         {
+            newGameMessage();
+        }
+
+        private void newGameMessage()
+        {
             // Ask if user is sure
-            MessageDialog message = new MessageDialog("Are you sure you want to start a new game?");
+            MessageDialog message = new MessageDialog("Your current game will be lost. Are you sure you want to start a new game?");
 
             //message.Commands.Add(new Button());
             message.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(RespondToCommand)));
             message.Commands.Add(new UICommand("No", new UICommandInvokedHandler(RespondToCommand)));
             message.ShowAsync();
             return;
-
-
         }
  
         private void RespondToCommand(IUICommand command)
@@ -3227,6 +3314,58 @@ namespace MaKeyMeSorry
 
             //e.Handled = true;
         }
-        
+
+        private void AppBar_HowToPlay_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            app_bar_open = false;
+            this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            howToPlayMessage();
+        }
+
+        private void AppBar_NewGame_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            app_bar_open = false;
+            this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            newGameMessage();
+        }
+
+        private void AppBar_Quit_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            app_bar_open = false;
+            this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            quitMessage();
+        }
+
+        private void howToPlayMessage()
+        {
+            MessageDialog message = new MessageDialog("The object of the game: \nTo get all your pawns to the Home section of the board of the pawns' colors (e.g. If you have green pawns, and there is a green Home section, then that is your goal) before everyone else does. The route of the process goes clockwise. \n\nCards: \nThere are many kinds of cards in the deck. Make sure to read carefully when the options are displayed. \n\nTo start:\nThe cards 1 and 2 are the only cards that you can use to start a pawn. If any of your pawns are not on the board and you get a card other than a 1 or a 2, you must forfeit your turn.\n\nJumping and bumping: \nYou may jump over any pawn that is in your way. But...if you land on a space that is occupied by another person's pawn, bump it back to its own start space. \n\nMoving backward: \nThe cards 4 and 10 can move you backward. If you have successfully moved a pawn backward at least 2 spaces beyond your own start space, you may, on a subsequent turn, move into your own safety zone without moving all the way around the board.\n\nSlide: \nIf your pawns land on a slide space, slide to the end. You can bump any of the pawns that are in your pathway - including your own! - back to their start space. If you land on a slide that is your own color, don't slide.\n\nTo Win:\nThe first player to get all four of their pawns to their home space wins! If you win, and you play again with other people, the winner goes first.");
+            message.ShowAsync();
+        }
+
+
+        private void quitMessage()
+        {
+            // Ask if user is sure
+            MessageDialog message = new MessageDialog("Your current game will be lost. Are you sure you want to quit?");
+
+            //message.Commands.Add(new Button());
+            message.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(quitCommand)));
+            message.Commands.Add(new UICommand("No", new UICommandInvokedHandler(quitCommand)));
+            message.ShowAsync();
+            return;
+        }
+
+        private void quitCommand(IUICommand command)
+        {
+            if (command.Label == "Yes")
+            {
+                // Remove current game
+                MaKeyMeSorry.App.currentGame = null;
+                game = null;
+                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                Application.Current.Exit();
+            }
+        }
+
     }
 }
