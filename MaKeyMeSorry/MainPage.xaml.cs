@@ -217,10 +217,7 @@ namespace MaKeyMeSorry
                         default:
                             break;
                     }
-                                how_to_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
-            how_to_button.BorderThickness = new Thickness(3, 3, 3, 3);
-            new_game_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
-            new_game_button.BorderThickness = new Thickness(3, 3, 3, 3);
+                                
             pass_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
             pass_button.BorderThickness = new Thickness(3, 3, 3, 3);
                     pass_button.IsEnabled = false;
@@ -322,7 +319,7 @@ namespace MaKeyMeSorry
                 }
                 first = false;
             }*/
-            if (!card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button) && (FocusManager.GetFocusedElement() != pass_button))
+            if (!card_drawn && (FocusManager.GetFocusedElement() != pass_button))
             {
                 color_adjustment = 60 + 6 * ((int)color_of_current_turn);
                 Debug.WriteLine("Return button pressed");
@@ -345,7 +342,7 @@ namespace MaKeyMeSorry
                 deselect_all_buttons();
 
             }
-            else if (card_drawn && (FocusManager.GetFocusedElement() != new_game_button) && (FocusManager.GetFocusedElement() != how_to_button) && (FocusManager.GetFocusedElement() != pass_button))
+            else if (card_drawn && (FocusManager.GetFocusedElement() != pass_button))
             {
                 if(myOptions.Count == 0 || cur_selected_square != -1)
                 {
@@ -455,7 +452,35 @@ namespace MaKeyMeSorry
                 {
                     app_bar.IsOpen = false;
                     app_bar_open = false;
-                    this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                    get_selected_UI();
+                    if(pawns_available[0])
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else if (pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    }
+                    else if (pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    }
+                    else if (pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    }
+                    else
+                    {
+                        this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                    }
                     how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
@@ -539,7 +564,185 @@ namespace MaKeyMeSorry
 
             Debug.WriteLine("box selected: " + box_selected);
 
-            if (pawns_available[3] && (box_selected == 4))
+            switch (box_selected)
+            {
+                case (0):
+                    if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else if (pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    }
+                    else if (pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    }
+                    else if (pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    }            
+                    else
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    break;
+                case (1):
+                    if (pawns_available[0])
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else if (pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    }
+                    else if (pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    }
+                    else
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    }
+                    break;
+                case (2):
+                    if (pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    }
+                    else if (pawns_available[0])
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else if (pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    }
+                    else
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    }
+                    break;
+                case (3):
+                    if (pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    }
+                    else if (pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    }
+                    else if (pawns_available[0])
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    }
+                    break;
+                case (6):
+                    Debug.WriteLine("inside 6");
+                    if (pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                        pass_highlighted = false;
+                    }
+                    else if (pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                        pass_highlighted = false;
+                    }
+                    else if (pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                        pass_highlighted = false;
+                    }
+                    else if (pawns_available[0])
+                    {
+                        pass_highlighted = false;
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else
+                    {
+                        this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                        pass_highlighted = false;
+                    }
+
+                    break;
+                default:
+                    if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("shouldn't happen 2");
+                        this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                        pass_highlighted = false;
+                    }
+                    break;
+            }
+
+            /*if (pawns_available[3] && (box_selected == 6))
             {
                 options_4.SelectedIndex = 0;
                 options_4.Focus(FocusState.Keyboard);
@@ -547,7 +750,7 @@ namespace MaKeyMeSorry
                 how_to_highlighted = false;
                 pass_highlighted = false;
             }
-            else if (pawns_available[2] && (box_selected == 3 || box_selected == 4))
+            else if (pawns_available[2] && (box_selected == 3 || box_selected == 6))
             {
                 options_3.SelectedIndex = 0;
                 options_3.Focus(FocusState.Keyboard);
@@ -555,7 +758,7 @@ namespace MaKeyMeSorry
                 how_to_highlighted = false;
                 pass_highlighted = false;
             }
-            else if (pawns_available[1] && (box_selected == 2 || box_selected == 3 || box_selected == 4))
+            else if (pawns_available[1] && (box_selected == 2 || box_selected == 3 || box_selected == 6))
             {
                 options_2.SelectedIndex = 0;
                 options_2.Focus(FocusState.Keyboard);
@@ -563,14 +766,14 @@ namespace MaKeyMeSorry
                 how_to_highlighted = false;
                 pass_highlighted = false;
             }
-            else if (pawns_available[0] && (box_selected == 1 || box_selected == 2 || box_selected == 3 || box_selected == 4))
+            else if (pawns_available[0] && (box_selected == 1 || box_selected == 2 || box_selected == 3 || box_selected == 6))
             {
                 options_1.SelectedIndex = 0;
                 options_1.Focus(FocusState.Keyboard);
                 cur_pawn_selection = 0;
                 how_to_highlighted = false;
                 pass_highlighted = false;
-            }
+            }/*
             else if ((box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 3))
             {
                 if(pass_button.IsEnabled)
@@ -609,7 +812,19 @@ namespace MaKeyMeSorry
                 {
                     highlight_new_game_button();
                 }
-            }
+            } 
+            else
+            {
+                if (pass_button.IsEnabled)
+                {
+                    highlight_forfeit_button();
+                }
+                else
+                {
+                    this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                    pass_highlighted = false;
+                }
+            }*/
         }
 
         private void change_selected_pawn_box_right()
@@ -620,7 +835,183 @@ namespace MaKeyMeSorry
             
 
             Debug.WriteLine("box selected: " + box_selected);
+            switch(box_selected)
+            {
+                case(0):
+                    if(pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    } else if(pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    } else if(pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    } else if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    break;
+                case(1):
+                    if (pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    }
+                    else if (pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    }
+                    else if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else if (pawns_available[0])
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else 
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    }
+                    break;
+                case(2):
+                    if (pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    }
+                    else if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else if (pawns_available[0])
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else if (pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    }
+                    else
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    }
+                    break;
+                case(3):
+                    if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else if (pawns_available[0])
+                    {
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else if (pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                    }
+                    else if (pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                    }
+                    else
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                    }
+                    break;
+                case(6):
+                    Debug.WriteLine("inside 6");
+                    if(pawns_available[0])
+                    {
+                        pass_highlighted = false;
+                        Debug.WriteLine("1 is avaliable");
+                        options_1.SelectedIndex = 0;
+                        options_1.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 0;
+                    }
+                    else if (pawns_available[1])
+                    {
+                        options_2.SelectedIndex = 0;
+                        options_2.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 1;
+                        pass_highlighted = false;
+                    }
+                    else if (pawns_available[2])
+                    {
+                        options_3.SelectedIndex = 0;
+                        options_3.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 2;
+                        pass_highlighted = false;
+                    }
+                    else if (pawns_available[3])
+                    {
+                        options_4.SelectedIndex = 0;
+                        options_4.Focus(FocusState.Keyboard);
+                        cur_pawn_selection = 3;
+                        pass_highlighted = false;
+                    }
+                    else 
+                    {
+                        Debug.WriteLine("shouldn't happen 1");
+                        this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                        pass_highlighted = false;
+                    }
 
+                    break;
+                default:
+                    if (pass_button.IsEnabled)
+                    {
+                        highlight_forfeit_button();
+                        cur_pawn_selection = -1;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("shouldn't happen 2");
+                        this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                        pass_highlighted = false;
+                    }
+                    break;
+            }
+            /*
             if (pawns_available[0] && box_selected == 6)
             {
                 options_1.SelectedIndex = 0;
@@ -653,7 +1044,7 @@ namespace MaKeyMeSorry
                 how_to_highlighted = false;
                 pass_highlighted = false;
             }
-            else if ((box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 3))
+            /*else if ((box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 3))
             {
                 highlight_how_to_button();
                 hide_selected_move(cur_selected_square);
@@ -686,6 +1077,18 @@ namespace MaKeyMeSorry
             {
                 highlight_how_to_button();
             }
+            else
+            {
+                if (pass_button.IsEnabled)
+                {
+                    highlight_forfeit_button();
+                }
+                else
+                {
+                    this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                    pass_highlighted = false;
+                }
+            }*/
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
@@ -3162,16 +3565,6 @@ namespace MaKeyMeSorry
 
         }
 
-        private void how_to_button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void new_game_button_Click(object sender, RoutedEventArgs e)
-        {
-            newGameMessage();
-        }
-
         private void newGameMessage()
         {
             // Ask if user is sure
@@ -3230,24 +3623,6 @@ namespace MaKeyMeSorry
 
             }
         }
-
-        private void highlight_how_to_button()
-        {
-            Debug.WriteLine("highlight how to called");
-            how_to_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
-            how_to_button.BorderThickness = new Thickness(10, 10, 10, 10);
-            how_to_button.Focus(FocusState.Keyboard);
-            how_to_highlighted = true;
-        }
-
-        private void highlight_new_game_button()
-        {
-            new_game_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
-            new_game_button.BorderThickness = new Thickness(10, 10, 10, 10);
-            new_game_button.Focus(FocusState.Keyboard);
-            new_game_higlighted = true;
-        }
-
         private void highlight_forfeit_button()
         {
             pass_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
@@ -3258,10 +3633,6 @@ namespace MaKeyMeSorry
 
         private void deselect_all_buttons()
         {
-            how_to_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
-            how_to_button.BorderThickness = new Thickness(3, 3, 3, 3);
-            new_game_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
-            new_game_button.BorderThickness = new Thickness(3, 3, 3, 3);
             pass_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Black);
             pass_button.BorderThickness = new Thickness(3, 3, 3, 3);
         }
