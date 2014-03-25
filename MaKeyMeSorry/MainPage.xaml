@@ -8,375 +8,373 @@
     mc:Ignorable="d" Height="768" Width="1364">
     <ScrollViewer HorizontalAlignment="Stretch" Height="800" Width="1400" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
         <Canvas  HorizontalAlignment="Stretch" Height="1700" VerticalAlignment="Stretch" Width="1700" Margin="0,0,0,0" >
-            <Canvas x:Name="game_grid" HorizontalAlignment="Stretch" Height="1700" VerticalAlignment="Stretch" Width="1700" Margin="0,0,0,0" Background="#FFF8C8D6">
-                <Canvas x:Name="blue_home" HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1362,400,0,0">
-                    <Canvas.Background >
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Home.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
+        <Canvas x:Name="game_grid" HorizontalAlignment="Stretch" Height="1700" VerticalAlignment="Stretch" Width="1700" Margin="0,0,0,0" Background="#FFF8C8D6">
+            <Canvas x:Name="blue_home" HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1362,400,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
-                <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1102,1365,0,0">
-                    <Canvas.Background >
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Home.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="137,1100,0,0">
-                    <Canvas.Background >
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Home.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="50,50,0,0">
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1102,1365,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="137,1100,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="50,50,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+                <Canvas x:Name="pawn_square_0" Height="100" Width="100" Margin="0,-5,0,0">
                     <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
                     </Canvas.Background>
-                    <Canvas x:Name="pawn_square_0" Height="100" Width="100" Margin="0,-5,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
                 </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="150,50,0,0"  VerticalAlignment="Top" Width="100">
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="150,50,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Tail.png" Stretch="Fill"/>
+                </Canvas.Background>
+                <Canvas x:Name="pawn_square_1" Height="100" Width="100" Margin="0,-5,0,0">
                     <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Tail.png" Stretch="Fill"/>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
                     </Canvas.Background>
-                    <Canvas x:Name="pawn_square_1" Height="100" Width="100" Margin="0,-5,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
                 </Canvas>
-
-
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="250,50,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                    <Canvas x:Name="pawn_square_2" Height="100" Width="100" Margin="0,-5,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                </Canvas>
+            </Canvas>
 
 
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="350,50,0,0"  VerticalAlignment="Top" Width="100">
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="250,50,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+                <Canvas x:Name="pawn_square_2" Height="100" Width="100" Margin="0,-5,0,0">
                     <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                    <Canvas x:Name="pawn_square_3" Height="100" Width="100" Margin="0,-5,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                </Canvas>
-
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="550,50,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                    <Canvas x:Name="pawn_square_4" Height="100" Width="100" Margin="0,-5,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="650,50,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                    <Canvas x:Name="pawn_square_5" Height="100" Width="100" Margin="0,-5,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="750,50,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                    <Canvas x:Name="pawn_square_6" Height="100" Width="100" Margin="0,-5,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="850,50,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
                     </Canvas.Background>
                 </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="950,50,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Tail.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1050,50,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1150,50,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1250,50,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1350,50,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - End.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1450,50,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,50,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,150,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Tail.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,250,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,350,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,450,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - End.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,650,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,750,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,850,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,950,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Tail.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1050,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1150,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1250,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1350,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - End.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1450,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1450,1550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Tail.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1350,1550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1250,1550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1150,1550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - End.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="1050,1550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="950,1550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="850,1550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="750,1550,0,0"  VerticalAlignment="Top" Width="100" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="650,1550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Tail.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="550,1550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="450,1550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="350,1550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="250,1550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - End.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="150,1550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1450,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Tail.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1350,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1250,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1150,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - End.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1050,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,950,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,850,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,750,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,650,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Tail.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,550,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,450,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,350,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,250,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Slide - End.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="50,150,0,0"  VerticalAlignment="Top" Width="100">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
+            </Canvas>
 
 
-
-
-                <Canvas x:Name="full_deck"  HorizontalAlignment="Left" Height="300" Margin="550,550,0,0"  VerticalAlignment="Top" Width="200" Tapped="draw_card">
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="350,50,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+                <Canvas x:Name="pawn_square_3" Height="100" Width="100" Margin="0,-5,0,0">
                     <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Card Back/Card Back 4 Left.png" Stretch="Fill"/>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
                     </Canvas.Background>
                 </Canvas>
+            </Canvas>
 
-                <Canvas x:Name="used_deck"  HorizontalAlignment="Left" Height="300" Margin="850,550,0,0"  VerticalAlignment="Top" Width="200">
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="550,50,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+                <Canvas x:Name="pawn_square_4" Height="100" Width="100" Margin="0,-5,0,0">
                     <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Card Images/Used Card Holder.png" Stretch="Fill"/>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
                     </Canvas.Background>
                 </Canvas>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="650,50,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+                <Canvas x:Name="pawn_square_5" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="750,50,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+                <Canvas x:Name="pawn_square_6" Height="100" Width="100" Margin="0,-5,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="850,50,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="950,50,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Tail.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1050,50,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1150,50,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1250,50,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1350,50,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1450,50,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,50,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,150,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Tail.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,250,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,350,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,450,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,650,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,750,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,850,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,950,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Tail.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1050,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1150,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1250,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1350,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1450,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1550,1550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1450,1550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Tail.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1350,1550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1250,1550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1150,1550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="1050,1550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="950,1550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="850,1550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="750,1550,0,0"  VerticalAlignment="Top" Width="100" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="650,1550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Tail.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="550,1550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="450,1550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="350,1550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="250,1550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="150,1550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1450,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Tail.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1350,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1250,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1150,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,1050,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,950,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,850,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,750,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,650,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Tail.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,550,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,450,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,350,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - Middle.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,250,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="50,150,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blank Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
 
+
+
+            <Canvas x:Name="full_deck"  HorizontalAlignment="Left" Height="300" Margin="550,550,0,0"  VerticalAlignment="Top" Width="200" Tapped="draw_card">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Card Back/Card Back 4 Left.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+
+            <Canvas x:Name="used_deck"  HorizontalAlignment="Left" Height="300" Margin="850,550,0,0"  VerticalAlignment="Top" Width="200">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Card Images/Used Card Holder.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
 
 
@@ -396,184 +394,186 @@
 
 
 
-                <!-- Safe Zone Sqaures-->
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,150,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,250,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,350,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,450,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,550,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1450,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1350,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1250,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1150,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1050,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1450,250,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,250,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1250,250,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1150,250,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1050,250,0,0" >
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="150,1350,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,1350,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="350,1350,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="450,1350,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="550,1350,0,0">
-                    <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
 
 
-                <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="402,139,0,0">
-                    <Canvas.Background >
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Home.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="200,634,0,0">
-                    <Canvas.Background >
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Home.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                    <Canvas x:Name="red_home_pawn_0" Height="100" Width="100" Margin="0,0,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                    <Canvas x:Name="red_home_pawn_1" Height="100" Width="100" Margin="0,100,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                    <Canvas x:Name="red_home_pawn_2" Height="100" Width="100" Margin="100,100,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                    <Canvas x:Name="red_home_pawn_3" Height="100" Width="100" Margin="100,0,0,0">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="nil" Stretch="Fill"/>
-                        </Canvas.Background>
-                    </Canvas>
-                </Canvas>
+            <!-- Safe Zone Sqaures-->
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,150,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
-                <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="866,200,0,0">
-                    <Canvas.Background >
-                        <ImageBrush ImageSource="/Assets/Board Images/Blue Home.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,250,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,350,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,450,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,550,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
-                <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1303,881,0,0">
-                    <Canvas.Background >
-                        <ImageBrush ImageSource="/Assets/Board Images/Yellow Home.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1450,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1350,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1250,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1150,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,1050,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
-                <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="634,1299,0,0">
-                    <Canvas.Background >
-                        <ImageBrush ImageSource="/Assets/Board Images/Green Home.png" Stretch="Fill"/>
-                    </Canvas.Background>
-                </Canvas>
-                <Canvas HorizontalAlignment="Left" Height="100" Margin="450,50,0,0"  VerticalAlignment="Top" Width="100">
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1450,250,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1350,250,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1250,250,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1150,250,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="1050,250,0,0" >
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="150,1350,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="250,1350,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="350,1350,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="450,1350,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" Margin="550,1350,0,0">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Square.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+
+
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="402,139,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="200,634,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+                <Canvas x:Name="red_home_pawn_0" Height="100" Width="100" Margin="0,0,0,0">
                     <Canvas.Background>
-                        <ImageBrush ImageSource="/Assets/Board Images/Red Slide - End.png" Stretch="Fill"/>
+                        <ImageBrush ImageSource="" Stretch="Fill"/>
                     </Canvas.Background>
                 </Canvas>
-                <Viewbox Stretch="Uniform" Width="1000" Height="86" Canvas.Top="431" Canvas.Left="360" >
-                    <TextBlock x:Name="player_turn" TextWrapping="Wrap" Text=" " FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" />
-                </Viewbox>
-                <Canvas x:Name="cover" Height="339" Canvas.Left="839" Canvas.Top="534" Width="236" Background="#FFF7F1F1" Opacity="0"/>
-                <TextBlock x:Name="pawn_1" Canvas.Left="350" TextWrapping="Wrap" Text="" Canvas.Top="933" Height="86" Width="200" FontSize="24" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
-                <TextBlock x:Name="pawn_2" Canvas.Left="600" TextWrapping="Wrap" Text="" Canvas.Top="933" Height="86" Width="200" FontSize="24" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
-                <TextBlock x:Name="pawn_3" Canvas.Left="850" TextWrapping="Wrap" Text="" Canvas.Top="933" Height="86" Width="200" FontSize="24" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
-                <TextBlock x:Name="pawn_4" Canvas.Left="1100" TextWrapping="Wrap" Text="" Canvas.Top="933" Height="86" Width="200" FontSize="24" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
+                <Canvas x:Name="red_home_pawn_1" Height="100" Width="100" Margin="0,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="red_home_pawn_2" Height="100" Width="100" Margin="100,100,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas x:Name="red_home_pawn_3" Height="100" Width="100" Margin="100,0,0,0">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="nil" Stretch="Fill"/>
+                    </Canvas.Background>
+                </Canvas>
+            </Canvas>
 
-                <ComboBox x:Name="options_1" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="350" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 1 Move"/>
-                <ComboBox x:Name="options_2" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="600" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 2 Move"/>
-                <ComboBox x:Name="options_3" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="850" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 3 Move"/>
-                <ComboBox x:Name="options_4" SelectionChanged="ComboBox_SelectionChanged" Width="200" Canvas.Left="1100" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Pawn 4 Move"/>
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="866,200,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Blue Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
 
-                <Button x:Name="how_to_button" Content="How To" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="550" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" Click="how_to_button_Click" />
-                <Button x:Name="new_game_button" Content="New Game" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="650" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" Click="new_game_button_Click" />
-                <Button x:Name="pass_button" Content="Forfeit Turn" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="750" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
-                <TextBlock x:Name="no_options" Canvas.Left="350" Canvas.Top="933" Visibility="Collapsed" Text="No moves available, press Enter to continue" FontFamily="Helvetica" FontSize="48" Foreground="Black"/>
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="1303,881,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Yellow Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+
+            <Canvas HorizontalAlignment="Left" Height="200" Width="200" VerticalAlignment="Top" Margin="634,1299,0,0">
+                <Canvas.Background >
+                    <ImageBrush ImageSource="/Assets/Board Images/Green Home.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas HorizontalAlignment="Left" Height="100" Margin="450,50,0,0"  VerticalAlignment="Top" Width="100">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Assets/Board Images/Red Slide - End.png" Stretch="Fill"/>
+                </Canvas.Background>
+            </Canvas>
+            <Viewbox Stretch="Uniform" Width="1000" Height="86" Canvas.Top="431" Canvas.Left="360" >
+                <TextBlock x:Name="player_turn" TextWrapping="Wrap" Text=" " FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" />
+            </Viewbox>
+            <Canvas x:Name="cover" Height="339" Canvas.Left="839" Canvas.Top="534" Width="236" Background="#FFF7F1F1" Opacity="0"/>
+            <TextBlock x:Name="pawn_1" Canvas.Left="450" TextWrapping="Wrap" Text="" Canvas.Top="920" Height="86" Width="300" FontSize="40" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
+            <TextBlock x:Name="pawn_2" Canvas.Left="925" TextWrapping="Wrap" Text="" Canvas.Top="920" Height="86" Width="300" FontSize="40" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
+            <TextBlock x:Name="pawn_3" Canvas.Left="450" TextWrapping="Wrap" Text="" Canvas.Top="1120" Height="86" Width="300" FontSize="40" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
+            <TextBlock x:Name="pawn_4" Canvas.Left="925" TextWrapping="Wrap" Text="" Canvas.Top="1120" Height="86" Width="300" FontSize="40" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
+
+            <ComboBox x:Name="options_1" SelectionChanged="ComboBox_SelectionChanged" Width="375" FontSize="50" Canvas.Left="425" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Move"/>
+            <ComboBox x:Name="options_2" SelectionChanged="ComboBox_SelectionChanged" Width="375" FontSize="50" Canvas.Left="900" Canvas.Top="983" Visibility="Collapsed" PlaceholderText="Choose Move"/>
+            <ComboBox x:Name="options_3" SelectionChanged="ComboBox_SelectionChanged" Width="375" FontSize="50" Canvas.Left="425" Canvas.Top="1183" Visibility="Collapsed" PlaceholderText="Choose Move"/>
+            <ComboBox x:Name="options_4" SelectionChanged="ComboBox_SelectionChanged" Width="375" FontSize="50" Canvas.Left="900" Canvas.Top="1183" Visibility="Collapsed" PlaceholderText="Choose Move"/>
+            
+            <Button x:Name="how_to_button" Content="How To" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="550" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" Click="how_to_button_Click" />
+            <Button x:Name="new_game_button" Content="New Game" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="650" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5" Click="new_game_button_Click" />
+            <Button x:Name="pass_button" Content="Forfeit Turn" Width="200" Height= "75" Canvas.Left ="1100" Canvas.Top ="750" FontSize="30" FontFamily="Helvetica" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0F0E0E" RenderTransformOrigin="0.5,0.5"/>
+            <TextBlock x:Name="no_options" Canvas.Left="350" Canvas.Top="933" Visibility="Collapsed" Text="No moves available, press Enter to continue" FontFamily="Helvetica" FontSize="48" Foreground="Black"/>
 
             </Canvas>
 
