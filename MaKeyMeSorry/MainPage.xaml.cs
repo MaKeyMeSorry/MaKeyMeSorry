@@ -101,7 +101,7 @@ namespace MaKeyMeSorry
             this.navigationHelper.SaveState += navigationHelper_SaveState;
             this.InitializeComponent();
             this.IsTabStop = true;
-            index_of_current_player = -1;
+            //index_of_current_player = -1;
             //color_of_current_turn = Color.RED;
             card_drawn = false;
             cur_selected_square = -1;
@@ -248,6 +248,7 @@ namespace MaKeyMeSorry
         {
             game = MaKeyMeSorry.App.currentGame;
             //color_of_current_turn = game.players[index_of_current_player].get_pawn_color();
+            index_of_current_player = game.get_start_index() - 1;
             change_turn(true);
             /*Square mySquare = game.board.get_square_at(6);
             ComboData comboData = new ComboData(ComboData.move.SWAP, mySquare);
@@ -2863,6 +2864,7 @@ namespace MaKeyMeSorry
             */
 
             int playerNumber = index_of_current_player + 1;
+
             Debug.WriteLine("Previous player's index: " + playerNumber);
             Debug.WriteLine("Previous player's color: " + color_of_current_turn);
 

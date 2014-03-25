@@ -14,6 +14,8 @@ namespace MaKeyMeSorry
         // Holds the number of human players in game
         private int numHumanPlayers;
 
+        private int start_index;
+
         // Make default constructor private so only 
         // the correct constructor is used.
         private Game() { }
@@ -36,13 +38,15 @@ namespace MaKeyMeSorry
         // Constructs the Game class with numHumans 
         // representing the number of human players.
         // Sets numHumanPlayers
-        public Game(int numHumans, List<Player> playerList)
+        public Game(int numHumans, List<Player> playerList, int player1_index)
         {
             board = new Board();
             deck = new Deck(true);
             
             players = playerList;
             forfeit_enabled = false;
+
+            start_index = player1_index;
 
             /*
             players = new List<Player>();
@@ -58,6 +62,10 @@ namespace MaKeyMeSorry
             */
         }
 
+        public int get_start_index()
+        {
+            return start_index;
+        }
 
         // Returns the player who has won the game.
         // Returns NULL if there currently is no winner
