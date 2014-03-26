@@ -1145,6 +1145,7 @@ namespace MaKeyMeSorry
                 pawnSelected = 4;
             }
 
+            //maybe this should be cur_selected_image ***nick****????
             if(comboBox.SelectedIndex != -1)
             {
                 if(cur_selected_square >= 60)
@@ -1153,6 +1154,8 @@ namespace MaKeyMeSorry
                 }
                 else
                 {
+                    //check if swap and if either location is a slide;
+
                     hide_selected_move(cur_selected_square);//, pawn_square_list);
                 }
 
@@ -1172,11 +1175,24 @@ namespace MaKeyMeSorry
                 {
                     if(((ComboData)comboBox.SelectedItem).move_choice == ComboData.move.SWAP)
                     {
-                        show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected, true);//, pawn_square_list);
+                       int swap_to_index = Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index());
+                        Color temp_color = game.board.get_square_at(swap_to_index).get_pawn_in_square().get_color();
+                        int swap_pawn_index = game.board.get_square_at(swap_to_index).get_pawn_in_square().get_id() + 1;
+                       Player current_player = game.get_player(color_of_current_turn);
+                       int my_index = current_player.pawns[pawnSelected-1].get_current_location().get_index();
+
+                        //they are swapping to my location
+                        show_selected_move(my_index, swap_pawn_index, temp_color, false, true);
+
+                        //I'm swapping to this location, send my color
+                        show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected, color_of_current_turn, true, false);//, pawn_square_list);
+                        
+                        
+;
                     }
                     else
                     {
-                        show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected);//, pawn_square_list);
+                        show_selected_move(Convert.ToInt32(((ComboData)comboBox.SelectedItem).square_location.get_index()), pawnSelected, color_of_current_turn);//, pawn_square_list);
                     }
                     //show_selected_move(Convert.ToInt32(comboBox.SelectedValue), pawnSelected);//, pawn_square_list);
                     current_move_type = ((ComboData)comboBox.SelectedItem).move_choice;
@@ -3468,18 +3484,70 @@ namespace MaKeyMeSorry
             
         }
 
-        public void show_selected_move(int square_num, int pawn_num, bool swap = false)//, List<Canvas> list)
+        private void initiate_toggle(int square_num, int pawn_num, bool swap)
         {
             if (square_num < 60 && game.board.get_square_at(square_num).get_has_pawn() && !swap)
             {
                 toggle_sorry_preview(square_num);
-            } else if(square_num < 60 && game.board.get_square_at(square_num).get_has_pawn() && swap)
+            }
+            else if (square_num < 60 && game.board.get_square_at(square_num).get_has_pawn() && swap)
             {
                 toggle_swap_preview(square_num);
             }
             else
             {
                 toggle_grey_pawn_preview(square_num, pawn_num);
+            }
+
+        }
+
+        public void show_selected_move(int square_num, int pawn_num, Color pawn_color = Color.WHITE, bool swap = false, bool show_swap = false)
+        {
+            bool single_switch = true;
+            if (square_num < 60) 
+            {
+                Square start_square, current_square, end_slide;
+                start_square = current_square = game.board.get_square_at(square_num);
+
+                if(start_square.get_Type() == SquareKind.SLIDE_START && start_square.get_color() != pawn_color){
+                    single_switch = false;
+                    end_slide = game.board.get_square_at(square_num + 3);
+                    int sqIndex = square_num;
+
+                    if (end_slide.get_Type() != SquareKind.SLIDE_END && end_slide.get_Type() != SquareKind.STARTC)
+                    {
+                        end_slide = game.board.get_square_at(end_slide.get_index() + 1);
+                        //sqIndex++;
+                    }
+                    if (show_swap)
+                    {
+                        //sqIndex++;
+                        current_square = game.board.get_square_at(++sqIndex);
+                    }
+
+                    while (sqIndex <= end_slide.get_index())
+                    {
+                        if(current_square == start_square){
+                            initiate_toggle(sqIndex, pawn_num, swap);
+                        }
+                        else if (current_square.get_has_pawn())
+                        {
+                            initiate_toggle(sqIndex, 0, false);
+                        }
+                        ///comment out this else to avoid filling slide with grey pawns
+                        else
+                        {
+                            initiate_toggle(sqIndex, pawn_num, false);
+                        }
+                        
+                        current_square = game.board.get_square_at(++sqIndex);
+                    }
+                }
+            }
+            
+            if(single_switch)
+            {
+                initiate_toggle(square_num, pawn_num, swap);
             }
 
             cur_selected_square = square_num;
@@ -3513,8 +3581,22 @@ namespace MaKeyMeSorry
 
         public void hide_selected_move(int square_num)//, List<Canvas> list)
         {
+            Square start_square;
+            bool single_clear = true;
+            if (square_num < 60 && square_num != -1)
+            {
+                start_square = game.board.get_square_at(square_num);
+                if (start_square.get_Type() == SquareKind.SLIDE_START)
+                {
+                    clear_preivew_canvas();
+                    single_clear = false;
+                }
+            }
+            if (single_clear)
+            {
+                clear_preivew_canvas(square_num);
+            }
             
-            clear_preivew_canvas(square_num);
             cur_selected_square = -1;
             /*if(square_num != -1)
             {
