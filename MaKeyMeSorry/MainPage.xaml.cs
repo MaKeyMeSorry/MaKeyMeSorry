@@ -134,9 +134,7 @@ namespace MaKeyMeSorry
             num_pawns_home = new int[4];
             for (int z = 0; z < 4; z++)
             {
-
                 num_pawns_home[z] = 0;
-
             }
             
             // TODO: Delete once we can pass the game from the setup screen
@@ -251,18 +249,8 @@ namespace MaKeyMeSorry
         private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
             game = MaKeyMeSorry.App.currentGame;
-            //color_of_current_turn = game.players[index_of_current_player].get_pawn_color();
             index_of_current_player = game.get_start_index() - 1;
             change_turn(true);
-            /*Square mySquare = game.board.get_square_at(6);
-            ComboData comboData = new ComboData(ComboData.move.SWAP, mySquare);
-            options_1.Visibility = Visibility.Visible;
-            pawn_1.Text = "Pawn 1 Options:";
-            options_1.Items.Add(comboData);
-            options_1.SelectedIndex = 0;
-            options_1.Focus(FocusState.Keyboard);
-            cur_pawn_selection = 0;
-            Debug.WriteLine(((ComboData)options_1.SelectedItem).move_choice + " space: " + ((ComboData)options_1.SelectedItem).square_location.get_index());*/
         }
 
         /// <summary>
@@ -306,7 +294,7 @@ namespace MaKeyMeSorry
 
         bool play_game()
         {
-            /*if(first)
+            if(first)
             {
                 
                 for (int i = 0; i < 4; i++)
@@ -325,7 +313,7 @@ namespace MaKeyMeSorry
                     }
                 }
                 first = false;
-            }*/
+            }
             if (!card_drawn && (FocusManager.GetFocusedElement() != pass_button))
             {
                 color_adjustment = 60 + 6 * ((int)color_of_current_turn);
@@ -360,6 +348,7 @@ namespace MaKeyMeSorry
             {
                 if (myOptions.Count == 0 || cur_selected_square != -1 || !game.get_player(color_of_current_turn).get_is_human())
                 {
+                    bool was_human = game.get_player(color_of_current_turn).get_is_human();
                     pass_highlighted = false;
                     how_to_highlighted = false;
                     new_game_higlighted = false;
@@ -402,9 +391,11 @@ namespace MaKeyMeSorry
                     pawns_available.Add(false);
                     if (!game.get_player(color_of_current_turn).get_is_human())
                     {
-                        Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                        if(was_human)
+                        {
+                            Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                        }
                         return true;
-                        //play_game();
                     }
                 }
 
@@ -417,8 +408,12 @@ namespace MaKeyMeSorry
 
             if (num_pawns_home[index_of_current_player] == 4)
             {
-                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
-                Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                if (!game.get_player(color_of_current_turn).get_is_human())
+                {
+                    Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                }
+                //Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                //Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
                 return true;
             }
             return false;
@@ -781,90 +776,6 @@ namespace MaKeyMeSorry
                     }
                     break;
             }
-
-            /*if (pawns_available[3] && (box_selected == 6))
-            {
-                options_4.SelectedIndex = 0;
-                options_4.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 3;
-                how_to_highlighted = false;
-                pass_highlighted = false;
-            }
-            else if (pawns_available[2] && (box_selected == 3 || box_selected == 6))
-            {
-                options_3.SelectedIndex = 0;
-                options_3.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 2;
-                how_to_highlighted = false;
-                pass_highlighted = false;
-            }
-            else if (pawns_available[1] && (box_selected == 2 || box_selected == 3 || box_selected == 6))
-            {
-                options_2.SelectedIndex = 0;
-                options_2.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 1;
-                how_to_highlighted = false;
-                pass_highlighted = false;
-            }
-            else if (pawns_available[0] && (box_selected == 1 || box_selected == 2 || box_selected == 3 || box_selected == 6))
-            {
-                options_1.SelectedIndex = 0;
-                options_1.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 0;
-                how_to_highlighted = false;
-                pass_highlighted = false;
-            }/*
-            else if ((box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 3))
-            {
-                if(pass_button.IsEnabled)
-                {
-                    highlight_forfeit_button();
-            }
-            else
-            {
-                    highlight_new_game_button();
-            }
-                hide_selected_move(cur_selected_square);
-            }
-            else if (box_selected == 4)
-            {
-                this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
-                how_to_highlighted = false;
-            }
-            else if (box_selected == 5)
-            {
-                highlight_how_to_button();
-                new_game_higlighted = false;
-            }
-            else if (box_selected == 6)
-            {
-                highlight_new_game_button();
-                pass_highlighted = false;
-
-            }
-            else
-            {
-                if(pass_button.IsEnabled)
-                {
-                    highlight_forfeit_button();
-                }
-                else
-                {
-                    highlight_new_game_button();
-                }
-            } 
-            else
-            {
-                if (pass_button.IsEnabled)
-                {
-                    highlight_forfeit_button();
-                }
-                else
-                {
-                    this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
-                    pass_highlighted = false;
-                }
-            }*/
         }
 
         private void change_selected_pawn_box_right()
@@ -1054,84 +965,6 @@ namespace MaKeyMeSorry
                     }
                     break;
             }
-            /*
-            if (pawns_available[0] && box_selected == 6)
-            {
-                options_1.SelectedIndex = 0;
-                options_1.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 0;
-                how_to_highlighted = false;
-                pass_highlighted = false;
-            }
-            else if (pawns_available[1] && (box_selected == 0 || box_selected == 6))
-            {
-                options_2.SelectedIndex = 0;
-                options_2.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 1;
-                how_to_highlighted = false;
-                pass_highlighted = false;
-            }
-            else if (pawns_available[2] && (box_selected == 0 || box_selected == 1 || box_selected == 6))
-            {
-                options_3.SelectedIndex = 0;
-                options_3.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 2;
-                how_to_highlighted = false;
-                pass_highlighted = false;
-            }
-            else if (pawns_available[3] && (box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 6))
-            {
-                options_4.SelectedIndex = 0;
-                options_4.Focus(FocusState.Keyboard);
-                cur_pawn_selection = 3;
-                how_to_highlighted = false;
-                pass_highlighted = false;
-            }
-            /*else if ((box_selected == 0 || box_selected == 1 || box_selected == 2 || box_selected == 3))
-            {
-                highlight_how_to_button();
-                hide_selected_move(cur_selected_square);
-            }
-            else if (box_selected == 4)
-            {
-                highlight_new_game_button();
-                how_to_highlighted = false;
-            }
-            else if (box_selected == 5)
-            {
-                if(pass_button.IsEnabled)
-            {
-                    highlight_forfeit_button();
-                new_game_higlighted = false;
-                }
-                else
-                {
-                pass_highlighted = true;
-                    new_game_higlighted = false;
-                    change_selected_pawn_box_right();
-                }
-            }
-            else if (box_selected == 6)
-            {
-                this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
-                pass_highlighted = false;
-            }
-            else
-            {
-                highlight_how_to_button();
-            }
-            else
-            {
-                if (pass_button.IsEnabled)
-                {
-                    highlight_forfeit_button();
-                }
-                else
-                {
-                    this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
-                    pass_highlighted = false;
-                }
-            }*/
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
@@ -1437,253 +1270,7 @@ namespace MaKeyMeSorry
         }
 
         /********************************/
-        /*   if (options.Count >= 1)
-           {
-               pawn_1.Text = "Pawn 1 Options:";
-               Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(0);
-               options_1.Visibility = Visibility.Visible;
-               foreach (Square mySquare in pawnOptions.Item2)
-               {
-                   String option = "" + mySquare.get_index();//"Move to square: " + mySquare.get_index();
-                    
-                   options_1.Items.Add(new Tuple<String, Pawn>(mySquare.get_index().ToString(), options.ElementAt(0).Item1));
-                   //options_1.Items.
-               }
-               options_1.Focus(FocusState.Keyboard);
-               options_1.SelectedIndex = 0;
-                
-               Debug.WriteLine("SELECTED SQUARE " + Convert.ToInt32(options_1.SelectedValue));
-               //show_selected_move(Convert.ToInt32(options_1.SelectedValue),pawn_square_list);
-               //cur_selected_square = (int)options_1.SelectedItem;
-               Debug.WriteLine("CURRENT SELECTED SQUARE" + cur_selected_square);
-               //options_1.SelectedIndexChanged += new System.EventHandler(ComboBox_SelectionChanged);
-
-           }
-           if (options.Count >= 2)
-           {
-               pawn_2.Text = "Pawn 2 Options:";
-               Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(1);
-               options_2.Visibility = Visibility.Visible;
-               foreach (Square mySquare in pawnOptions.Item2)
-               {
-                   String option = "Move to square: " + mySquare.get_index();
-                   options_2.Items.Add(option);
-               }
-           }
-           if (options.Count >= 3)
-           {
-               pawn_3.Text = "Pawn 3 Options:";
-               Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(2);
-               options_3.Visibility = Visibility.Visible;
-               foreach (Square mySquare in pawnOptions.Item2)
-               {
-                   String option = "Move to square: " + mySquare.get_index();
-                   options_3.Items.Add(option);
-               }
-           }
-           if (options.Count >= 5)
-           {
-               pawn_4.Text = "Pawn 4 Options:";
-               Tuple<Pawn, List<Square>> pawnOptions = options.ElementAt(3);
-               options_4.Visibility = Visibility.Visible;
-               foreach (Square mySquare in pawnOptions.Item2)
-               {
-                   String option = "Move to square: " + mySquare.get_index();
-                   options_4.Items.Add(option);
-               }
-           }
-       }*/
-
-        void apply_card(Card card)
-        {
-
-            //game.players.ElementAt(1).get_pawn_from_start()
-
-            //update_pawn_square(game.players.ElementAt(1).get_pawn_from_start().get_id()+5, Color.BLUE, blue_safe_zone_list);
-            //game.players.ElementAt(1).get_pawn_from_start().move_to(game.board.get_square_at(game.players.ElementAt(1).get_pawn_from_start().get_id()));
-            /*************************** NICK'S SECITION *******************************/
-            Square currentSquare;
-            Square moveToSquare;
-
-            Debug.WriteLine("card value: " + card.get_value());
-            List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>> options = new List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>>();
-            options = game.get_move_options(color_of_current_turn, card);
-
-            //display_options(options);
-
-            /*
-                        if (card.get_value() != 13)
-                        {
-
-                            int pawnIndex = 0;
-                            int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
-
-                            foreach (Tuple<Pawn, List<Square>> pawnChoice in options)
-                            {
-                                Debug.WriteLine("Pawn " + pawnIndex + "'s choices");
-                                foreach (Square mySquare in pawnChoice.Item2)
-                                {
-                                    Debug.WriteLine("Choice: Move to square: " + mySquare.get_index());
-
-                                }
-                                pawnIndex++;
-                                Debug.WriteLine("first choice of first pawn made");
-                            }
-                            if (options.Count != 0)
-                            {
-                                int pawnChoice = 0;
-
-                                for(int i = 0; i < options.Count; i++)
-                                {
-                                    if(options.ElementAt(i).Item2.Count > 0)
-                                    {
-                                        pawnChoice = i;
-                                        break;
-                                    }
-                                }
-
-                                if (options.ElementAt(pawnChoice).Item2.Count != 0)
-                                {
-                    
-
-                                    currentSquare = options.ElementAt(pawnChoice).Item1.get_current_location();
-                                    moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
-
-                                    if (!options.ElementAt(pawnChoice).Item1.is_start())
-                                    {
-                                        Debug.WriteLine("PAWN NOT AT START!");
-                                        if (currentSquare.get_Type() == SquareKind.SAFE)
-                                        {
-                                            //update_pawn_square(currentSquare.get_index() - 66,color_of_current_turn, blue_safe_zone_list);
-                                            //pawn num doesn't matter
-                                            update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn],0);
-                                        }
-                                        else
-                                        {
-                                            //pawn num doesn't matter
-                                            update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list,0);
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        //update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, blue_start_list);
-                                        //pawn num doesn't matter
-                                        update_pawn_square(options.ElementAt(pawnChoice).Item1.get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn],0);
-
-                                    }
-                                    Debug.WriteLine("PAWN 0's location: " + options.ElementAt(pawnChoice).Item1.get_current_location());
-                                    //if (options.ElementAt(0).Item2.Count != 0)
-                                    //{
-                                    //moved up into else
-                                    //    if (options.ElementAt(0).Item1.is_start())
-                                    //    {
-                                    //    }
-                                    Debug.WriteLine("PAWN 0's move to location: " + options.ElementAt(pawnChoice).Item2.ElementAt(0).get_index());
-
-                                    if (moveToSquare.get_Type() == SquareKind.SAFE)//|| moveToSquare.get_Type() == SquareKind.HOMESQ)
-                                    {
-                                        update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], options.ElementAt(pawnChoice).Item1.get_id()+1);
-                                        options.ElementAt(pawnChoice).Item1.set_in_safe_zone(true);
-
-                                    }
-                                    else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
-                                    {
-                                        //update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - 66, color_of_current_turn, blue_safe_zone_list);
-                                        update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - color_adjustment, color_of_current_turn,
-                                            safe_zone_lists[(int)color_of_current_turn], options.ElementAt(pawnChoice).Item1.get_id()+1);
-                                    }
-                                    else
-                                    {
-                                        //send someone home here if they are in the square you want!
-                                        if (moveToSquare.get_has_pawn())
-                                        {
-                                            //send the visual pawn to start square
-                                            update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
-                                            //send the data pawn to start state
-                                            moveToSquare.get_pawn_in_square().sorry();
-
-                                            //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
-                                            //first call sets square image brush to nill;
-                                            //pawn num doesn't matter here
-                                            update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
-                                        }
-                                        //second call sets square image brush to pawn we want
-                                        //or first if no one was there in the first place
-                                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, options.ElementAt(pawnChoice).Item1.get_id()+1);
-                                    }
-                                    //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
-                                    options.ElementAt(pawnChoice).Item1.move_to(options.ElementAt(pawnChoice).Item2.ElementAt(0));
-                                }
-
-
-                    
-                            }
-
-
-                        }
-                        else if (card.get_value() == 13)
-                        {
-                            int pawnIndex = 0;
-                            color_adjustment = 60 + 6 * ((int)color_of_current_turn);
-
-
-                            if (options.Count != 0)
-                            {
-                                int pawnChoice = -1;
-
-                                for (int i = 0; i < options.Count; i++)
-                                {
-                                    if (options.ElementAt(i).Item2.Count > 0)
-                                    {
-                                        if (!options.ElementAt(i).Item1.is_in_safe_zone())
-                                        {
-                                            pawnChoice = i;
-                                            break;
-                                        }
-                                    }
-                                }
-
-
-
-                                if(pawnChoice != -1)
-                                {
-                                    currentSquare = options.ElementAt(pawnChoice).Item1.get_current_location();
-                                    moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
-
-                                    //pawn num doesn't matter here
-                                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list,0);
-
-                                    //send the visual pawn to start square
-                                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id()+1);
-                                    //send the data pawn to start state
-                                    moveToSquare.get_pawn_in_square().sorry();
-
-                                    //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
-                                    //first call sets square image brush to nill;
-                                    //pawn num doesn't matter here
-                                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,0);
-
-                                    //second call sets square image brush to pawn we want
-                                    //or first if no one was there in the first place
-                                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, options.ElementAt(pawnChoice).Item1.get_id()+1);
-
-                                    //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
-                                    options.ElementAt(pawnChoice).Item1.move_to(options.ElementAt(pawnChoice).Item2.ElementAt(0));
-
-                                    //sorry someone, get pawn options to sorry someone here 
-                                }
-
-
-                    
-                            }
-
-                        }*/
-            //change_turn();
-
-            /*********************** NICK'S SECITION ***********************************/
-
-        }
+       
         private int get_AI_sorry_choice(int curPawn, int curHome, int enemyPawn, int enemyHome)
         {
 
@@ -1955,6 +1542,7 @@ namespace MaKeyMeSorry
             List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>> options = new List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>>();
             options = game.get_move_options(color_of_current_turn, card);
             Debug.WriteLine("color of current " + color_of_current_turn);
+            Debug.WriteLine("Current number of pawns at home: " + num_pawns_home[index_of_current_player]);
 
             /************************* Zoltan's Section *******************************/
             /**************************************************************************/
@@ -2036,22 +1624,15 @@ namespace MaKeyMeSorry
                         }
                         else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
                         {
-
                             if (currentSquare.get_Type() == SquareKind.SAFE)
                             {
-
                                 execute_update(options, 0, currentSquare, moveToSquare, 4, currentPlayer);
-                                num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
-
                             }
                             else
                             {
-
                                 execute_update(options, 0, currentSquare, moveToSquare, 5, currentPlayer);
-                                num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
-
                             }
-
+                        //num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
                         }
                         else if (moveToSquare.get_has_pawn())
                         {
@@ -2122,6 +1703,10 @@ namespace MaKeyMeSorry
                                 execute_update(options, 0, currentSquare, moveToSquareTwo, 7, currentPlayer);
 
                             }
+                            else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
+                            {
+                                execute_update(options,0, currentSquare, moveToSquare, 5, currentPlayer);
+                            }
                             /*else if(moveToSquareTwo.get_has_pawn() && currentSquare.get_Type() == SquareKind.SAFE)
                             {
 
@@ -2177,6 +1762,10 @@ namespace MaKeyMeSorry
 
                                 }
                             }
+                            else if(moveToSquare.get_Type() == SquareKind.HOMESQ)
+                            {
+                                execute_update(options,0, currentSquare, moveToSquare, 5, currentPlayer); 
+                            }
                             else
                             {
 
@@ -2222,6 +1811,10 @@ namespace MaKeyMeSorry
 
                                 execute_update(options, 0, currentSquare, moveToSquare, 3, currentPlayer);
 
+                            }
+                            else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
+                            {
+                                execute_update(options, 0, currentSquare, moveToSquare, 5, currentPlayer);
                             }
                             else
                             {
