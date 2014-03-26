@@ -83,6 +83,13 @@ namespace MaKeyMeSorry
         //Handles keyboard presses
         KeyEventHandler key_up_handler;
 
+        private DispatcherTimer dispatcherTimer;
+        private DateTimeOffset startTime;
+        private DateTimeOffset lastTime;
+        private DateTimeOffset stopTime;
+        private int timesTicked = 1;
+        private int timesToTick = 1;
+
 
         /// <summary>
         /// NavigationHelper is used on each page to aid in navigation and 
@@ -297,7 +304,7 @@ namespace MaKeyMeSorry
         #endregion
 
 
-        void play_game()
+        bool play_game()
         {
             /*if(first)
             {
@@ -345,35 +352,37 @@ namespace MaKeyMeSorry
                     display_options(myOptions);
                 }
                 else{
-                    display_options(myOptions);
-                    /*
-                    Stopwatch stopwatch = Stopwatch.StartNew();
-                    while (true)
-                    {
-
-                        if (stopwatch.ElapsedMilliseconds >= 100)
-                        {
-
-                            break;
-
-                        }
-
-
-                    }
-                    play_game();*/
+                    //display_options(myOptions);
+                    
+                    //Stopwatch stopwatch = Stopwatch.StartNew();
+                    //while (true)
+                    //{
+                    //    if (stopwatch.ElapsedMilliseconds >= 4000)
+                    //    {
+                    //        break;
+                    //    }
+                    //}
+                   // System.Windows.SendKeys
+                    //System.Windows.Forms.SendKeys.Send("A");
+                    //play_game();
+                    //apply_card_AI_timer();
+                    return true;
                 }
 
             }
             else if (card_drawn && (FocusManager.GetFocusedElement() != pass_button))
             {
-                if(myOptions.Count == 0 || cur_selected_square != -1)
+                if (myOptions.Count == 0 || cur_selected_square != -1 || !game.get_player(color_of_current_turn).get_is_human())
                 {
                     pass_highlighted = false;
                     how_to_highlighted = false;
                     new_game_higlighted = false;
                     pass_button.IsEnabled = false;
                     current_spot = cur_selected_square;
-                    hide_selected_move(cur_selected_square);//, pawn_square_list);
+                    if (game.get_player(color_of_current_turn).get_is_human())
+                    {
+                        hide_selected_move(cur_selected_square);//, pawn_square_list);
+                    }
                     from_safe_zone = false;
                     apply_card_real(my_card);
                     //Check to see if won
@@ -402,11 +411,14 @@ namespace MaKeyMeSorry
                     pawns_available.Add(false);
                     if (!game.get_player(color_of_current_turn).get_is_human())
                     {
+                        Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                        return true;
                         //play_game();
                     }
                 }
                 
             }
+            return false;
         }
 
         private void check_if_win()
@@ -435,6 +447,7 @@ namespace MaKeyMeSorry
 
             if (e.Key == Windows.System.VirtualKey.Space)
             {
+                bool computer = false;
                 Debug.WriteLine("Space button pressed");
                 if ((FocusManager.GetFocusedElement() == pass_button))
                 {
@@ -442,7 +455,12 @@ namespace MaKeyMeSorry
                 }
                 else
                 {
-                    play_game();
+                    computer = play_game();
+                }
+                if(computer)
+                {
+    
+                    apply_card_AI_timer();
                 }
             }
 
@@ -470,6 +488,10 @@ namespace MaKeyMeSorry
                     change_selected_pawn_box_left();
                 }
                 e.Handled = true;
+            }
+            if (e.Key == Windows.System.VirtualKey.P)
+            {
+                apply_card_AI_timer();
             }
 
             if (e.Key == Windows.System.VirtualKey.W)
@@ -1210,7 +1232,11 @@ namespace MaKeyMeSorry
 
         private void draw_card(object sender, TappedRoutedEventArgs e)
         {
-            play_game();
+            bool computer = play_game();
+            //if(computer)
+            //{
+            //    apply_card_AI_timer();
+            //}
         }
 
         private Card draw_card()
@@ -1665,7 +1691,9 @@ namespace MaKeyMeSorry
 
         private void execute_update(List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
+            
+            //show_selected_move(moveToSquare.get_index(), Pawn);
+            /*stopwatch = Stopwatch.StartNew();
             while (true)
             {
 
@@ -1677,21 +1705,13 @@ namespace MaKeyMeSorry
                 }
 
 
-            }
-            show_selected_move(moveToSquare.get_index(), Pawn);
-            stopwatch = Stopwatch.StartNew();
-            while (true)
-            {
-
-                if (stopwatch.ElapsedMilliseconds >= 100)
-                {
-
-                    break;
-
-                }
-
-
-            }
+            }*/
+            //DispatcherTimerSetup2();
+            //while(dispatcherTimer.IsEnabled)
+            //{
+                //do nothing
+            //}
+            //hide_selected_move(moveToSquare.get_index());
             actual_execute_update(options, Pawn, currentSquare, moveToSquare, levelMove, currentPlayer);
         }
         private void actual_execute_update(List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
@@ -1923,6 +1943,7 @@ namespace MaKeyMeSorry
             Debug.WriteLine("card value: " + card.get_value());
             List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options = new List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>>();
             options = game.get_move_options(color_of_current_turn, card);
+            Debug.WriteLine("color of current " + color_of_current_turn);
 
             /************************* Zoltan's Section *******************************/
             /**************************************************************************/
@@ -1947,6 +1968,7 @@ namespace MaKeyMeSorry
                     // This will happen if there isnt any other pawn in the board (for the computer whose turn it is)
 
                     currentSquare = options.ElementAt(0).Item1.get_current_location();
+                    //Debug.WriteLine("CURRENT: " + currentSquare.ToString());
                     moveToSquare = options.ElementAt(0).Item2.ElementAt(0).Item1;
 
                     int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
@@ -1972,6 +1994,8 @@ namespace MaKeyMeSorry
                     //This will yield the adequate move if there is already a single pawn on the board for the computer who's current turn it is
 
                     currentSquare = options.ElementAt(0).Item1.get_current_location();
+                    //Debug.WriteLine("CURRENT: " + currentSquare.ToString());
+
 
                     int color_adjustment = 60 + 6 * ((int)color_of_current_turn);
 
@@ -2160,6 +2184,8 @@ namespace MaKeyMeSorry
                         moveToSquare = options.ElementAt(0).Item2.ElementAt(0).Item1;
                         
                         currentSquare = options.ElementAt(0).Item1.get_current_location();
+                        //Debug.WriteLine("CURRENT: " + currentSquare.ToString());
+
 
                         int bestChoice = moveToSquare.get_index() - currentSquare.get_index();
 
@@ -2330,6 +2356,8 @@ namespace MaKeyMeSorry
                         }
                         */
                         currentSquare = options.ElementAt(i).Item1.get_current_location();
+                        //Debug.WriteLine("CURRENT: " + currentSquare.ToString());
+
 
                         int curBase = game.board.get_start_square(color_of_current_turn) - 2;
                         int curDistToBase = 0;
@@ -3310,6 +3338,7 @@ namespace MaKeyMeSorry
 
         private void clear_preivew_canvas(int squarenum = -1)
         {
+            color_adjustment = 60 + 6 * ((int)color_of_current_turn);
             ImageBrush ib = null;
             if (squarenum == -1)
             {
@@ -3847,6 +3876,77 @@ namespace MaKeyMeSorry
                 game = null;
                 Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
                 Application.Current.Exit();
+            }
+        }
+
+        private void apply_card_AI_timer()
+        {
+            bool computer = false;
+            /*Stopwatch stopwatch = Stopwatch.StartNew();
+            while (true)
+            {
+                if (stopwatch.ElapsedMilliseconds >= 500)
+                {
+                    break;
+                }
+            }*/
+            DispatcherTimerSetup();
+            //computer = play_game();
+            //if(computer)
+            //{
+            //    apply_card_AI_timer();
+            //}
+        }
+
+        public void DispatcherTimerSetup()
+        {
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += dispatcherTimer_Tick;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+        }
+
+        public void DispatcherTimerSetup2()
+        {
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += dispatcherTimer_Tick2;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+        }
+
+        void dispatcherTimer_Tick(object sender, object e)
+        {
+            timesTicked++;
+            if (timesTicked > timesToTick)
+            {
+                dispatcherTimer.Stop();
+                timesTicked = 1;
+                bool computer = play_game();
+
+                if(computer)
+                {
+                    apply_card_AI_timer();
+                } else
+                {
+                    Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                }
+            }
+        }
+
+        void dispatcherTimer_Tick2(object sender, object e)
+        {
+            timesTicked++;
+            if (timesTicked > timesToTick)
+            {
+                dispatcherTimer.Stop();
+                timesTicked = 1;
+                /*bool computer = play_game();
+
+                if (computer)
+                {
+                    hide_selected_move(moveToSquare.get_index();
+                    actual_execute_update(options, Pawn, currentSquare, moveToSquare, levelMove, currentPlayer);
+                }*/
             }
         }
 
