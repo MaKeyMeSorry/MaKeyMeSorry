@@ -1681,6 +1681,7 @@ namespace MaKeyMeSorry
 
         private void execute_update(List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
         {
+            /*
             Stopwatch stopwatch = Stopwatch.StartNew();
             while (true)
             {
@@ -1708,6 +1709,7 @@ namespace MaKeyMeSorry
 
 
             }
+             * */
             actual_execute_update(options, Pawn, currentSquare, moveToSquare, levelMove, currentPlayer);
         }
         private void actual_execute_update(List<Tuple<Pawn, List<Tuple<Square,ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
@@ -1982,7 +1984,7 @@ namespace MaKeyMeSorry
 
 
                 }
-                else if (options.Count == 1 )//|| (options.Count > 1 && (card.get_value() == 11 || card.get_value() == 13)))
+                else if (options.Count == 1)// || (options.Count > 1 && card.get_value() == 4))//|| (options.Count > 1 && (card.get_value() == 11 || card.get_value() == 13)))
                 {
 
                     //This will yield the adequate move if there is already a single pawn on the board for the computer who's current turn it is
@@ -2461,7 +2463,6 @@ namespace MaKeyMeSorry
                                                 updateLevel = 7;
 
                                             }
-                                            Debug.WriteLine("Our PRESUMABLY UPDATED I IS: " + i);
 
                                         }
 
@@ -2515,7 +2516,18 @@ namespace MaKeyMeSorry
                                             if(currentSquare.get_Type() == SquareKind.SAFE)
                                             {
 
-                                                updateLevel = 2;
+                                                if (moveToSquare.get_Type() == SquareKind.SAFE)
+                                                {
+
+                                                    updateLevel = 2;
+
+                                                }
+                                                else
+                                                {
+
+                                                    updateLevel = 8;
+
+                                                }
 
                                             }
                                             else
@@ -2538,7 +2550,18 @@ namespace MaKeyMeSorry
                                         if (currentSquare.get_Type() == SquareKind.SAFE)
                                         {
 
-                                            updateLevel = 2;
+                                            if (moveToSquare.get_Type() == SquareKind.SAFE)
+                                            {
+
+                                                updateLevel = 2;
+
+                                            }
+                                            else
+                                            {
+
+                                                updateLevel = 8;
+
+                                            }
 
                                         }
                                         else
