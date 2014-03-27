@@ -3852,6 +3852,7 @@ namespace MaKeyMeSorry
 
             message.Commands.Add(new UICommand("New Game", new UICommandInvokedHandler(EndGameCommand)));
             message.Commands.Add(new UICommand("Main Menu", new UICommandInvokedHandler(EndGameCommand)));
+            message.Commands.Add(new UICommand("Quit", new UICommandInvokedHandler(EndGameCommand)));
             message.ShowAsync();
             return;
 
@@ -3878,6 +3879,13 @@ namespace MaKeyMeSorry
                 Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
                 this.Frame.Navigate(typeof(StartPage));
 
+            }
+            else if (command.Label == "Quit")
+            {
+                MaKeyMeSorry.App.currentGame = null;
+                game = null;
+                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                Application.Current.Exit();
             }
         }
         private void highlight_forfeit_button()
