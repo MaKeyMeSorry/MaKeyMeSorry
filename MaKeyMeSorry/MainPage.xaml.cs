@@ -294,7 +294,7 @@ namespace MaKeyMeSorry
 
         bool play_game()
         {
-            if(first)
+            /*if(first)
             {
                 
                 for (int i = 0; i < 4; i++)
@@ -313,7 +313,7 @@ namespace MaKeyMeSorry
                     }
                 }
                 first = false;
-            }
+            }*/
             if (!card_drawn && (FocusManager.GetFocusedElement() != pass_button))
             {
                 color_adjustment = 60 + 6 * ((int)color_of_current_turn);
@@ -432,22 +432,47 @@ namespace MaKeyMeSorry
                 new_game_button.Focus(FocusState.Keyboard);
             }*/
 
+            if (e.Key == Windows.System.VirtualKey.D)
+            {
+                if (!card_drawn && !app_bar_open)
+                {
+                    bool computer = false;
+                    Debug.WriteLine("Space button pressed");
+                    if ((FocusManager.GetFocusedElement() == pass_button))
+                    {
+                        pass_button_Click();
+                    }
+                    else
+                    {
+                        computer = play_game();
+                    }
+                    if (computer)
+                    {
+
+                        apply_card_AI_timer();
+                    }
+                }
+            }
+
             if (e.Key == Windows.System.VirtualKey.Space)
             {
-                bool computer = false;
-                Debug.WriteLine("Space button pressed");
-                if ((FocusManager.GetFocusedElement() == pass_button))
+                if (card_drawn && !app_bar_open)
                 {
-                    pass_button_Click();
-                }
-                else
-                {
-                    computer = play_game();
-                }
-                if (computer)
-                {
+                    bool computer = false;
+                    Debug.WriteLine("Space button pressed");
+                    if ((FocusManager.GetFocusedElement() == pass_button))
+                    {
+                        pass_button_Click();
+                    }
+                    else
+                    {
+                        computer = play_game();
+                    }
+                    if (computer)
+                    {
 
-                    apply_card_AI_timer();
+                        apply_card_AI_timer();
+                    }
                 }
             }
 
@@ -476,10 +501,6 @@ namespace MaKeyMeSorry
                 }
                 e.Handled = true;
             }
-            if (e.Key == Windows.System.VirtualKey.P)
-            {
-                apply_card_AI_timer();
-            }
 
             if (e.Key == Windows.System.VirtualKey.W)
             {
@@ -487,35 +508,7 @@ namespace MaKeyMeSorry
                 {
                     app_bar.IsOpen = false;
                     app_bar_open = false;
-                    get_selected_UI();
-                    if (pawns_available[0])
-                    {
-                        options_1.SelectedIndex = 0;
-                        options_1.Focus(FocusState.Keyboard);
-                        cur_pawn_selection = 0;
-                    }
-                    else if (pawns_available[1])
-                    {
-                        options_2.SelectedIndex = 0;
-                        options_2.Focus(FocusState.Keyboard);
-                        cur_pawn_selection = 1;
-                    }
-                    else if (pawns_available[2])
-                    {
-                        options_3.SelectedIndex = 0;
-                        options_3.Focus(FocusState.Keyboard);
-                        cur_pawn_selection = 2;
-                    }
-                    else if (pawns_available[3])
-                    {
-                        options_4.SelectedIndex = 0;
-                        options_4.Focus(FocusState.Keyboard);
-                        cur_pawn_selection = 3;
-                    }
-                    else
-                    {
-                        this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
-                    }
+                    reset_options_focus();
                     how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
@@ -533,6 +526,40 @@ namespace MaKeyMeSorry
             }
 
         }
+
+        private void reset_options_focus()
+        {
+            get_selected_UI();
+            if (pawns_available[0])
+            {
+                options_1.SelectedIndex = 0;
+                options_1.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 0;
+            }
+            else if (pawns_available[1])
+            {
+                options_2.SelectedIndex = 0;
+                options_2.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 1;
+            }
+            else if (pawns_available[2])
+            {
+                options_3.SelectedIndex = 0;
+                options_3.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 2;
+            }
+            else if (pawns_available[3])
+            {
+                options_4.SelectedIndex = 0;
+                options_4.Focus(FocusState.Keyboard);
+                cur_pawn_selection = 3;
+            }
+            else
+            {
+                this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+            }
+        }
+
 
         private void change_selected_menu_button_left()
         {
@@ -3170,7 +3197,7 @@ namespace MaKeyMeSorry
                         {
                             initiate_toggle(sqIndex, pawn_num, swap);
                         }
-                        else if (current_square.get_has_pawn())
+                        else if (current_square.get_has_pawn() && current_square.get_pawn_in_square() != game.players[(int)pawn_color].pawns[pawn_num - 1])
                         {
                             initiate_toggle(sqIndex, 0, false);
                         }
@@ -3185,7 +3212,7 @@ namespace MaKeyMeSorry
                 }
             }
 
-            if (single_switch)
+            if (single_switch && !show_swap)
             {
                 initiate_toggle(square_num, pawn_num, swap);
             }
@@ -3429,6 +3456,8 @@ namespace MaKeyMeSorry
  
         private void RespondToCommand(IUICommand command)
         {
+            app_bar_open = false;
+            reset_options_focus();
             if (command.Label == "Yes")
             {
                 // Remove current game
@@ -3569,7 +3598,7 @@ namespace MaKeyMeSorry
 
         private void AppBar_HowToPlay_ButtonClick(object sender, RoutedEventArgs e)
         {
-            app_bar_open = false;
+            //app_bar_open = false;
             this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
             how_to_play_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
             howToPlayMessage();
@@ -3577,7 +3606,7 @@ namespace MaKeyMeSorry
 
         private void AppBar_NewGame_ButtonClick(object sender, RoutedEventArgs e)
         {
-            app_bar_open = false;
+            //app_bar_open = false;
             this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
             new_game_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
             newGameMessage();
@@ -3585,7 +3614,7 @@ namespace MaKeyMeSorry
 
         private void AppBar_Quit_ButtonClick(object sender, RoutedEventArgs e)
         {
-            app_bar_open = false;
+            //app_bar_open = false;
             this.Focus(Windows.UI.Xaml.FocusState.Programmatic);
             quit_menu_button.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
             quitMessage();
@@ -3594,9 +3623,16 @@ namespace MaKeyMeSorry
         private void howToPlayMessage()
         {
             MessageDialog message = new MessageDialog("The object of the game: \nTo get all your pawns to the Home section of the board of the pawns' colors (e.g. If you have green pawns, and there is a green Home section, then that is your goal) before everyone else does. The route of the process goes clockwise. \n\nCards: \nThere are many kinds of cards in the deck. Make sure to read carefully when the options are displayed. \n\nTo start:\nThe cards 1 and 2 are the only cards that you can use to start a pawn. If any of your pawns are not on the board and you get a card other than a 1 or a 2, you must forfeit your turn.\n\nJumping and bumping: \nYou may jump over any pawn that is in your way. But...if you land on a space that is occupied by another person's pawn, bump it back to its own start space. \n\nMoving backward: \nThe cards 4 and 10 can move you backward. If you have successfully moved a pawn backward at least 2 spaces beyond your own start space, you may, on a subsequent turn, move into your own safety zone without moving all the way around the board.\n\nSlide: \nIf your pawns land on a slide space, slide to the end. You can bump any of the pawns that are in your pathway - including your own! - back to their start space. If you land on a slide that is your own color, don't slide.\n\nTo Win:\nThe first player to get all four of their pawns to their home space wins! If you win, and you play again with other people, the winner goes first.");
+            message.Commands.Add(new UICommand("Okay", new UICommandInvokedHandler(howToCommand)));
             message.ShowAsync();
+
         }
 
+        private void howToCommand(IUICommand command)
+        {
+            app_bar_open = false;
+            reset_options_focus();
+        }
 
         private void quitMessage()
         {
@@ -3612,6 +3648,8 @@ namespace MaKeyMeSorry
 
         private void quitCommand(IUICommand command)
         {
+            app_bar_open = false;
+            reset_options_focus();
             if (command.Label == "Yes")
             {
                 // Remove current game
