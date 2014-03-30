@@ -35,7 +35,6 @@ namespace MaKeyMeSorry
         {
             return current_location;
         }
-
         public void move_to(Square square)
         {
             if (current_location != null)
