@@ -2780,10 +2780,6 @@ namespace MaKeyMeSorry
                                 else //regular square
                                 {
                                     //pawn num doesn't matter
-<<<<<<< HEAD
-=======
-
->>>>>>> e8aaf0ffec583efdb3c863ef6cfb8e883ebfef45
                                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
                                     current_canvas = pawn_square_list[currentSquare.get_index()];
                                 }
@@ -2848,7 +2844,6 @@ namespace MaKeyMeSorry
                                 }
                                 //second call sets square image brush to pawn we want
                                 //or first if no one was there in the first place
-<<<<<<< HEAD
                                 //update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
                                 
                                 //attempting animations!
@@ -2856,12 +2851,8 @@ namespace MaKeyMeSorry
                                                             currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
                                                             (int)Canvas.GetLeft(current_canvas),
                                                             (int)Canvas.GetTop(current_canvas));
-                                
-                                if(from_safe_zone)
-=======
-                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+
                                 if (from_safe_zone)
->>>>>>> e8aaf0ffec583efdb3c863ef6cfb8e883ebfef45
                                 {
                                     currentPlayer.pawns[cur_pawn_selection].set_in_safe_zone(false);
                                 }
@@ -3289,11 +3280,7 @@ namespace MaKeyMeSorry
                         {
                             initiate_toggle(sqIndex, pawn_num, swap);
                         }
-<<<<<<< HEAD
-                        else if (current_square.get_has_pawn() && current_square.get_pawn_in_square() != game.players[(int)pawn_color].pawns[pawn_num-1])
-=======
                         else if (current_square.get_has_pawn() && current_square.get_pawn_in_square() != game.players[(int)pawn_color].pawns[pawn_num - 1])
->>>>>>> e8aaf0ffec583efdb3c863ef6cfb8e883ebfef45
                         {
                             initiate_toggle(sqIndex, 0, false);
                         }
@@ -3304,21 +3291,12 @@ namespace MaKeyMeSorry
 <<<<<<< HEAD
                         }*/
                         
-=======
-                        }
-
->>>>>>> e8aaf0ffec583efdb3c863ef6cfb8e883ebfef45
+                        
                         current_square = game.board.get_square_at(++sqIndex);
                     }
                 }
             }
-<<<<<<< HEAD
-            
-            if(single_switch && !show_swap)
-=======
-
             if (single_switch && !show_swap)
->>>>>>> e8aaf0ffec583efdb3c863ef6cfb8e883ebfef45
             {
                 initiate_toggle(square_num, pawn_num, swap);
             }
