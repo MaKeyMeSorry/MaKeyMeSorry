@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="307c2bfb-05e8-4b76-a1f6-b8682d0484f8" Publisher="CN=Nicole" Version="1.1.0.1" />
+  <Identity Name="307c2bfb-05e8-4b76-a1f6-b8682d0484f8" Publisher="CN=Nicole" Version="1.1.0.2" />
   <Properties>
     <DisplayName>MaKeyMeSorry</DisplayName>
     <PublisherDisplayName>Nicole</PublisherDisplayName>
