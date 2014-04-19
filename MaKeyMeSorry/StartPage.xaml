@@ -6,11 +6,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+   
     <Grid Background="#FF7C277D">
         <Button x:Name="StartGameButton" Content="Start New Game" HorizontalAlignment="Right" Margin="0,434,342,0" VerticalAlignment="Top" Click="Button_Click" BorderBrush="#FFED1C7F" Width="226" Height="60" FontSize="20" BorderThickness="5"/>
         <Button x:Name="HowToPlayButton" Content="How To Play" HorizontalAlignment="Left" Margin="342,434,0,0" VerticalAlignment="Top" Height="60" Width="228" Click="Button_Click_1" BorderBrush="#FFED1C7F" FontSize="20" BorderThickness="5"/>
+        <Button x:Name="ExitButton" Margin="39,59,39,0" 
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="Back"
+                        AutomationProperties.AutomationId="BackButton"
+                        AutomationProperties.ItemType="Navigation Button" 
+       Click="exit_App"/>
+        
+        
         <Image Height="136" Margin="280,261,280,0" VerticalAlignment="Top" Source="Assets/MaKeyMeSorry! Text_1.4x.png"/>
 
     </Grid>
 </Page>
+        
