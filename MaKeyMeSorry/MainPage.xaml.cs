@@ -77,8 +77,18 @@ namespace MaKeyMeSorry
         private double x2;
         private double y1;
         private double y2;
-        private Canvas move_canvas;
+        //animation stuff
+        private Canvas move_canvas_1;
+        private Canvas move_canvas_2;
         private ImageBrush move_ib;
+        private List<Canvas> animate_pawn_list_1;
+        private List<Canvas> animate_pawn_list_2;
+        private int animate_pawn_square_1 = -1;
+        private int animate_pawn_square_2 = -1;
+        private ImageBrush animate_ib_1;
+        private ImageBrush animate_ib_2;
+        private bool animating;
+
 
         private List<Canvas> pawn_square_list;
         private List<Canvas> preview_square_list;
@@ -147,11 +157,17 @@ namespace MaKeyMeSorry
             forefeit_disabled = false;
 
             times_ticked = 0;
-            move_canvas = new Canvas();
-            move_canvas.Height = 100;
-            move_canvas.Width = 100;
-            game_grid.Children.Add(move_canvas);
+            move_canvas_1 = new Canvas();
+            move_canvas_1.Height = 100;
+            move_canvas_1.Width = 100;
+            game_grid.Children.Add(move_canvas_1);
             reset_combo_indexes();
+
+
+            move_canvas_2 = new Canvas();
+            move_canvas_2.Height = 100;
+            move_canvas_2.Width = 100;
+            game_grid.Children.Add(move_canvas_2);
 
             key_up_handler = new KeyEventHandler(App_KeyUp);
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
@@ -290,7 +306,7 @@ namespace MaKeyMeSorry
 	                if (computer)
 	                {
 	                    apply_card_AI_timer();
-                    }
+        }
 	            }
         }
 
@@ -2816,7 +2832,7 @@ namespace MaKeyMeSorry
             }
             else //if (game.get_player(color_of_current_turn).get_is_human())
             {
-                Canvas current_canvas;
+                Canvas current_canvas = null;
                 Player currentPlayer = game.get_player(color_of_current_turn);
                 if (card.get_value() != 13)
                 {
@@ -2840,22 +2856,32 @@ namespace MaKeyMeSorry
                                 moveToSquare = game.board.get_square_at(current_spot);
                                 temp_color = moveToSquare.get_pawn_in_square().get_color();
 
+                                Canvas my_current_canvas;
+                                Canvas their_current_canvas;
+
                                 //pawn num doesn't matter here
                                 //remove me from UI
                                 update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                                //send the visual pawn to start square
-                                //update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
-                                //send the data pawn to start state
-                                if (currentPlayer.pawns[cur_pawn_selection].is_in_safe_zone())
-                                {   //this sould never get called?????
-                                    update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), safe_zone_lists[(int)color_of_current_turn], moveToSquare.get_pawn_in_square().get_id() + 1);
-                                }
-                                else
+                                my_current_canvas = pawn_square_list[currentSquare.get_index()];
+                                their_current_canvas = pawn_square_list[moveToSquare.get_index()];
+
+                                    if (currentSquare.get_color() != temp_color && currentSquare.get_Type() == SquareKind.SLIDE_START)
                                 {
+                                        //if the original square I was at, is a slide start for the pawn i swapped with
                                     //put them in my UI spot
                                     update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1);
+      
                                 }
+                                    else //if it isn't a slide for them, animate the move
+                                    {
+                                        update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(),
+                                                            pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1, true,
+                                                            (int)Canvas.GetLeft(their_current_canvas),
+                                                            (int)Canvas.GetTop(their_current_canvas));
+                                    }
+
+                                
 
                                 //put them in my spot programatically
                                 game.players[(int)moveToSquare.get_pawn_in_square().get_color()].pawns[moveToSquare.get_pawn_in_square().get_id()].move_to(currentSquare);
@@ -2870,8 +2896,19 @@ namespace MaKeyMeSorry
 
                                 //second call sets square image brush to pawn we want
                                 //or first if no one was there in the first place
-                                //but me in the final spot programatically
+                                //but me in the final spot in UI land
+                                if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                                {//dont animate if its a slide
                                 update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                }
+                                else
+                                { //animate me moving
+                                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 
+                                                        currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
+                                                        (int)Canvas.GetLeft(my_current_canvas),
+                                                        (int)Canvas.GetTop(my_current_canvas));
+                                }
+
 
                                 //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
                                 //put  me in the final spot programatically
@@ -2881,14 +2918,15 @@ namespace MaKeyMeSorry
                                 {
                                     //if the original square I was at, is a slide start for the pawn i swapped with
                                     int pawn_id = currentSquare.get_pawn_in_square().get_id();
-                                    currentSquare = slide_baby_slide(currentSquare, game.get_player(temp_color), pawn_id);
+                                    currentSquare = slide_baby_slide(currentSquare, game.get_player(temp_color), pawn_id, their_current_canvas);
                                     Player temp_player = game.get_player(temp_color);
                                     temp_player.pawns[pawn_id].move_to(currentSquare);
                                 }
 
                                 if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
                                 {
-                                    moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection);
+                                    //slide for me
+                                    moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection, my_current_canvas);
                                     currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
                                 }
 
@@ -2896,7 +2934,7 @@ namespace MaKeyMeSorry
                         }
                         else
                         {
-                            //not an 11
+                            //not an 11 swap
                             currentSquare = currentPlayer.pawns[cur_pawn_selection].get_current_location();
                             //moveToSquare = options.ElementAt(pawnChoice).Item2.ElementAt(0);
                             moveToSquare = game.board.get_square_at(current_spot);
@@ -2939,15 +2977,23 @@ namespace MaKeyMeSorry
 
                             if (moveToSquare.get_Type() == SquareKind.SAFE)//|| moveToSquare.get_Type() == SquareKind.HOMESQ)
                             {
-                                update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                //update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn,
+                                                   safe_zone_lists[(int)color_of_current_turn],
+                                                   currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
+                                                   (int)Canvas.GetLeft(current_canvas),
+                                                   (int)Canvas.GetTop(current_canvas));
                                 currentPlayer.pawns[cur_pawn_selection].set_in_safe_zone(true);
 
                             }
                             else if (moveToSquare.get_Type() == SquareKind.HOMESQ)
                             {
                                 //update_pawn_square(moveToSquare.get_index() + options.ElementAt(pawnChoice).Item1.get_id() - 66, color_of_current_turn, blue_safe_zone_list);
-                                update_pawn_square(moveToSquare.get_index() + currentPlayer.pawns[cur_pawn_selection].get_id() - color_adjustment, color_of_current_turn,
-                                    safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                update_pawn_square(moveToSquare.get_index() + currentPlayer.pawns[cur_pawn_selection].get_id() - color_adjustment, 
+                                                    color_of_current_turn, safe_zone_lists[(int)color_of_current_turn],
+                                                    currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
+                                                   (int)Canvas.GetLeft(current_canvas),
+                                                   (int)Canvas.GetTop(current_canvas));
 
                                 num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
                             }
@@ -2961,7 +3007,7 @@ namespace MaKeyMeSorry
                                                         pawn_square_list, cur_pawn_selection + 1);
                                 currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);*/
 
-                                moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection);
+                                moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection, current_canvas);
                             }
                             else
                             {
@@ -3012,6 +3058,7 @@ namespace MaKeyMeSorry
 
                         if (pawnChoice != -1)
                         {
+                            Canvas current_canvas_location = null;
                             //game.players[(int)color_of_current_turn].pawns[cur_pawn_selection]
                             currentSquare = currentPlayer.pawns[cur_pawn_selection].get_current_location();
 
@@ -3019,25 +3066,28 @@ namespace MaKeyMeSorry
                             moveToSquare = game.board.get_square_at(current_spot);
 
 
-                            //pawn num doesn't matter here
+                            //pawn num doesn't matter here, clearing my current square
                             if (currentPlayer.pawns[cur_pawn_selection].is_start())
                             {
                                 update_pawn_square(currentPlayer.pawns[cur_pawn_selection].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
+                                current_canvas_location = start_lists[(int)color_of_current_turn][currentPlayer.pawns[cur_pawn_selection].get_id()];
                             }
                             else if (currentPlayer.pawns[cur_pawn_selection].is_in_safe_zone())
                             {
                                 update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
                                 currentPlayer.pawns[cur_pawn_selection].set_in_safe_zone(false);
-
+                                current_canvas_location = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
                             }
                             else
                             {
                                 update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                                current_canvas_location = pawn_square_list[currentSquare.get_index()];
                             }
 
-                            //send the visual pawn to start square
+                            //send the old visual pawn to start square
                             update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
-                            //send the data pawn to start state
+                            
+                            //send the old data pawn to start state, person who was sorry-ed
                             moveToSquare.get_pawn_in_square().sorry();
 
                             //to keep update_pawn_the same i call it twice, we could just change the update pawn square function though
@@ -3045,16 +3095,28 @@ namespace MaKeyMeSorry
                             //pawn num doesn't matter here
                             update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
+                            
                             //second call sets square image brush to pawn we want
                             //or first if no one was there in the first place
-                            update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                            if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                            {
+                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                                    currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                            }
+                            else
+                            {
+                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                                    currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
+                                                       (int)Canvas.GetLeft(current_canvas_location),
+                                                       (int)Canvas.GetTop(current_canvas_location));
+                            }
 
                             //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
                             currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
 
                             if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
                             {
-                                moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection);
+                                moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, cur_pawn_selection, current_canvas_location);
                                 currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
                             }
 
@@ -3073,7 +3135,7 @@ namespace MaKeyMeSorry
             /*********************** NICK'S SECITION ***********************************/
 
         }
-        private Square slide_baby_slide(Square moveToSquare, Player currentPlayer, int PawnNum)
+        private Square slide_baby_slide(Square moveToSquare, Player currentPlayer, int PawnNum, Canvas original_canvas = null)
         {
             Square endSlide = game.board.get_square_at(moveToSquare.get_index() + 3);
             Square current_square = moveToSquare;
@@ -3137,8 +3199,18 @@ namespace MaKeyMeSorry
                 sqIndex++;
                 current_square = game.board.get_square_at(sqIndex);
             }
+            if (original_canvas == null)
+            {
+                update_pawn_square(endSlide.get_index(), currentPlayer.get_pawn_color(), pawn_square_list, currentPlayer.pawns[PawnNum].get_id() + 1);
+            }
+            else
+            {
+                update_pawn_square(endSlide.get_index(), currentPlayer.get_pawn_color(),
+                                     pawn_square_list, currentPlayer.pawns[PawnNum].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(original_canvas),
+                                        (int)Canvas.GetTop(original_canvas));
+            }
 
-            update_pawn_square(endSlide.get_index(), currentPlayer.get_pawn_color(), pawn_square_list, currentPlayer.pawns[PawnNum].get_id() + 1);
             return endSlide;
         }
 
@@ -3288,14 +3360,37 @@ namespace MaKeyMeSorry
 
         }
 
-       
-
-        private void animate(ImageBrush ib, double x1, double y1, double x2, double y2)
+        private void animate(ImageBrush ib,int anim_call_num ,double x1, double y1, double x2, double y2)
         {
+            //disable all input
+            Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+
+            Canvas move_canvas = null;
+            if (anim_call_num == 1)
+            {
+                move_canvas = move_canvas_1;
+            }
+            else if (anim_call_num == 2)
+        {
+                move_canvas = move_canvas_2;
+            }
+        
             move_canvas.Background = ib;
 
             Storyboard sb = new Storyboard();
-            Duration duration = new Duration(new TimeSpan(0, 0, 2));
+           
+            double distance = Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
+            int time_length_sec;
+            int time_length_mili_sec;
+
+            time_length_mili_sec = 250 * ((int)distance / 100);
+
+            time_length_sec = time_length_mili_sec / 1000;
+
+            time_length_mili_sec = time_length_mili_sec % 1000;
+
+            Duration duration = new Duration(new TimeSpan(0,0, 0, time_length_sec, time_length_mili_sec));
+
             DoubleAnimation left_animation = new DoubleAnimation();
             DoubleAnimation top_animation = new DoubleAnimation();
             left_animation.Duration = duration;
@@ -3320,17 +3415,40 @@ namespace MaKeyMeSorry
 
             sb.Begin();
 
-            //Stopwatch stopwatch = Stopwatch.StartNew();
-            //while (stopwatch.ElapsedMilliseconds < 2000) { }
-            //stopwatch.Stop();
-            //stopwatch.Reset();
-            //move_canvas.Background = null;
-
         }
 
         private void finished_animation(object sender, object e)
         {
-            move_canvas.Background = null;
+            
+            if (animate_pawn_square_1 != -1 && animate_pawn_square_2 != -1)// should be first to return from a swap call
+            {
+                animate_pawn_list_1[animate_pawn_square_1].Background = animate_ib_1;
+                animate_pawn_square_1 = -1;
+                move_canvas_1.Background = null;
+
+                //do not re-enable everything yet!
+
+            }else if(animate_pawn_square_2 != -1 && animate_pawn_square_1 == -1)// should second to return from a swap call
+            {
+                animate_pawn_list_2[animate_pawn_square_2].Background = animate_ib_2;
+                animate_pawn_square_2 = -1;
+                move_canvas_2.Background = null;
+                //re-enable all input
+                Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+        }
+            else if (animate_pawn_square_1 != -1 && animate_pawn_square_2 == -1)//should be a normal call
+            {
+                animate_pawn_list_1[animate_pawn_square_1].Background = animate_ib_1;
+                animate_pawn_square_1 = -1;
+                move_canvas_1.Background = null;
+
+                //re-enable all input
+                Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+            }
+            else
+        {
+                Debug.WriteLine("oops wtf");
+            } 
         }
 
         public void update_pawn_square(int square_num, Color pawn_color, List<Canvas> list, int pawn_num, bool final = false, int orig_x = -1, int orig_y = -1) //could send exact pawn instead of color? just spitballin'
@@ -3353,8 +3471,21 @@ namespace MaKeyMeSorry
             {
                 if (final)
                 {
-                    animate(ib, orig_x, orig_y, Canvas.GetLeft(list[square_num]), Canvas.GetTop(list[square_num]));
-                    list[square_num].Background = ib;
+                    if (animate_pawn_square_1 == -1 )
+                    {
+                        animate(ib,1 ,orig_x, orig_y, Canvas.GetLeft(list[square_num]), Canvas.GetTop(list[square_num]));
+                        animate_pawn_list_1 = list;
+                        animate_pawn_square_1 = square_num;
+                        animate_ib_1 = ib;
+                    }
+                    else if (animate_pawn_square_1 != -1 && animate_pawn_square_2 ==-1)
+                    {
+                        animate(ib, 2, orig_x, orig_y, Canvas.GetLeft(list[square_num]), Canvas.GetTop(list[square_num]));
+                        animate_pawn_list_2 = list;
+                        animate_pawn_square_2 = square_num;
+                        animate_ib_2 = ib;
+                    }
+
                 }
                 else
                 {
