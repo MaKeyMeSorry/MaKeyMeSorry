@@ -45,6 +45,7 @@ namespace MaKeyMeSorry
             
             players = playerList;
             forfeit_enabled = false;
+            numHumanPlayers = numHumans;
 
             start_index = player1_index;
 

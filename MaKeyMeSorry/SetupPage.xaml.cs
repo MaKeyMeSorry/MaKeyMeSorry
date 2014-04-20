@@ -42,6 +42,7 @@ namespace MaKeyMeSorry
         Color player2_color;
         Color player3_color;
         Color player4_color;
+        bool addedGrace;
 
         TextBlock red_player1 = new TextBlock();
         TextBlock blue_player1 = new TextBlock();
@@ -107,6 +108,7 @@ namespace MaKeyMeSorry
             player3_color = Color.WHITE;
             player4_color = Color.WHITE;
 
+            addedGrace = false;
             numHumanPlayers = 0;
 
             key_up_handler = new KeyEventHandler(Page_KeyUp);
@@ -393,12 +395,24 @@ namespace MaKeyMeSorry
                     message.ShowAsync();
                     return;
                 }
+                if (name_textbox_1.Text.Length == 0)
+                {
+                    MessageDialog message = new MessageDialog("Please enter a name for all human players");
+                    message.ShowAsync();
+                    return;
+                }
             }
             if (numHumanPlayers > 1)
             {
                 if (player2_color == Color.WHITE)
                 {
                     MessageDialog message = new MessageDialog("Please select a color for all human players");
+                    message.ShowAsync();
+                    return;
+                }
+                if (name_textbox_2.Text.Length == 0)
+                {
+                    MessageDialog message = new MessageDialog("Please enter a name for all human players");
                     message.ShowAsync();
                     return;
                 }
@@ -411,12 +425,24 @@ namespace MaKeyMeSorry
                     message.ShowAsync();
                     return;
                 }
+                if (name_textbox_3.Text.Length == 0)
+                {
+                    MessageDialog message = new MessageDialog("Please enter a name for all human players");
+                    message.ShowAsync();
+                    return;
+                }
             }
             if (numHumanPlayers > 3)
             {
                 if (player4_color == Color.WHITE)
                 {
                     MessageDialog message = new MessageDialog("Please select a color for all human players");
+                    message.ShowAsync();
+                    return;
+                }
+                if (name_textbox_4.Text.Length == 0)
+                {
+                    MessageDialog message = new MessageDialog("Please enter a name for all human players");
                     message.ShowAsync();
                     return;
                 }
@@ -783,7 +809,24 @@ namespace MaKeyMeSorry
         {
             if (e.Key == Windows.System.VirtualKey.Space)
             {
-                name_textbox_1.Text = "Grace";
+                addedGrace = true;
+            }
+        }
+
+        private void name_textbox_1_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Space)
+            {
+                if(name_textbox_1.Text.Length == 0)
+                {
+                    name_textbox_1.Text = "Grace";
+                    addedGrace = false;
+                    e.Handled = true;
+                }
+                if(!addedGrace)
+                {
+                    e.Handled = true;
+                }
             }
         }
 
@@ -1180,6 +1223,10 @@ namespace MaKeyMeSorry
                         player4colorIndex = color_combo_4.SelectedIndex;
                     }
                 }
+            }
+            if (e.Key == Windows.System.VirtualKey.Tab)
+            {
+                e.Handled = true;
             }
         }
 

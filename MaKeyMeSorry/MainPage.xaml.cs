@@ -53,6 +53,10 @@ namespace MaKeyMeSorry
         private bool first;
         private bool from_safe_zone;
         private ComboData.move current_move_type;
+        private int pawn1ComboIndex;
+        private int pawn2ComboIndex;
+        private int pawn3ComboIndex;
+        private int pawn4ComboIndex;
 
         //variables for keeping state of a turn
         private Color color_of_current_turn;
@@ -98,6 +102,7 @@ namespace MaKeyMeSorry
 
         //Handles keyboard presses
         KeyEventHandler key_up_handler;
+        KeyEventHandler key_down_handler;
 
         private DispatcherTimer dispatcherTimer;
         private DateTimeOffset startTime;
@@ -146,9 +151,13 @@ namespace MaKeyMeSorry
             move_canvas.Height = 100;
             move_canvas.Width = 100;
             game_grid.Children.Add(move_canvas);
+            reset_combo_indexes();
 
             key_up_handler = new KeyEventHandler(App_KeyUp);
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+            key_down_handler = new KeyEventHandler(App_KeyDown);
+            Window.Current.Content.AddHandler(UIElement.KeyDownEvent, key_down_handler, true);
+
 
             Loaded += delegate { this.Focus(Windows.UI.Xaml.FocusState.Programmatic); };
 
@@ -273,6 +282,16 @@ namespace MaKeyMeSorry
             game = MaKeyMeSorry.App.currentGame;
             index_of_current_player = game.get_start_index() - 1;
             change_turn(true);
+            if (game.get_num_human_players() == 0)
+	            {
+	                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+	                bool computer = play_game();
+	
+	                if (computer)
+	                {
+	                    apply_card_AI_timer();
+                    }
+	            }
         }
 
         /// <summary>
@@ -480,6 +499,7 @@ namespace MaKeyMeSorry
             {
                 if (card_drawn && !app_bar_open)
                 {
+                    reset_combo_indexes();
                     bool computer = false;
                     Debug.WriteLine("Space button pressed");
                     if ((FocusManager.GetFocusedElement() == pass_button))
@@ -500,6 +520,7 @@ namespace MaKeyMeSorry
 
             if (e.Key == Windows.System.VirtualKey.Right)
             {
+                reset_combo_indexes();
                 if (app_bar_open)
                 {
                     change_selected_menu_button_right();
@@ -513,6 +534,7 @@ namespace MaKeyMeSorry
 
             if (e.Key == Windows.System.VirtualKey.Left)
             {
+                reset_combo_indexes();
                 if (app_bar_open)
                 {
                     change_selected_menu_button_left();
@@ -547,6 +569,120 @@ namespace MaKeyMeSorry
                 e.Handled = true;
             }
 
+        }
+
+        private void App_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+
+            if (e.Key == Windows.System.VirtualKey.Tab)
+            {
+                e.Handled = true;
+            }
+            if ((e.Key == Windows.System.VirtualKey.Right) || (e.Key == Windows.System.VirtualKey.Left))
+            {
+                int box_selected = getSelectedComboNoChange();
+
+                if (box_selected == 0)
+                {
+                    Debug.WriteLine("Pawn 1 Combo Index" + pawn1ComboIndex);
+                    Debug.WriteLine("Pawn 1 Combo Selected Index" + options_1.SelectedIndex);
+
+                    // number of players combo box
+                    if (pawn1ComboIndex != options_1.SelectedIndex)
+                    {
+                        options_1.SelectedIndex = pawn1ComboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    pawn1ComboIndex = options_1.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (box_selected == 1)
+                {
+                    Debug.WriteLine("Pawn 2 Combo Index" + pawn2ComboIndex);
+                    Debug.WriteLine("Pawn 2 Combo Selected Index" + options_2.SelectedIndex);
+                    if (pawn2ComboIndex != options_2.SelectedIndex)
+                    {
+                        options_2.SelectedIndex = pawn2ComboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    pawn2ComboIndex = options_2.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (box_selected == 2)
+                {
+                    Debug.WriteLine("Pawn 3 Combo Index" + pawn3ComboIndex);
+                    Debug.WriteLine("Pawn 3 Combo Selected Index" + options_3.SelectedIndex);
+                    if (pawn3ComboIndex != options_3.SelectedIndex)
+                    {
+                        options_3.SelectedIndex = pawn3ComboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    pawn3ComboIndex = options_3.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (box_selected == 3)
+                {
+                    Debug.WriteLine("Pawn 4 Combo Index" + pawn4ComboIndex);
+                    Debug.WriteLine("Pawn 4 Combo Selected Index" + options_4.SelectedIndex);
+                    if (pawn4ComboIndex != options_4.SelectedIndex)
+                    {
+                        options_4.SelectedIndex = pawn4ComboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    pawn4ComboIndex = options_4.SelectedIndex;
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                int box_selected = getSelectedComboNoChange();
+
+                if (box_selected == 0)
+                {
+                    // number of players combo box
+                    if (pawn1ComboIndex != options_1.SelectedIndex)
+                    {
+                        pawn1ComboIndex = options_1.SelectedIndex;
+                    }
+                }
+                else if (box_selected == 1)
+                {
+                    // number of players combo box
+                    if (pawn2ComboIndex != options_2.SelectedIndex)
+                    {
+                        pawn2ComboIndex = options_2.SelectedIndex;
+                    }
+                }
+                else if (box_selected == 2)
+                {
+                    // number of players combo box
+                    if (pawn3ComboIndex != options_3.SelectedIndex)
+                    {
+                        pawn3ComboIndex = options_3.SelectedIndex;
+                    }
+                }
+                else if (box_selected == 3)
+                {
+                    // number of players combo box
+                    if (pawn4ComboIndex != options_4.SelectedIndex)
+                    {
+                        pawn4ComboIndex = options_4.SelectedIndex;
+                    }
+                }
+            }
+        }
+
+        private void reset_combo_indexes()
+        {
+            Debug.WriteLine("Combo Indexes Reset");
+            pawn1ComboIndex = 0;
+            pawn2ComboIndex = 0;
+            pawn3ComboIndex = 0;
+            pawn4ComboIndex = 0;
         }
 
         private void reset_options_focus()
@@ -3643,6 +3779,29 @@ namespace MaKeyMeSorry
             else if (pass_highlighted)
             {
                 box_selected = 6;
+            }
+            return box_selected;
+        }
+
+        private int getSelectedComboNoChange()
+        {
+            int box_selected = -1;
+
+            if (options_1.SelectedIndex != -1)
+            {
+                box_selected = 0;
+            }
+            else if (options_2.SelectedIndex != -1)
+            {
+                box_selected = 1;
+            }
+            else if (options_3.SelectedIndex != -1)
+            {
+                box_selected = 2;
+            }
+            else if (options_4.SelectedIndex != -1)
+            {
+                box_selected = 3;
             }
             return box_selected;
         }
