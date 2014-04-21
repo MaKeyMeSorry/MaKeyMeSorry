@@ -53,6 +53,10 @@ namespace MaKeyMeSorry
         private bool first;
         private bool from_safe_zone;
         private ComboData.move current_move_type;
+        private int pawn1ComboIndex;
+        private int pawn2ComboIndex;
+        private int pawn3ComboIndex;
+        private int pawn4ComboIndex;
 
         //variables for keeping state of a turn
         private Color color_of_current_turn;
@@ -84,7 +88,7 @@ namespace MaKeyMeSorry
         private ImageBrush animate_ib_1;
         private ImageBrush animate_ib_2;
         private bool animating;
-       
+
 
         private List<Canvas> pawn_square_list;
         private List<Canvas> preview_square_list;
@@ -108,6 +112,7 @@ namespace MaKeyMeSorry
 
         //Handles keyboard presses
         KeyEventHandler key_up_handler;
+        KeyEventHandler key_down_handler;
 
         private DispatcherTimer dispatcherTimer;
         private DateTimeOffset startTime;
@@ -156,6 +161,8 @@ namespace MaKeyMeSorry
             move_canvas_1.Height = 100;
             move_canvas_1.Width = 100;
             game_grid.Children.Add(move_canvas_1);
+            reset_combo_indexes();
+
 
             move_canvas_2 = new Canvas();
             move_canvas_2.Height = 100;
@@ -164,6 +171,9 @@ namespace MaKeyMeSorry
 
             key_up_handler = new KeyEventHandler(App_KeyUp);
             Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+            key_down_handler = new KeyEventHandler(App_KeyDown);
+            Window.Current.Content.AddHandler(UIElement.KeyDownEvent, key_down_handler, true);
+
 
             Loaded += delegate { this.Focus(Windows.UI.Xaml.FocusState.Programmatic); };
 
@@ -288,6 +298,16 @@ namespace MaKeyMeSorry
             game = MaKeyMeSorry.App.currentGame;
             index_of_current_player = game.get_start_index() - 1;
             change_turn(true);
+            if (game.get_num_human_players() == 0)
+	            {
+	                Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+	                bool computer = play_game();
+	
+	                if (computer)
+	                {
+	                    apply_card_AI_timer();
+        }
+	            }
         }
 
         /// <summary>
@@ -495,6 +515,7 @@ namespace MaKeyMeSorry
             {
                 if (card_drawn && !app_bar_open)
                 {
+                    reset_combo_indexes();
                     bool computer = false;
                     Debug.WriteLine("Space button pressed");
                     if ((FocusManager.GetFocusedElement() == pass_button))
@@ -515,6 +536,7 @@ namespace MaKeyMeSorry
 
             if (e.Key == Windows.System.VirtualKey.Right)
             {
+                reset_combo_indexes();
                 if (app_bar_open)
                 {
                     change_selected_menu_button_right();
@@ -528,6 +550,7 @@ namespace MaKeyMeSorry
 
             if (e.Key == Windows.System.VirtualKey.Left)
             {
+                reset_combo_indexes();
                 if (app_bar_open)
                 {
                     change_selected_menu_button_left();
@@ -562,6 +585,120 @@ namespace MaKeyMeSorry
                 e.Handled = true;
             }
 
+        }
+
+        private void App_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+
+            if (e.Key == Windows.System.VirtualKey.Tab)
+            {
+                e.Handled = true;
+            }
+            if ((e.Key == Windows.System.VirtualKey.Right) || (e.Key == Windows.System.VirtualKey.Left))
+            {
+                int box_selected = getSelectedComboNoChange();
+
+                if (box_selected == 0)
+                {
+                    Debug.WriteLine("Pawn 1 Combo Index" + pawn1ComboIndex);
+                    Debug.WriteLine("Pawn 1 Combo Selected Index" + options_1.SelectedIndex);
+
+                    // number of players combo box
+                    if (pawn1ComboIndex != options_1.SelectedIndex)
+                    {
+                        options_1.SelectedIndex = pawn1ComboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    pawn1ComboIndex = options_1.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (box_selected == 1)
+                {
+                    Debug.WriteLine("Pawn 2 Combo Index" + pawn2ComboIndex);
+                    Debug.WriteLine("Pawn 2 Combo Selected Index" + options_2.SelectedIndex);
+                    if (pawn2ComboIndex != options_2.SelectedIndex)
+                    {
+                        options_2.SelectedIndex = pawn2ComboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    pawn2ComboIndex = options_2.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (box_selected == 2)
+                {
+                    Debug.WriteLine("Pawn 3 Combo Index" + pawn3ComboIndex);
+                    Debug.WriteLine("Pawn 3 Combo Selected Index" + options_3.SelectedIndex);
+                    if (pawn3ComboIndex != options_3.SelectedIndex)
+                    {
+                        options_3.SelectedIndex = pawn3ComboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    pawn3ComboIndex = options_3.SelectedIndex;
+                    e.Handled = true;
+                }
+                else if (box_selected == 3)
+                {
+                    Debug.WriteLine("Pawn 4 Combo Index" + pawn4ComboIndex);
+                    Debug.WriteLine("Pawn 4 Combo Selected Index" + options_4.SelectedIndex);
+                    if (pawn4ComboIndex != options_4.SelectedIndex)
+                    {
+                        options_4.SelectedIndex = pawn4ComboIndex;
+                        e.Handled = true;
+                        return;
+                    }
+                    pawn4ComboIndex = options_4.SelectedIndex;
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                int box_selected = getSelectedComboNoChange();
+
+                if (box_selected == 0)
+                {
+                    // number of players combo box
+                    if (pawn1ComboIndex != options_1.SelectedIndex)
+                    {
+                        pawn1ComboIndex = options_1.SelectedIndex;
+                    }
+                }
+                else if (box_selected == 1)
+                {
+                    // number of players combo box
+                    if (pawn2ComboIndex != options_2.SelectedIndex)
+                    {
+                        pawn2ComboIndex = options_2.SelectedIndex;
+                    }
+                }
+                else if (box_selected == 2)
+                {
+                    // number of players combo box
+                    if (pawn3ComboIndex != options_3.SelectedIndex)
+                    {
+                        pawn3ComboIndex = options_3.SelectedIndex;
+                    }
+                }
+                else if (box_selected == 3)
+                {
+                    // number of players combo box
+                    if (pawn4ComboIndex != options_4.SelectedIndex)
+                    {
+                        pawn4ComboIndex = options_4.SelectedIndex;
+                    }
+                }
+            }
+        }
+
+        private void reset_combo_indexes()
+        {
+            Debug.WriteLine("Combo Indexes Reset");
+            pawn1ComboIndex = 0;
+            pawn2ComboIndex = 0;
+            pawn3ComboIndex = 0;
+            pawn4ComboIndex = 0;
         }
 
         private void reset_options_focus()
@@ -2725,17 +2862,17 @@ namespace MaKeyMeSorry
                                 //pawn num doesn't matter here
                                 //remove me from UI
                                 update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
-                                
+
                                 my_current_canvas = pawn_square_list[currentSquare.get_index()];
                                 their_current_canvas = pawn_square_list[moveToSquare.get_index()];
 
                                     if (currentSquare.get_color() != temp_color && currentSquare.get_Type() == SquareKind.SLIDE_START)
-                                    {
+                                {
                                         //if the original square I was at, is a slide start for the pawn i swapped with
-                                        //put them in my UI spot
-                                        update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1);
+                                    //put them in my UI spot
+                                    update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1);
       
-                                    }
+                                }
                                     else //if it isn't a slide for them, animate the move
                                     {
                                         update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(),
@@ -2743,7 +2880,7 @@ namespace MaKeyMeSorry
                                                             (int)Canvas.GetLeft(their_current_canvas),
                                                             (int)Canvas.GetTop(their_current_canvas));
                                     }
-                                   
+
                                 
 
                                 //put them in my spot programatically
@@ -2762,7 +2899,7 @@ namespace MaKeyMeSorry
                                 //but me in the final spot in UI land
                                 if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
                                 {//dont animate if its a slide
-                                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
                                 }
                                 else
                                 { //animate me moving
@@ -2771,7 +2908,7 @@ namespace MaKeyMeSorry
                                                         (int)Canvas.GetLeft(my_current_canvas),
                                                         (int)Canvas.GetTop(my_current_canvas));
                                 }
-                               
+
 
                                 //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
                                 //put  me in the final spot programatically
@@ -2973,7 +3110,7 @@ namespace MaKeyMeSorry
                                                        (int)Canvas.GetLeft(current_canvas_location),
                                                        (int)Canvas.GetTop(current_canvas_location));
                             }
-                            
+
                             //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
                             currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
 
@@ -3073,7 +3210,7 @@ namespace MaKeyMeSorry
                                         (int)Canvas.GetLeft(original_canvas),
                                         (int)Canvas.GetTop(original_canvas));
             }
-            
+
             return endSlide;
         }
 
@@ -3234,7 +3371,7 @@ namespace MaKeyMeSorry
                 move_canvas = move_canvas_1;
             }
             else if (anim_call_num == 2)
-            {
+        {
                 move_canvas = move_canvas_2;
             }
         
@@ -3298,7 +3435,7 @@ namespace MaKeyMeSorry
                 move_canvas_2.Background = null;
                 //re-enable all input
                 Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
-            }
+        }
             else if (animate_pawn_square_1 != -1 && animate_pawn_square_2 == -1)//should be a normal call
             {
                 animate_pawn_list_1[animate_pawn_square_1].Background = animate_ib_1;
@@ -3309,7 +3446,7 @@ namespace MaKeyMeSorry
                 Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
             }
             else
-            {
+        {
                 Debug.WriteLine("oops wtf");
             } 
         }
@@ -3773,6 +3910,29 @@ namespace MaKeyMeSorry
             else if (pass_highlighted)
             {
                 box_selected = 6;
+            }
+            return box_selected;
+        }
+
+        private int getSelectedComboNoChange()
+        {
+            int box_selected = -1;
+
+            if (options_1.SelectedIndex != -1)
+            {
+                box_selected = 0;
+            }
+            else if (options_2.SelectedIndex != -1)
+            {
+                box_selected = 1;
+            }
+            else if (options_3.SelectedIndex != -1)
+            {
+                box_selected = 2;
+            }
+            else if (options_4.SelectedIndex != -1)
+            {
+                box_selected = 3;
             }
             return box_selected;
         }

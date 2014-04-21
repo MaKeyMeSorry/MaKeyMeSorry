@@ -59,7 +59,7 @@
             <Grid Height="87" Width="912">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Player 1" VerticalAlignment="Top" FontSize="36"/>
                 <TextBlock HorizontalAlignment="Left" Margin="154,43,0,0" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top" FontSize="36"/>
-                <TextBox x:Name="name_textbox_1" HorizontalAlignment="Left" Margin="277,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="337" Height="43" FontSize="24" PlaceholderText="Enter Name Here" TextChanged="TextBox_TextChanged1" GotFocus="name_textbox_1_GotFocus" LostFocus="name_textbox_1_LostFocus" KeyUp="name_textbox_1_KeyUp"/>
+                <TextBox x:Name="name_textbox_1" HorizontalAlignment="Left" Margin="277,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="337" Height="43" FontSize="24" PlaceholderText="Enter Name Here" TextChanged="TextBox_TextChanged1" GotFocus="name_textbox_1_GotFocus" LostFocus="name_textbox_1_LostFocus" KeyUp="name_textbox_1_KeyUp" KeyDown="name_textbox_1_KeyDown"/>
                 <TextBlock HorizontalAlignment="Left" Margin="655,43,0,0" TextWrapping="Wrap" Text="Color:" VerticalAlignment="Top" FontSize="36"/>
                 <ComboBox x:Name="color_combo_1" HorizontalAlignment="Left" Margin="774,43,-44,0" VerticalAlignment="Top" Width="182" FontSize="18" Height="43" SelectionChanged="ComboBox_SelectionChanged_1"/>
             </Grid>
