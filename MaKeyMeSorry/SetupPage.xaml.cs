@@ -840,6 +840,28 @@ namespace MaKeyMeSorry
                 if(name_textbox_1.Text.Length == 0)
                 {
                     name_textbox_1.Text = "Grace";
+                    if (!yellow_selected)
+                    {
+                        color_combo_1.SelectedIndex = color_combo_1.Items.IndexOf(yellow_player1);
+                        if (numHumanPlayers >= 2)
+                        {
+                            // go to player 2 name
+                            focus_index = 3;
+                            name_textbox_2.Focus(FocusState.Keyboard);
+                        }
+                        else
+                        {
+                            // go to start game
+                            focus_index = 9;
+                            start_button.Focus(FocusState.Keyboard);
+                        }
+                    }
+                    else
+                    {
+                        focus_index = 2;
+                        color_combo_1.Focus(FocusState.Keyboard);
+                    }
+                    
                     addedGrace = false;
                     e.Handled = true;
                 }
