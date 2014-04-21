@@ -517,6 +517,11 @@ namespace MaKeyMeSorry
                 if (color == "Blue") color_combo_1.Items.Remove(blue_player1);
                 if (color == "Green") color_combo_1.Items.Remove(green_player1);
                 if (color == "Yellow") color_combo_1.Items.Remove(yellow_player1);
+                if (player1_color == Color.RED) player1colorIndex = color_combo_1.Items.IndexOf(red_player1);
+                if (player1_color == Color.BLUE) player1colorIndex = color_combo_1.Items.IndexOf(blue_player1);
+                if (player1_color == Color.YELLOW) player1colorIndex = color_combo_1.Items.IndexOf(yellow_player1);
+                if (player1_color == Color.GREEN) player1colorIndex = color_combo_1.Items.IndexOf(green_player1);
+                if (player1_color == Color.WHITE) player1colorIndex = color_combo_1.Items.IndexOf(choose_color1);
             }
             if (ignored_player != 2)
             {
@@ -524,6 +529,11 @@ namespace MaKeyMeSorry
                 if (color == "Blue") color_combo_2.Items.Remove(blue_player2);
                 if (color == "Green") color_combo_2.Items.Remove(green_player2);
                 if (color == "Yellow") color_combo_2.Items.Remove(yellow_player2);
+                if (player2_color == Color.RED) player2colorIndex = color_combo_2.Items.IndexOf(red_player2);
+                if (player2_color == Color.BLUE) player2colorIndex = color_combo_2.Items.IndexOf(blue_player2);
+                if (player2_color == Color.YELLOW) player2colorIndex = color_combo_2.Items.IndexOf(yellow_player2);
+                if (player2_color == Color.GREEN) player2colorIndex = color_combo_2.Items.IndexOf(green_player2);
+                if (player2_color == Color.WHITE) player2colorIndex = color_combo_2.Items.IndexOf(choose_color2);
             }
             if (ignored_player != 3)
             {
@@ -531,6 +541,11 @@ namespace MaKeyMeSorry
                 if (color == "Blue") color_combo_3.Items.Remove(blue_player3);
                 if (color == "Green") color_combo_3.Items.Remove(green_player3);
                 if (color == "Yellow") color_combo_3.Items.Remove(yellow_player3);
+                if (player3_color == Color.RED) player3colorIndex = color_combo_3.Items.IndexOf(red_player3);
+                if (player3_color == Color.BLUE) player3colorIndex = color_combo_3.Items.IndexOf(blue_player3);
+                if (player3_color == Color.YELLOW) player3colorIndex = color_combo_3.Items.IndexOf(yellow_player3);
+                if (player3_color == Color.GREEN) player3colorIndex = color_combo_3.Items.IndexOf(green_player3);
+                if (player3_color == Color.WHITE) player3colorIndex = color_combo_3.Items.IndexOf(choose_color3);
             }
             if (ignored_player != 4)
             {
@@ -538,6 +553,11 @@ namespace MaKeyMeSorry
                 if (color == "Blue") color_combo_4.Items.Remove(blue_player4);
                 if (color == "Green") color_combo_4.Items.Remove(green_player4);
                 if (color == "Yellow") color_combo_4.Items.Remove(yellow_player4);
+                if (player4_color == Color.RED) player4colorIndex = color_combo_4.Items.IndexOf(red_player4);
+                if (player4_color == Color.BLUE) player4colorIndex = color_combo_4.Items.IndexOf(blue_player4);
+                if (player4_color == Color.YELLOW) player4colorIndex = color_combo_4.Items.IndexOf(yellow_player4);
+                if (player4_color == Color.GREEN) player4colorIndex = color_combo_4.Items.IndexOf(green_player4);
+                if (player4_color == Color.WHITE) player4colorIndex = color_combo_4.Items.IndexOf(choose_color4);
             }
         }
 
@@ -1041,6 +1061,9 @@ namespace MaKeyMeSorry
                 else if (focus_index == 2)
                 {
                     // player 1 color combo box player1colorIndex color_combo_1
+                    Debug.WriteLine("player1colorIndex: " + player1colorIndex);
+                    Debug.WriteLine("color_combo_1.SelectedIndex: " + color_combo_1.SelectedIndex);
+
                     if (player1colorIndex != color_combo_1.SelectedIndex)
                     {
                         Debug.WriteLine("Player1 ComboBox changed");
@@ -1062,6 +1085,8 @@ namespace MaKeyMeSorry
                         else if (index > 4) color_combo_1.SelectedIndex = 4;
                         else color_combo_1.SelectedIndex = index;
                     }
+                    Debug.WriteLine("Player1 ComboBox not changed");
+                    Debug.WriteLine("Player1 Current Color " + player1_color);
                     player1colorIndex = color_combo_1.SelectedIndex;
                     e.Handled = true;
                     return;
@@ -1145,6 +1170,30 @@ namespace MaKeyMeSorry
                     // number of players combo box
                     if (comboIndex != NumPlayersComboBox.SelectedIndex)
                     {
+                        if (NumPlayersComboBox.SelectedIndex == 3)
+                        {
+                            color_combo_4.SelectedIndex = 0;
+                            player4colorIndex = color_combo_4.SelectedIndex;
+                            name_textbox_4.Text = "";
+                        }
+                        else if (NumPlayersComboBox.SelectedIndex == 2)
+                        {
+                            color_combo_3.SelectedIndex = 0;
+                            player3colorIndex = color_combo_3.SelectedIndex;
+                            name_textbox_3.Text = "";
+                        }
+                        else if (NumPlayersComboBox.SelectedIndex == 1)
+                        {
+                            color_combo_2.SelectedIndex = 0;
+                            player2colorIndex = color_combo_2.SelectedIndex;
+                            name_textbox_2.Text = "";
+                        }
+                        else if (NumPlayersComboBox.SelectedIndex == 0)
+                        {
+                            color_combo_1.SelectedIndex = 0;
+                            player1colorIndex = color_combo_1.SelectedIndex;
+                            name_textbox_1.Text = "";
+                        }
                         comboIndex = NumPlayersComboBox.SelectedIndex;
                     }
                 }
