@@ -1516,6 +1516,8 @@ namespace MaKeyMeSorry
         private void actual_execute_update(List<Tuple<Pawn, List<Tuple<Square, ComboData.move>>>> options, int Pawn, Square currentSquare, Square moveToSquare, int levelMove, Player currentPlayer)
         {
             int pawnInSquare = options.ElementAt(Pawn).Item1.get_id();
+            Canvas ai_current_canvas = null;
+            Canvas other_ai_current_canvas = null;
             switch (levelMove)
             {
 
@@ -1524,9 +1526,16 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    //update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    ai_current_canvas = start_lists[(int)color_of_current_turn][currentPlayer.pawns[pawnInSquare].get_id()];
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                                   (int)Canvas.GetLeft(ai_current_canvas),
+                                                   (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
 
                     break;
                 case 1:
@@ -1534,13 +1543,19 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
 
+                    ai_current_canvas = start_lists[(int)color_of_current_turn][currentPlayer.pawns[pawnInSquare].get_id()];
+
                     update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
                     moveToSquare.get_pawn_in_square().sorry();
 
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                        (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
@@ -1550,7 +1565,13 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
 
-                    update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    ai_current_canvas = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
+
+                    update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn],
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1,true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                        (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].set_in_safe_zone(true);
 
@@ -1562,7 +1583,13 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+
+                    update_pawn_square(moveToSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn],
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true, 
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                        (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].set_in_safe_zone(true);
 
@@ -1574,8 +1601,14 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
 
+                    ai_current_canvas = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
+
                     update_pawn_square(moveToSquare.get_index() + currentPlayer.pawns[pawnInSquare].get_id() - color_adjustment, color_of_current_turn,
-                    safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                                         safe_zone_lists[(int)color_of_current_turn], 
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                        (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
 
@@ -1587,8 +1620,13 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
+                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+
                     update_pawn_square(moveToSquare.get_index() + currentPlayer.pawns[pawnInSquare].get_id() - color_adjustment, color_of_current_turn,
-                    safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                                     safe_zone_lists[(int)color_of_current_turn], currentPlayer.pawns[pawnInSquare].get_id() + 1 , true,
+                                     (int)Canvas.GetLeft(ai_current_canvas),
+                                     (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
 
@@ -1599,8 +1637,13 @@ namespace MaKeyMeSorry
                     // Move a pawn to square with no other pawns
 
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                         (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
@@ -1611,13 +1654,20 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
+
+                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+
                     update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
                     moveToSquare.get_pawn_in_square().sorry();
 
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                         (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
@@ -1628,7 +1678,13 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    ai_current_canvas = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
+
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                         (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].set_in_safe_zone(false);
 
@@ -1642,13 +1698,19 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
 
+                    ai_current_canvas = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
+
                     update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
                     moveToSquare.get_pawn_in_square().sorry();
 
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                         (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].set_in_safe_zone(false);
 
@@ -1662,13 +1724,25 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1);
+                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+                    other_ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+
+                    update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list,
+                                        moveToSquare.get_pawn_in_square().get_id() + 1, true,
+                                        (int)Canvas.GetLeft(other_ai_current_canvas),
+                                         (int)Canvas.GetTop(other_ai_current_canvas));
+
+                    other_ai_current_canvas = pawn_square_list[currentSquare.get_index()];
 
                     game.players[(int)moveToSquare.get_pawn_in_square().get_color()].pawns[moveToSquare.get_pawn_in_square().get_id()].move_to(currentSquare);
 
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                         (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
@@ -1679,13 +1753,19 @@ namespace MaKeyMeSorry
                     //Execute Sorry if pawn is at start
                     update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
 
+                    ai_current_canvas = start_lists[(int)color_of_current_turn][currentPlayer.pawns[pawnInSquare].get_id()];
+
                     update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
                     moveToSquare.get_pawn_in_square().sorry();
 
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                         (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
@@ -1695,6 +1775,9 @@ namespace MaKeyMeSorry
 
                     //Execute Sorry if pawn is on safe
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
+
+                    ai_current_canvas = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
+
                     currentPlayer.pawns[pawnInSquare].set_in_safe_zone(false);
 
                     update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
@@ -1703,7 +1786,11 @@ namespace MaKeyMeSorry
 
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                         (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
@@ -1715,13 +1802,19 @@ namespace MaKeyMeSorry
                     //Execute Sorry if Pawn is neither
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
+                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+
                     update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
                     moveToSquare.get_pawn_in_square().sorry();
 
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                        (int)Canvas.GetLeft(ai_current_canvas),
+                                         (int)Canvas.GetTop(ai_current_canvas));
+                    animating = true;
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
@@ -2879,6 +2972,7 @@ namespace MaKeyMeSorry
                                                             pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1, true,
                                                             (int)Canvas.GetLeft(their_current_canvas),
                                                             (int)Canvas.GetTop(their_current_canvas));
+                                        animating = true;
                                     }
 
                                 
@@ -2907,6 +3001,7 @@ namespace MaKeyMeSorry
                                                         currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
                                                         (int)Canvas.GetLeft(my_current_canvas),
                                                         (int)Canvas.GetTop(my_current_canvas));
+                                    animating = true;
                                 }
 
 
@@ -2921,6 +3016,7 @@ namespace MaKeyMeSorry
                                     currentSquare = slide_baby_slide(currentSquare, game.get_player(temp_color), pawn_id, their_current_canvas);
                                     Player temp_player = game.get_player(temp_color);
                                     temp_player.pawns[pawn_id].move_to(currentSquare);
+                                    animating = true;
                                 }
 
                                 if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
@@ -2983,6 +3079,7 @@ namespace MaKeyMeSorry
                                                    currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
                                                    (int)Canvas.GetLeft(current_canvas),
                                                    (int)Canvas.GetTop(current_canvas));
+                                animating = true;
                                 currentPlayer.pawns[cur_pawn_selection].set_in_safe_zone(true);
 
                             }
@@ -2994,6 +3091,7 @@ namespace MaKeyMeSorry
                                                     currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
                                                    (int)Canvas.GetLeft(current_canvas),
                                                    (int)Canvas.GetTop(current_canvas));
+                                animating = true;
 
                                 num_pawns_home[index_of_current_player] = num_pawns_home[index_of_current_player] + 1;
                             }
@@ -3033,6 +3131,7 @@ namespace MaKeyMeSorry
                                                             currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
                                                             (int)Canvas.GetLeft(current_canvas),
                                                             (int)Canvas.GetTop(current_canvas));
+                                animating = true;
 
                                 if (from_safe_zone)
                                 {
@@ -3109,6 +3208,7 @@ namespace MaKeyMeSorry
                                                     currentPlayer.pawns[cur_pawn_selection].get_id() + 1, true,
                                                        (int)Canvas.GetLeft(current_canvas_location),
                                                        (int)Canvas.GetTop(current_canvas_location));
+                                animating = true;
                             }
 
                             //update_pawn_square(moveToSquare.get_index(), Color.BLUE);
@@ -3122,9 +3222,6 @@ namespace MaKeyMeSorry
 
                             //sorry someone, get pawn options to sorry someone here 
                         }
-
-
-
                     }
 
                 }
@@ -3371,7 +3468,7 @@ namespace MaKeyMeSorry
                 move_canvas = move_canvas_1;
             }
             else if (anim_call_num == 2)
-        {
+             {
                 move_canvas = move_canvas_2;
             }
         
@@ -3430,6 +3527,7 @@ namespace MaKeyMeSorry
 
             }else if(animate_pawn_square_2 != -1 && animate_pawn_square_1 == -1)// should second to return from a swap call
             {
+                animating = false;
                 animate_pawn_list_2[animate_pawn_square_2].Background = animate_ib_2;
                 animate_pawn_square_2 = -1;
                 move_canvas_2.Background = null;
@@ -3438,6 +3536,7 @@ namespace MaKeyMeSorry
         }
             else if (animate_pawn_square_1 != -1 && animate_pawn_square_2 == -1)//should be a normal call
             {
+                animating = false;
                 animate_pawn_list_1[animate_pawn_square_1].Background = animate_ib_1;
                 animate_pawn_square_1 = -1;
                 move_canvas_1.Background = null;
@@ -4072,7 +4171,7 @@ namespace MaKeyMeSorry
         void dispatcherTimer_Tick(object sender, object e)
         {
             timesTicked++;
-            if (timesTicked > timesToTick)
+            if (timesTicked > timesToTick && !animating)
             {
                 dispatcherTimer.Stop();
                 timesTicked = 1;
