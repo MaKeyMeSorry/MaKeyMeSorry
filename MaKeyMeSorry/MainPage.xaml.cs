@@ -1521,13 +1521,15 @@ namespace MaKeyMeSorry
             switch (levelMove)
             {
 
-                case 0:
+                case 0://cant land on a slide from a start square can leave it
+
                     // Initiate a pawn to a location without any other pawns in it
 
                     update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
 
                     //update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[pawnInSquare].get_id() + 1);
                     ai_current_canvas = start_lists[(int)color_of_current_turn][currentPlayer.pawns[pawnInSquare].get_id()];
+
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
                                         currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
                                                    (int)Canvas.GetLeft(ai_current_canvas),
@@ -1538,7 +1540,8 @@ namespace MaKeyMeSorry
 
 
                     break;
-                case 1:
+                case 1: //again cant slide from a start square can leave it
+
                     // Initiate a pawn to a location with a pawn in it
 
                     update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
@@ -1560,7 +1563,7 @@ namespace MaKeyMeSorry
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
-                case 2:
+                case 2: //no slides
                     // Move a pawn to a safe location from a safe location
 
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
@@ -1578,7 +1581,7 @@ namespace MaKeyMeSorry
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
-                case 3:
+                case 3: //no slides
                     // Move a pawn to Safe Location from not safe
 
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
@@ -1596,7 +1599,7 @@ namespace MaKeyMeSorry
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
-                case 4:
+                case 4: //no slides
                     // Move a pawn to home location from safe 
 
                     update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
@@ -1615,7 +1618,8 @@ namespace MaKeyMeSorry
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
-                case 5:
+                case 5://no slides
+
                     // Move a pawn to home from not safe
 
                     update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
@@ -1633,46 +1637,77 @@ namespace MaKeyMeSorry
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
                     break;
+
+                    //burger
                 case 6:
                     // Move a pawn to square with no other pawns
 
-                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
-                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+                    if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                    {
+                        //take me off current AI
+                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                        //get my start place
+                        ai_current_canvas = pawn_square_list[currentSquare.get_index()];
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
-                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
-                                        (int)Canvas.GetLeft(ai_current_canvas),
-                                         (int)Canvas.GetTop(ai_current_canvas));
-                    animating = true;
+                        moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, pawnInSquare, ai_current_canvas);
 
-                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                    }
+                    else
+                    {
+                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                        ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                            currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                            (int)Canvas.GetLeft(ai_current_canvas),
+                                             (int)Canvas.GetTop(ai_current_canvas));
+                        animating = true;
+
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                    }
 
                     break;
 
                 case 7:
                     // Move a pawn to a square with a pawn in it
 
-                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                    {
+                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                        ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+
+                        moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, pawnInSquare, ai_current_canvas);
+
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+
+                    }
+                    else
+                    {
+                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
 
-                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+                        ai_current_canvas = pawn_square_list[currentSquare.get_index()];
 
-                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+                        update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(),
+                            start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
-                    moveToSquare.get_pawn_in_square().sorry();
+                        moveToSquare.get_pawn_in_square().sorry();
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
-                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
-                                        (int)Canvas.GetLeft(ai_current_canvas),
-                                         (int)Canvas.GetTop(ai_current_canvas));
-                    animating = true;
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                            currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                            (int)Canvas.GetLeft(ai_current_canvas),
+                                             (int)Canvas.GetTop(ai_current_canvas));
+                        animating = true;
 
-                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
-
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                    }
                     break;
-                case 8:
+
+                case 8://cant slide from this type of move
 
                     //Move a pawn to a not safe square from safe where there is no pawn
 
@@ -1692,7 +1727,7 @@ namespace MaKeyMeSorry
 
                     break;
 
-                case 9:
+                case 9: // cant slide from this position
 
                     //Move a pawn to not safe square from safe where there is a pawn
 
@@ -1722,102 +1757,184 @@ namespace MaKeyMeSorry
 
                     //Execute a swap when current Pawn is not in safe
 
-                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    bool slide_for_me = false;
+                    bool slide_for_them = false;
+
+                    int pawn_id = currentSquare.get_pawn_in_square().get_id();
+                    Player temp_player = game.get_player(moveToSquare.get_pawn_in_square().get_color());
+
+                    if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                    {
+                        slide_for_me = true;
+                    }
+
+                    if (currentSquare.get_color() != moveToSquare.get_pawn_in_square().get_color() && currentSquare.get_Type() == SquareKind.SLIDE_START)
+                    {
+                        slide_for_them = true;
+                    }
 
                     ai_current_canvas = pawn_square_list[currentSquare.get_index()];
-                    other_ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+                    
+                    other_ai_current_canvas = pawn_square_list[moveToSquare.get_index()];
 
-                    update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list,
+                    if (slide_for_them)
+                    {
+                        //update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list,
+                                       // moveToSquare.get_pawn_in_square().get_id() + 1);
+                    }
+                    else
+                    {
+                        update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, 0);
+
+                        update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list,
                                         moveToSquare.get_pawn_in_square().get_id() + 1, true,
                                         (int)Canvas.GetLeft(other_ai_current_canvas),
                                          (int)Canvas.GetTop(other_ai_current_canvas));
 
-                    other_ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+                        animating = true;
+                    }
 
                     game.players[(int)moveToSquare.get_pawn_in_square().get_color()].pawns[moveToSquare.get_pawn_in_square().get_id()].move_to(currentSquare);
 
                     update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                    if (slide_for_me)
+                    {
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                        currentPlayer.pawns[pawnInSquare].get_id() + 1);
+                    }
+                    else
+                    {
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
                                         currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
                                         (int)Canvas.GetLeft(ai_current_canvas),
                                          (int)Canvas.GetTop(ai_current_canvas));
-                    animating = true;
+                        animating = true;
+                    }
+
 
                     currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
+                    if(slide_for_them){
+                        
+                        currentSquare = slide_baby_slide(currentSquare, temp_player, pawn_id, other_ai_current_canvas);
+                        temp_player.pawns[pawn_id].move_to(currentSquare);
+                    }
+
+                    if(slide_for_me){
+                        moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, currentPlayer.pawns[pawnInSquare].get_id(), ai_current_canvas);
+                        currentPlayer.pawns[currentPlayer.pawns[pawnInSquare].get_id()].move_to(moveToSquare);
+                    }
+
+                    //*******************
                     break;
 
                 case 11:
 
                     //Execute Sorry if pawn is at start
-                    update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
+                    if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                    {
+                        update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
 
-                    ai_current_canvas = start_lists[(int)color_of_current_turn][currentPlayer.pawns[pawnInSquare].get_id()];
+                        ai_current_canvas = start_lists[(int)color_of_current_turn][currentPlayer.pawns[pawnInSquare].get_id()];
 
-                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+                        moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, pawnInSquare, ai_current_canvas);
 
-                    moveToSquare.get_pawn_in_square().sorry();
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                    }
+                    else
+                    {
+                        update_pawn_square(currentPlayer.pawns[pawnInSquare].get_id(), color_of_current_turn, start_lists[(int)color_of_current_turn], 0);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
-                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
-                                        (int)Canvas.GetLeft(ai_current_canvas),
-                                         (int)Canvas.GetTop(ai_current_canvas));
-                    animating = true;
+                        ai_current_canvas = start_lists[(int)color_of_current_turn][currentPlayer.pawns[pawnInSquare].get_id()];
 
-                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                        update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(),
+                                            start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
+                        moveToSquare.get_pawn_in_square().sorry();
+
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                            currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                            (int)Canvas.GetLeft(ai_current_canvas),
+                                             (int)Canvas.GetTop(ai_current_canvas));
+                        animating = true;
+
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                    }
 
                     break;
                 case 12:
+                    if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                    {
+                        update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
 
-                    //Execute Sorry if pawn is on safe
-                    update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
+                        ai_current_canvas = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
 
-                    ai_current_canvas = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
+                        moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, pawnInSquare, ai_current_canvas);
 
-                    currentPlayer.pawns[pawnInSquare].set_in_safe_zone(false);
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                    }
+                    else
+                    {
+                        //Execute Sorry if pawn is on safe
+                        update_pawn_square(currentSquare.get_index() - color_adjustment, color_of_current_turn, safe_zone_lists[(int)color_of_current_turn], 0);
 
-                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+                        ai_current_canvas = safe_zone_lists[(int)color_of_current_turn][currentSquare.get_index() - color_adjustment];
 
-                    moveToSquare.get_pawn_in_square().sorry();
+                        currentPlayer.pawns[pawnInSquare].set_in_safe_zone(false);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                        update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
-                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
-                                        (int)Canvas.GetLeft(ai_current_canvas),
-                                         (int)Canvas.GetTop(ai_current_canvas));
-                    animating = true;
+                        moveToSquare.get_pawn_in_square().sorry();
 
-                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                            currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                            (int)Canvas.GetLeft(ai_current_canvas),
+                                             (int)Canvas.GetTop(ai_current_canvas));
+                        animating = true;
+
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                    }
 
                     break;
 
                 case 13:
+                    if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
+                    {
+                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    //Execute Sorry if Pawn is neither
-                    update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                        ai_current_canvas = pawn_square_list[currentSquare.get_index()];
 
-                    ai_current_canvas = pawn_square_list[currentSquare.get_index()];
+                        moveToSquare = slide_baby_slide(moveToSquare, currentPlayer, pawnInSquare, ai_current_canvas);
 
-                    update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                    }
+                    else
+                    {
+                        //Execute Sorry if Pawn is neither
+                        update_pawn_square(currentSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
-                    moveToSquare.get_pawn_in_square().sorry();
+                        ai_current_canvas = pawn_square_list[currentSquare.get_index()];
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
+                        update_pawn_square(moveToSquare.get_pawn_in_square().get_id(), moveToSquare.get_pawn_in_square().get_color(), start_lists[(int)moveToSquare.get_pawn_in_square().get_color()], moveToSquare.get_pawn_in_square().get_id() + 1);
 
-                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
-                                        currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
-                                        (int)Canvas.GetLeft(ai_current_canvas),
-                                         (int)Canvas.GetTop(ai_current_canvas));
-                    animating = true;
+                        moveToSquare.get_pawn_in_square().sorry();
 
-                    currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, 0);
 
+                        update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list,
+                                            currentPlayer.pawns[pawnInSquare].get_id() + 1, true,
+                                            (int)Canvas.GetLeft(ai_current_canvas),
+                                             (int)Canvas.GetTop(ai_current_canvas));
+                        animating = true;
+
+                        currentPlayer.pawns[pawnInSquare].move_to(moveToSquare);
+                    }
 
                     break;
 
@@ -2963,7 +3080,8 @@ namespace MaKeyMeSorry
                                 {
                                         //if the original square I was at, is a slide start for the pawn i swapped with
                                     //put them in my UI spot
-                                    update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1);
+                                    update_pawn_square(currentSquare.get_index(), moveToSquare.get_pawn_in_square().get_color(), 
+                                                        pawn_square_list, moveToSquare.get_pawn_in_square().get_id() + 1);
       
                                 }
                                     else //if it isn't a slide for them, animate the move
@@ -2993,7 +3111,7 @@ namespace MaKeyMeSorry
                                 //but me in the final spot in UI land
                                 if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
                                 {//dont animate if its a slide
-                                update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
+                                    update_pawn_square(moveToSquare.get_index(), color_of_current_turn, pawn_square_list, currentPlayer.pawns[cur_pawn_selection].get_id() + 1);
                                 }
                                 else
                                 { //animate me moving
@@ -3016,7 +3134,7 @@ namespace MaKeyMeSorry
                                     currentSquare = slide_baby_slide(currentSquare, game.get_player(temp_color), pawn_id, their_current_canvas);
                                     Player temp_player = game.get_player(temp_color);
                                     temp_player.pawns[pawn_id].move_to(currentSquare);
-                                    animating = true;
+                                    
                                 }
 
                                 if (moveToSquare.get_color() != color_of_current_turn && moveToSquare.get_Type() == SquareKind.SLIDE_START)
@@ -3257,6 +3375,7 @@ namespace MaKeyMeSorry
                 moveToSquare.set_has_pawn(false);
 
             }
+
             if (!moveToSquare.get_has_pawn())
             {
                 //if Im not already there, put me there
@@ -3264,9 +3383,9 @@ namespace MaKeyMeSorry
 
                 //PawnNum and PlayerColor sent
                 update_pawn_square(moveToSquare.get_index(), color_of_current_turn,
-                            pawn_square_list, cur_pawn_selection + 1);
+                            pawn_square_list, PawnNum + 1);
 
-                currentPlayer.pawns[cur_pawn_selection].move_to(moveToSquare);
+                currentPlayer.pawns[PawnNum].move_to(moveToSquare);
             }
 
             while (current_square.get_index() <= endSlide.get_index())
@@ -3296,6 +3415,7 @@ namespace MaKeyMeSorry
                 sqIndex++;
                 current_square = game.board.get_square_at(sqIndex);
             }
+
             if (original_canvas == null)
             {
                 update_pawn_square(endSlide.get_index(), currentPlayer.get_pawn_color(), pawn_square_list, currentPlayer.pawns[PawnNum].get_id() + 1);
@@ -3306,6 +3426,7 @@ namespace MaKeyMeSorry
                                      pawn_square_list, currentPlayer.pawns[PawnNum].get_id() + 1, true,
                                         (int)Canvas.GetLeft(original_canvas),
                                         (int)Canvas.GetTop(original_canvas));
+                animating = true;
             }
 
             return endSlide;
@@ -3468,7 +3589,7 @@ namespace MaKeyMeSorry
                 move_canvas = move_canvas_1;
             }
             else if (anim_call_num == 2)
-             {
+            {
                 move_canvas = move_canvas_2;
             }
         
@@ -3533,7 +3654,7 @@ namespace MaKeyMeSorry
                 move_canvas_2.Background = null;
                 //re-enable all input
                 Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
-        }
+            }
             else if (animate_pawn_square_1 != -1 && animate_pawn_square_2 == -1)//should be a normal call
             {
                 animating = false;
@@ -3545,7 +3666,7 @@ namespace MaKeyMeSorry
                 Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
             }
             else
-        {
+            {
                 Debug.WriteLine("oops wtf");
             } 
         }
@@ -3595,7 +3716,6 @@ namespace MaKeyMeSorry
             {
                 list[square_num].Background = null;
             }
-
         }
 
         private void initiate_toggle(int square_num, int pawn_num, bool swap)
