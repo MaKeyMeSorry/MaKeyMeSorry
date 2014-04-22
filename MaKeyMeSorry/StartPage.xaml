@@ -6,12 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-   
+    <Page.Resources>
+        <SolidColorBrush x:Key="mouseOverColor"
+                    Color="Red" />
+    </Page.Resources>
     <Grid Background="#FF7C277D">
         <Button x:Name="StartGameButton" Content="Start New Game" HorizontalAlignment="Right" Margin="0,434,342,0" VerticalAlignment="Top" Click="Button_Click" BorderBrush="#FFED1C7F" Width="226" Height="60" FontSize="20" BorderThickness="5"/>
         <Button x:Name="HowToPlayButton" Content="How To Play" HorizontalAlignment="Left" Margin="342,434,0,0" VerticalAlignment="Top" Height="60" Width="228" Click="Button_Click_1" BorderBrush="#FFED1C7F" FontSize="20" BorderThickness="5"/>
-        <Button x:Name="ExitButton" Margin="39,59,39,0" 
-                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+        <Button x:Name="ExitButton" Margin="39,59,39,0"     Content="Exit Game" Height="50" Width="160" BorderBrush="#FFED1C7F" BorderThickness="5"
                         VerticalAlignment="Top"
                         AutomationProperties.Name="Back"
                         AutomationProperties.AutomationId="BackButton"

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI ;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -52,9 +54,7 @@ namespace MaKeyMeSorry
         
         private void App_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            Debug.WriteLine("Keyboard button pressed");
-
-
+            
             if (e.Key == Windows.System.VirtualKey.Space)
             {
                 if (focus_index == 0)
@@ -67,6 +67,11 @@ namespace MaKeyMeSorry
                 {
                     howToPlayMessage();
                 }
+                else if (focus_index == 2)
+                {
+                    Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, key_up_handler);
+                    Application.Current.Exit();
+                }
 
             }
             else if (e.Key == Windows.System.VirtualKey.Right || e.Key == Windows.System.VirtualKey.Left)
@@ -76,12 +81,35 @@ namespace MaKeyMeSorry
                 if (focus_index == 1)
                 {
                     StartGameButton.Focus(FocusState.Keyboard);
+                    StartGameButton.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+
                     focus_index = 0;
+
+                    HowToPlayButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 237, 28, 127));
+                    ExitButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 237, 28, 127));
+                    
                 }
                 else if (focus_index == 0)
                 {
                     HowToPlayButton.Focus(FocusState.Keyboard);
+                    HowToPlayButton.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+
+                    focus_index = 2;
+                    
+                    StartGameButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 237, 28, 127));
+                    ExitButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 237, 28, 127));
+                }
+                else if (focus_index == 2)
+                {
+
+                    ExitButton.Focus(FocusState.Keyboard);
+                    ExitButton.BorderBrush = new SolidColorBrush(Windows.UI.Colors.White);
+
                     focus_index = 1;
+
+                    HowToPlayButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 237, 28, 127));
+                    StartGameButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 237, 28, 127));
+                    
                 }
             }
             else
