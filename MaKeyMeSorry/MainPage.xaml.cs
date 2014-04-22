@@ -121,6 +121,9 @@ namespace MaKeyMeSorry
         private int timesTicked = 1;
         private int timesToTick = 1;
 
+        private bool papaHandlerCalled;
+        private bool animationHandlerCalled;
+
 
         /// <summary>
         /// NavigationHelper is used on each page to aid in navigation and 
@@ -163,6 +166,8 @@ namespace MaKeyMeSorry
             game_grid.Children.Add(move_canvas_1);
             reset_combo_indexes();
 
+            papaHandlerCalled = false;
+            animationHandlerCalled = false;
 
             move_canvas_2 = new Canvas();
             move_canvas_2.Height = 100;
@@ -371,6 +376,8 @@ namespace MaKeyMeSorry
                 }
                 first = false;
             }*/
+            papaHandlerCalled = false;
+            animationHandlerCalled = false;
             if (!card_drawn && (FocusManager.GetFocusedElement() != pass_button))
             {
                 color_adjustment = 60 + 6 * ((int)color_of_current_turn);
@@ -3637,7 +3644,7 @@ namespace MaKeyMeSorry
 
         private void finished_animation(object sender, object e)
         {
-            
+            animationHandlerCalled = false;
             if (animate_pawn_square_1 != -1 && animate_pawn_square_2 != -1)// should be first to return from a swap call
             {
                 animate_pawn_list_1[animate_pawn_square_1].Background = animate_ib_1;
@@ -3653,7 +3660,12 @@ namespace MaKeyMeSorry
                 animate_pawn_square_2 = -1;
                 move_canvas_2.Background = null;
                 //re-enable all input
-                Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                if (game.get_player(color_of_current_turn).get_is_human() && !papaHandlerCalled)
+                {
+                    Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                    animationHandlerCalled = true;
+                }
+                papaHandlerCalled = false;
             }
             else if (animate_pawn_square_1 != -1 && animate_pawn_square_2 == -1)//should be a normal call
             {
@@ -3663,7 +3675,12 @@ namespace MaKeyMeSorry
                 move_canvas_1.Background = null;
 
                 //re-enable all input
-                Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                if (game.get_player(color_of_current_turn).get_is_human() && !papaHandlerCalled)
+                {
+                    Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                    animationHandlerCalled = true;
+                }
+                papaHandlerCalled = false;
             }
             else
             {
@@ -4302,7 +4319,12 @@ namespace MaKeyMeSorry
                     apply_card_AI_timer();
                 } else
                 {
-                    Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                    if (!animationHandlerCalled && !animating)
+                    {
+                        Window.Current.Content.AddHandler(UIElement.KeyUpEvent, key_up_handler, true);
+                        papaHandlerCalled = true;
+                    }
+                    animationHandlerCalled = false;
                 }
             }
         }
